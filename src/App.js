@@ -1,24 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Map from './containers/Map';
+import Header from './components/Header';
+import RealTimeAlarm from './containers/RealTimeAlarm';
+import NetworkAlarmHistory from './containers/NetworkAlarmHistory';
+
+import './App.styl';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app-root">
+      <Map />
+      <div className="content">
+        <Header />
+        <RealTimeAlarm />
+        <NetworkAlarmHistory />
+      </div>
     </div>
   );
 }

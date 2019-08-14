@@ -1,0 +1,31 @@
+.real-time-alarm-wrapper {
+  position absolute;
+  right: 108px;
+  top: 96px;
+  .real-time-alarm-info {
+    // border: 1px solid red;
+    width: 447px;
+    .alarm-item-list {
+      margin: 0;
+      padding: 20px;
+      list-style: none;
+      border: 2px solid #20AAFF66;
+      position relative;
+      &::after {
+        content: ' ';
+        position absolute;
+        bottom: -2px;
+        left: -2px;
+        right: -2px;
+        height: 15px;
+        pointer-events: none;
+        background: linear-gradient(#20AAFF, #20AAFF) left bottom,
+          linear-gradient(#20AAFF, #20AAFF) left bottom,
+          linear-gradient(#20AAFF, #20AAFF) right bottom,
+          linear-gradient(#20AAFF, #20AAFF) right bottom;
+        background-repeat: no-repeat;
+        background-size: 2px 15px, 15px 2px;
+      }
+    }
+  }
+}
