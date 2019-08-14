@@ -1,2 +1,18 @@
+function createHTTPActionType(type) {
+  return {
+    START: type,
+    FULFILLED: `${type}_FULFILLED`,
+    REJECTED: `${type}_REJECTED`,
+    PENDING: `${type}_PENDING`,
+  };
+}
+
 export const TOGGLE_ALARM_HISTORY_VISIBLE = 'TOGGLE_ALARM_HISTORY_VISIBLE';
+export const SET_ALARM_HISTORY_LIST = 'SET_ALARM_HISTORY_LIST';
+export const HTTP_FETCH_ALARM_HISTORY = createHTTPActionType('HTTP_FETCH_ALARM_HISTORY');
+
 export const TOGGLE_FORCE_HISTORY_VISIBLE = 'TOGGLE_FORCE_HISTORY_VISIBLE';
+export const SET_FORCE_HISTORY_LIST = 'SET_FORCE_HISTORY_LIST';
+export const HTTP_FETCH_FORCE_HISTORY = createHTTPActionType('HTTP_FETCH_FORCE_HISTORY');
+
+

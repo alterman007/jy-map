@@ -2,14 +2,17 @@
   position fixed;
   left: 108px;
   top: 96px;
+  bottom: 80px;
   width: 506px;
-  // border: 1px solid #20AAFF;
   color: #fff;
+  display: flex;
+  flex-direction: column;
   .type-tab {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin: 10px 0 8px;
+    flex: none;
     span {
       flex: auto;
       text-align: center;
@@ -30,13 +33,18 @@
     height 3px;
     border: none;
     background: #20AAFF;
+    flex: none;
+    width: 100%;
+    margin: 0;
   }
   .alarm-list {
     margin: 0;
     padding: 0 10px;
     list-style: none;
-    border: 2px solid #20AAFF66;
     position relative;
+    flex: auto;
+    overflow-x hidden;
+    overflow-y auto;
     .alarm-item {
       height: 90px;
       display: flex;

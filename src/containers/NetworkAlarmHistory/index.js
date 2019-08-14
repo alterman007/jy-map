@@ -4,27 +4,32 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import TimeRangeSearch from '../../components/TimeRangeSearch';
 import Title from '../../components/Title';
-import { toggleAlarmHistoryVisible } from '../../actions/alarmHistory';
+import { toggleAlarmHistoryVisible, fetchAlarmHistory } from '../../actions/alarmHistory';
 import demoImg from './demo.png';
 
 import './index.styl';
 
 const mapStateToProps = (state) => ({
   alarmHistoryVisible: state.alarmHistory.visible,
+  alarmHistoryList: state.alarmHistory.list,
 });
 const mapDispatchProps = (dispatch) => ({
-  actions: bindActionCreators({ toggleAlarmHistoryVisible }, dispatch),
+  actions: bindActionCreators({
+    toggleAlarmHistoryVisible,
+    fetchAlarmHistory: fetchAlarmHistory.startAction,
+  }, dispatch),
 });
 
 class NetworkAlarmHistory extends Component {
   state = {
     tabActive: 'face', // face car
     timeRange: {},
-    alarmList: [
-      { type: '人脸告警', name: '宁静', time: '2019.08.11 23:32:20' },
-      { type: '人脸告警', name: '宁静', time: '2019.08.11 23:32:20' },
-      { type: '人脸告警', name: '宁静', time: '2019.08.11 23:32:20' },
-    ],
+  }
+
+  componentDidMount() {
+    const { actions } = this.props;
+    const { timeRange, tabActive } = this.state;
+    actions.fetchAlarmHistory({ timeRange, tabActive });
   }
 
   handleClose = () => {
@@ -63,11 +68,11 @@ class NetworkAlarmHistory extends Component {
   }
 
   renderAlarmList() {
-    const { alarmList } = this.state;
+    const { alarmHistoryList } = this.props;
     return (
-      <ul className="alarm-list">
+      <ul className="alarm-list corner-border">
         {
-          alarmList.map((item, index) => (
+          alarmHistoryList.map((item, index) => (
             <li key={item.name + index} className="alarm-item">
               <img src={demoImg} alt=""/>
               <div className="alarm-desc">

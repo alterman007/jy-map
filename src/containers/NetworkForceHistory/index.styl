@@ -2,24 +2,23 @@
   position fixed;
   left: 108px;
   top: 96px;
+  bottom: 80px;
   width: 506px;
-  // border: 1px solid #20AAFF;
   color: #fff;
+  display: flex;
+  flex-direction: column;
   .force-list {
     margin: 0;
     padding: 0 10px;
     list-style: none;
-    border: 2px solid #20AAFF66;
     position relative;
+    flex: auto;
+    overflow-x hidden;
+    overflow-y auto;
     .force-item {
-      height: 90px;
       display: flex;
-      align-items: center;
       border-bottom: 1px solid #20AAFF66;
-      padding: 0 10px;
-      &:last-child {
-        border-bottom: none;
-      }
+      padding: 10px;
       img {
         width: 115px;
         height: 64px;
@@ -28,34 +27,17 @@
       }
       .force-desc {
         color: #fff;
-        height 64px;
-        // border: 1px solid red;
         flex: auto;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        margin-top: -5px;
         .name {
           font-size: 24px;
         }
-        .time {
+        .item {
           font-size: 18px;
         }
       }
-    }
-    &::after {
-      content: ' ';
-      position absolute;
-      bottom: -2px;
-      left: -2px;
-      right: -2px;
-      height: 15px;
-      pointer-events: none;
-      background: linear-gradient(#20AAFF, #20AAFF) left bottom,
-        linear-gradient(#20AAFF, #20AAFF) left bottom,
-        linear-gradient(#20AAFF, #20AAFF) right bottom,
-        linear-gradient(#20AAFF, #20AAFF) right bottom;
-      background-repeat: no-repeat;
-      background-size: 2px 15px, 15px 2px;
     }
   }
 }

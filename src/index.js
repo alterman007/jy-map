@@ -5,13 +5,14 @@ import { ConfigProvider } from 'antd';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import zhCN from 'antd/es/locale/zh_CN';
+import rootSagas from './sagas';
 
 import rootReducer from './reducers';
 import configStore from './configStore';
 
 import './core/initLeaflet';
 
-const store = configStore(rootReducer);
+const store = configStore(rootReducer, rootSagas);
 
 ReactDOM.render(
   <ConfigProvider locale={zhCN}>

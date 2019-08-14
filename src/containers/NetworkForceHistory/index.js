@@ -3,27 +3,34 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import TimeRangeSearch from '../../components/TimeRangeSearch';
 import Title from '../../components/Title';
-import { toggleForceHistoryVisible } from '../../actions/forceHistory';
+import {
+  toggleForceHistoryVisible,
+  fetchForceHistory,
+} from '../../actions/forceHistory';
 import demoImg from './demo.png';
 
 import './index.styl';
 
 const mapStateToProps = (state) => ({
   forceHistoryVisible: state.forceHistory.visible,
+  forceHistoryList: state.forceHistory.list,
 });
 const mapDispatchProps = (dispatch) => ({
-  actions: bindActionCreators({ toggleForceHistoryVisible }, dispatch),
+  actions: bindActionCreators({
+    toggleForceHistoryVisible,
+    fetchForceHistory: fetchForceHistory.startAction,
+  }, dispatch),
 });
 
 class NetworkForceHistory extends Component {
   state = {
     tabActive: 'face', // face car
     timeRange: {},
-    forceList: [
-      { type: '人脸告警', name: '宁静', time: '2019.08.11 23:32:20' },
-      { type: '人脸告警', name: '宁静', time: '2019.08.11 23:32:20' },
-      { type: '人脸告警', name: '宁静', time: '2019.08.11 23:32:20' },
-    ],
+  }
+
+  componentDidMount() {
+    const { actions } = this.props;
+    actions.fetchForceHistory();
   }
 
   handleClose = () => {
@@ -46,17 +53,25 @@ class NetworkForceHistory extends Component {
   }
 
   renderForceList() {
-    const { forceList } = this.state;
+    const { forceHistoryList } = this.props;
     return (
-      <ul className="force-list">
+      <ul className="force-list corner-border">
         {
-          forceList.map((item, index) => (
+          forceHistoryList.map((item, index) => (
             <li key={item.name + index} className="force-item">
               <img src={demoImg} alt=""/>
               <div className="force-desc">
-                <span className="name">{item.name}</span>
-                <span className="time">
-                  告警时间：{item.time}
+                <span className="name">
+                  {item.name}
+                </span>
+                <span className="item">
+                  所属派出所：{item.belongTo}
+                </span>
+                <span className="item">
+                  设备号：{item.deviceCode}
+                </span>
+                <span className="item">
+                  日期：{item.time}
                 </span>
               </div>
             </li>
