@@ -1,26 +1,25 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import classnames from 'classnames';
 import TimeRangeSearch from '../../components/TimeRangeSearch';
 import Title from '../../components/Title';
-import { toggleAlarmHistoryVisible } from '../../actions/alarmHistory';
+import { toggleForceHistoryVisible } from '../../actions/forceHistory';
 import demoImg from './demo.png';
 
 import './index.styl';
 
 const mapStateToProps = (state) => ({
-  alarmHistoryVisible: state.alarmHistory.visible,
+  forceHistoryVisible: state.forceHistory.visible,
 });
 const mapDispatchProps = (dispatch) => ({
-  actions: bindActionCreators({ toggleAlarmHistoryVisible }, dispatch),
+  actions: bindActionCreators({ toggleForceHistoryVisible }, dispatch),
 });
 
-class NetworkAlarmHistory extends Component {
+class NetworkForceHistory extends Component {
   state = {
     tabActive: 'face', // face car
     timeRange: {},
-    alarmList: [
+    forceList: [
       { type: '人脸告警', name: '宁静', time: '2019.08.11 23:32:20' },
       { type: '人脸告警', name: '宁静', time: '2019.08.11 23:32:20' },
       { type: '人脸告警', name: '宁静', time: '2019.08.11 23:32:20' },
@@ -29,7 +28,7 @@ class NetworkAlarmHistory extends Component {
 
   handleClose = () => {
     const { actions } = this.props;
-    actions.toggleAlarmHistoryVisible(false);
+    actions.toggleForceHistoryVisible(false);
   }
 
   switchTab = ({ target }) => {
@@ -46,31 +45,15 @@ class NetworkAlarmHistory extends Component {
     console.log('search');
   }
 
-  renderTypeTab() {
-    const { tabActive } = this.state;
+  renderForceList() {
+    const { forceList } = this.state;
     return (
-      <div className="type-tab" onClick={this.switchTab}>
-        <span
-          className={classnames({ active: tabActive === 'face' })}
-          data-type="face"
-        >人脸告警</span>
-        <span
-          className={classnames({ active: tabActive === 'car' })}
-          data-type="car"
-        >车辆告警</span>
-      </div>
-    );
-  }
-
-  renderAlarmList() {
-    const { alarmList } = this.state;
-    return (
-      <ul className="alarm-list">
+      <ul className="force-list">
         {
-          alarmList.map((item, index) => (
-            <li key={item.name + index} className="alarm-item">
+          forceList.map((item, index) => (
+            <li key={item.name + index} className="force-item">
               <img src={demoImg} alt=""/>
-              <div className="alarm-desc">
+              <div className="force-desc">
                 <span className="name">{item.name}</span>
                 <span className="time">
                   告警时间：{item.time}
@@ -84,20 +67,18 @@ class NetworkAlarmHistory extends Component {
   }
 
   render() {
-    const { alarmHistoryVisible } = this.props;
-    if (!alarmHistoryVisible) {
+    const { forceHistoryVisible } = this.props;
+    if (!forceHistoryVisible) {
       return null;
     }
     return (
-      <div className="network-alarm-history-wrapper">
-        <Title name="联网告警历史" onClose={this.handleClose} />
-        {this.renderTypeTab()}
-        <hr />
+      <div className="network-force-history-wrapper">
+        <Title name="联网警力历史" onClose={this.handleClose} />
         <TimeRangeSearch onSearch={this.onSearch} onTimeChange={this.onTimeChange} />
-        {this.renderAlarmList()}
+        {this.renderForceList()}
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchProps)(NetworkAlarmHistory);
+export default connect(mapStateToProps, mapDispatchProps)(NetworkForceHistory);

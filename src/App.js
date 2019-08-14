@@ -2,7 +2,9 @@ import React from 'react';
 import Map from './containers/Map';
 import Header from './components/Header';
 import RealTimeAlarm from './containers/RealTimeAlarm';
+import NetworkForceHistory from './containers/NetworkForceHistory';
 import NetworkAlarmHistory from './containers/NetworkAlarmHistory';
+import HistorySwitcher from './containers/HistorySwitcher';
 
 import './App.styl';
 
@@ -13,7 +15,9 @@ function App() {
       <div className="content">
         <Header />
         <RealTimeAlarm />
+        <NetworkForceHistory />
         <NetworkAlarmHistory />
+        <HistorySwitcher />
       </div>
     </div>
   );

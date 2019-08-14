@@ -5,7 +5,7 @@ import './index.styl';
 
 function AlarmItem({ type, name, time }) {
   return (
-    <li className="alarm-item">
+    <li className="real-time-alarm-item">
       <img src={demoImg} alt=""/>
       <div className="alarm-desc">
         <div className="type-name">

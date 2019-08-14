@@ -1,43 +1,17 @@
-.network-alarm-history-wrapper {
+.network-force-history-wrapper {
   position fixed;
   left: 108px;
   top: 96px;
   width: 506px;
   // border: 1px solid #20AAFF;
   color: #fff;
-  .type-tab {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 10px 0 8px;
-    span {
-      flex: auto;
-      text-align: center;
-      height: 38px;
-      line-height: 38px;
-      border: 2px solid #20AAFF;
-      background: rgba(32,170,255,0.50);
-      margin-right: 5px;
-      &:last-child {
-        margin-right: 0;
-      }
-      &.active {
-        background: #20AAFF;
-      }
-    }
-  }
-  hr {
-    height 3px;
-    border: none;
-    background: #20AAFF;
-  }
-  .alarm-list {
+  .force-list {
     margin: 0;
     padding: 0 10px;
     list-style: none;
     border: 2px solid #20AAFF66;
     position relative;
-    .alarm-item {
+    .force-item {
       height: 90px;
       display: flex;
       align-items: center;
@@ -52,7 +26,7 @@
         flex: none;
         margin-right: 9px;
       }
-      .alarm-desc {
+      .force-desc {
         color: #fff;
         height 64px;
         // border: 1px solid red;
