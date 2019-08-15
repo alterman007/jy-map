@@ -6,6 +6,7 @@ import NetworkForceHistory from './containers/NetworkForceHistory';
 import NetworkAlarmHistory from './containers/NetworkAlarmHistory';
 import HistorySwitcher from './containers/HistorySwitcher';
 import ForceDetail from './containers/ForceDetail';
+import ForceSnapshot from './containers/ForceSnapshot';
 
 import './App.styl';
 
@@ -20,6 +21,7 @@ function App() {
         <NetworkAlarmHistory />
         <HistorySwitcher />
         <ForceDetail />
+        <ForceSnapshot />
       </div>
     </div>
   );
