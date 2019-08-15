@@ -4,7 +4,6 @@ import {
 } from '../actions/map';
 import {
   toggleForceHistoryVisible,
-  selectForceItem,
 } from '../actions/forceHistory';
 import {
   toggleAlarmHistoryVisible,
@@ -33,10 +32,7 @@ const defaultState = {
 const map = handleActions(
   {
     [setMapPath](state, { payload }) {
-      return { ...state, movePath: convertDataToGeojson(payload, 'lineString') };
-    },
-    [selectForceItem](state) {
-      return { ...state, movePath: null };
+      return { ...state, movePath: payload ? convertDataToGeojson(payload, 'lineString'): null };
     },
     [toggleForceHistoryVisible](state) {
       return { ...state, movePath: null };

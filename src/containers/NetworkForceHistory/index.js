@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import TimeRangeSearch from '../../components/TimeRangeSearch';
+import ForceDetail from '../ForceDetail';
 import Title from '../../components/Title';
 import {
   toggleForceHistoryVisible,
   fetchForceHistory,
-  selectForceItem,
 } from '../../actions/forceHistory';
 import demoImg from './demo.png';
 
@@ -19,15 +19,23 @@ const mapStateToProps = (state) => ({
 const mapDispatchProps = (dispatch) => ({
   actions: bindActionCreators({
     toggleForceHistoryVisible,
-    selectForceItem,
     fetchForceHistory: fetchForceHistory.startAction,
   }, dispatch),
 });
 
 class NetworkForceHistory extends Component {
   state = {
-    tabActive: 'face', // face car
+    selectedId: null,
     timeRange: {},
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (!props.forceHistoryVisible) {
+      return {
+        selectedId: null,
+      };
+    }
+    return null;
   }
 
   componentDidMount() {
@@ -40,12 +48,6 @@ class NetworkForceHistory extends Component {
     actions.toggleForceHistoryVisible(false);
   }
 
-  switchTab = ({ target }) => {
-    if (target.dataset.type) {
-      this.setState({ tabActive: target.dataset.type });
-    }
-  }
-
   onTimeChange = (dates) => {
     console.log(dates);
   }
@@ -55,8 +57,9 @@ class NetworkForceHistory extends Component {
   }
 
   onSelectItem = (item) => {
-    const { actions } = this.props;
-    actions.selectForceItem(item);
+    this.setState({
+      selectedId: item.id,
+    });
   }
 
   renderForceList() {
@@ -88,6 +91,13 @@ class NetworkForceHistory extends Component {
     );
   }
 
+  renderDetail() {
+    const { selectedId } = this.state;
+    if (selectedId) {
+      return <ForceDetail detailId={selectedId} />;
+    }
+  }
+
   render() {
     const { forceHistoryVisible } = this.props;
     if (!forceHistoryVisible) {
@@ -98,6 +108,7 @@ class NetworkForceHistory extends Component {
         <Title name="联网警力历史" onClose={this.handleClose} />
         <TimeRangeSearch onSearch={this.onSearch} onTimeChange={this.onTimeChange} />
         {this.renderForceList()}
+        {this.renderDetail()}
       </div>
     );
   }

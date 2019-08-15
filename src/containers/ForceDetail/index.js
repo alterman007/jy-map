@@ -1,28 +1,41 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import ForceSnapshot from '../ForceSnapshot';
 import { fetchForcePath } from '../../actions/forceHistory';
+import { setMapPath } from '../../actions/map';
 import { getForceDetailById } from '../../request/api';
 import demoImg from './demo.png';
 import './index.styl';
 
-const mapStateToProps = (state) => ({
-  detailId: state.forceHistory.detailId,
-});
+// const mapStateToProps = (state) => ({
+//   detailId: state.forceHistory.detailId,
+// });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
     fetchForcePath: fetchForcePath.startAction,
+    setMapPath,
   }, dispatch),
 });
 
 class ForceDetail extends Component {
   state = {
-    detail: null,
+    detail: {},
+    showType: false,
   };
 
-  showPath = () => {
-    const { actions, detailId } = this.props;
-    actions.fetchForcePath(detailId);
+  changeShowType(showType) { // snapshot | path | video | false
+    this.setState({ showType });
+    const { actions } = this.props;
+    if (showType === 'path') {
+      actions.fetchForcePath();
+    } else {
+      actions.setMapPath(null);
+    }
+  }
+
+  toggleSnapshot = () => {
+    this.setState({ showSnapshot: !this.state.showSnapshot })
   }
 
   playVideo = () => {
@@ -32,9 +45,9 @@ class ForceDetail extends Component {
   renderAction() {
     return (
       <div className="action-detail-wrapper">
-        <button>联网抓拍</button>
-        <button onClick={this.showPath}>单兵轨迹</button>
-        <button onClick={this.playVideo}>监控点播</button>
+        <button onClick={this.changeShowType.bind(this, 'snapshot')}>联网抓拍</button>
+        <button onClick={this.changeShowType.bind(this, 'path')}>单兵轨迹</button>
+        <button onClick={this.changeShowType.bind(this, 'video')}>监控点播</button>
       </div>
     );
   }
@@ -51,13 +64,20 @@ class ForceDetail extends Component {
   componentDidUpdate(prevProps) {
     if (prevProps.detailId !== this.props.detailId) {
       this.setDetail();
+      this.changeShowType(false);
     }
+  }
+
+  renderSnapshot() {
+    if (this.state.showType === 'snapshot') {
+      return <ForceSnapshot />;
+    }
+    return null;
   }
 
   render() {
     const { detailId } = this.props;
     const { detail } = this.state;
-    // console.log(this.props.detailId, detail);
     if (!detailId) {
       return null;
     }
@@ -81,9 +101,10 @@ class ForceDetail extends Component {
           日 期：{detail.time}
         </div>
         {this.renderAction()}
+        {this.renderSnapshot()}
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ForceDetail);
+export default connect(null, mapDispatchToProps)(ForceDetail);
