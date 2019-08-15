@@ -4,10 +4,11 @@ import {
   TOGGLE_ALARM_HISTORY_VISIBLE,
   SET_ALARM_HISTORY_LIST,
   HTTP_FETCH_ALARM_HISTORY,
+  SELECT_ALARM_HISTORY_ITEM,
 } from '../constants/actionTypes';
-
-
 
 export const toggleAlarmHistoryVisible = createAction(TOGGLE_ALARM_HISTORY_VISIBLE);
 export const setAlarmHistoryList = createAction(SET_ALARM_HISTORY_LIST);
+export const selectAlarmItem = createAction(SELECT_ALARM_HISTORY_ITEM);
+
 export const fetchAlarmHistory = createHttpAction(HTTP_FETCH_ALARM_HISTORY);

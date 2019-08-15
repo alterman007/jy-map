@@ -6,6 +6,7 @@ import Title from '../../components/Title';
 import {
   toggleForceHistoryVisible,
   fetchForceHistory,
+  selectForceItem,
 } from '../../actions/forceHistory';
 import demoImg from './demo.png';
 
@@ -18,6 +19,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchProps = (dispatch) => ({
   actions: bindActionCreators({
     toggleForceHistoryVisible,
+    selectForceItem,
     fetchForceHistory: fetchForceHistory.startAction,
   }, dispatch),
 });
@@ -52,13 +54,18 @@ class NetworkForceHistory extends Component {
     console.log('search');
   }
 
+  onSelectItem = (item) => {
+    const { actions } = this.props;
+    actions.selectForceItem(item);
+  }
+
   renderForceList() {
     const { forceHistoryList } = this.props;
     return (
       <ul className="force-list corner-border">
         {
           forceHistoryList.map((item, index) => (
-            <li key={item.name + index} className="force-item">
+            <li key={item.name + index} onClick={() => this.onSelectItem(item)} className="force-item">
               <img src={demoImg} alt=""/>
               <div className="force-desc">
                 <span className="name">

@@ -4,8 +4,12 @@ import {
   TOGGLE_FORCE_HISTORY_VISIBLE,
   SET_FORCE_HISTORY_LIST,
   HTTP_FETCH_FORCE_HISTORY,
+  HTTP_FETCH_FORCE_PATH,
+  SELECT_FORCE_HISTORY_ITEM,
 } from '../constants/actionTypes';
 
 export const toggleForceHistoryVisible = createAction(TOGGLE_FORCE_HISTORY_VISIBLE);
 export const setForceHistoryList = createAction(SET_FORCE_HISTORY_LIST);
+export const selectForceItem = createAction(SELECT_FORCE_HISTORY_ITEM);
 export const fetchForceHistory = createHttpAction(HTTP_FETCH_FORCE_HISTORY);
+export const fetchForcePath = createHttpAction(HTTP_FETCH_FORCE_PATH);

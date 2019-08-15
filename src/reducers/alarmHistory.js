@@ -2,11 +2,13 @@ import { handleActions } from 'redux-actions';
 import {
   toggleAlarmHistoryVisible,
   setAlarmHistoryList,
+  selectAlarmItem,
 } from '../actions/alarmHistory';
 
 const defaultState = {
   visible: false,
   list: [],
+  detailId: null,
 };
 
 const alarmHistory = handleActions(
@@ -17,6 +19,9 @@ const alarmHistory = handleActions(
     },
     [setAlarmHistoryList](state, { payload }) {
       return Array.isArray(payload) ? { ...state, list: payload } : state;
+    },
+    [selectAlarmItem](state, { payload }) {
+      return { ...state, detailId: payload };
     },
   },
   defaultState,

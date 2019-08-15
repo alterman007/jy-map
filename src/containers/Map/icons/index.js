@@ -1,12 +1,19 @@
 import L from 'leaflet'
 import carImage from './car.png';
-// import peopleImage from './people.png';
+import peopleImage from './people.png';
 
 export const carIcon = new L.Icon({
   iconUrl: carImage,
   // iconRetinaUrl: require('../assets/pointerIcon.svg'),
   iconAnchor: [24, 0],
   iconSize: [48, 38],
+});
+
+export const peopleIcon = new L.Icon({
+  iconUrl: peopleImage,
+  // iconRetinaUrl: require('../assets/pointerIcon.svg'),
+  iconAnchor: [17, 0],
+  iconSize: [34, 40],
 });
 
 

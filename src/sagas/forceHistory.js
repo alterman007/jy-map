@@ -1,9 +1,16 @@
 import { takeLatest, call, fork, put, all } from 'redux-saga/effects';
-import { getForceHistory } from '../request/api';
 import {
   fetchForceHistory,
   setForceHistoryList,
+  fetchForcePath,
 } from '../actions/forceHistory';
+import {
+  setMapPath,
+} from '../actions/map';
+import {
+  getForceHistory,
+  getForcePathById,
+} from '../request/api';
 
 // 获取警力历史数据
 function* watchFetchForceHistory() {
@@ -14,6 +21,14 @@ function* watchFetchForceHistory() {
   });
 }
 
+function* watchFetchForcePath() {
+  yield takeLatest(fetchForcePath.startAction, function* (action) {
+    const res = yield call(getForcePathById, action.payload);
+    yield put(setMapPath(res.data));
+  });
+}
+
 export default all([
   fork(watchFetchForceHistory),
+  fork(watchFetchForcePath),
 ]);
