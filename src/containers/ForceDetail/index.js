@@ -32,6 +32,9 @@ class ForceDetail extends Component {
     } else {
       actions.setMapPath(null);
     }
+    if (showType === 'video') {
+      this.playVideo();
+    }
   }
 
   toggleSnapshot = () => {
