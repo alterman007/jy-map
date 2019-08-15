@@ -20,7 +20,6 @@ class Path extends Component {
     if (!movePath) {
       return null;
     }
-    console.log(movePath);
     return (
       <GeoJSON
         data={turf.featureCollection([movePath])}

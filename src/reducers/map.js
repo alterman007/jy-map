@@ -9,7 +9,7 @@ import {
 const defaultState = {
   carPoints: [
     { type: 'car', lng: 121.375985, lat: 31.254194, name: '沪A123456' },
-    { type: 'car', lng: 121.256683,  lat: 31.238638, name: '沪A123456' },
+    { type: 'car', lng: 121.256683, lat: 31.238638, name: '沪A123456' },
     { type: 'car', lng: 121.368088, lat: 31.212068, name: '沪A123456' },
     { type: 'car', lng: 121.338219, lat: 31.281926, name: '沪A123456' },
   ],

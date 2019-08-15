@@ -35,6 +35,7 @@ class MapOperation extends Component {
         center={[center.lat, center.lng]}
         zoom={this.state.zoom}
         onClick={this.handleClick}
+        zoomControl={false}
       >
         {this.renderTileLayer()}
         <CarMarkers />

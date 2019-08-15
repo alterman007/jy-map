@@ -5,25 +5,24 @@ import peopleImage from './people.png';
 export const carIcon = new L.Icon({
   iconUrl: carImage,
   // iconRetinaUrl: require('../assets/pointerIcon.svg'),
-  iconAnchor: [24, 0],
+  iconAnchor: [24, 19],
   iconSize: [48, 38],
 });
 
 export const peopleIcon = new L.Icon({
   iconUrl: peopleImage,
   // iconRetinaUrl: require('../assets/pointerIcon.svg'),
-  iconAnchor: [17, 0],
+  iconAnchor: [17, 20],
   iconSize: [34, 40],
 });
 
-
 // export const suitcasePoint = new L.Icon({
-//   iconUrl: peopleImage,
-//   // iconRetinaUrl: require('../assets/suitcaseIcon.svg'),
-//   iconAnchor: [20, 40],
-//   popupAnchor: [0, -35],
-//   iconSize: [40, 40],
-//   shadowUrl: '../assets/marker-shadow.png',
-//   shadowSize: [29, 40],
-//   shadowAnchor: [7, 40],
+//   iconUrl: 'marker-icon.png',
+//   iconRetinaUrl: 'marker-icon-2x.png',
+//   shadowUrl: 'marker-shadow.png',
+//   iconSize: [25, 41],
+//   iconAnchor: [12, 41],
+//   popupAnchor: [1, -34],
+//   tooltipAnchor: [16, -28],
+//   shadowSize: [41, 41]
 // })
