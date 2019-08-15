@@ -1,7 +1,14 @@
 import { handleActions } from 'redux-actions';
 import {
-  setMapPath
+  setMapPath,
 } from '../actions/map';
+import {
+  toggleForceHistoryVisible,
+  selectForceItem,
+} from '../actions/forceHistory';
+import {
+  toggleAlarmHistoryVisible,
+} from '../actions/alarmHistory';
 import {
   convertDataToGeojson,
 } from '../utils/map';
@@ -27,6 +34,15 @@ const map = handleActions(
   {
     [setMapPath](state, { payload }) {
       return { ...state, movePath: convertDataToGeojson(payload, 'lineString') };
+    },
+    [selectForceItem](state) {
+      return { ...state, movePath: null };
+    },
+    [toggleForceHistoryVisible](state) {
+      return { ...state, movePath: null };
+    },
+    [toggleAlarmHistoryVisible](state) {
+      return { ...state, movePath: null };
     },
   },
   defaultState,

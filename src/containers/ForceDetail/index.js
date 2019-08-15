@@ -25,12 +25,16 @@ class ForceDetail extends Component {
     actions.fetchForcePath(detailId);
   }
 
+  playVideo = () => {
+    console.log('open video', this.props.detailId);
+  }
+
   renderAction() {
     return (
       <div className="action-detail-wrapper">
         <button>联网抓拍</button>
         <button onClick={this.showPath}>单兵轨迹</button>
-        <button>监控点播</button>
+        <button onClick={this.playVideo}>监控点播</button>
       </div>
     );
   }
