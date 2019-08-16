@@ -27,14 +27,6 @@ class AlarmDetail extends Component {
     actions.fetchForcePath();
   }
 
-  renderAction() {
-    return (
-      <div className="action-detail-wrapper">
-        <button onClick={this.showPath}>人脸轨迹</button>
-      </div>
-    );
-  }
-
   async setDetail() {
     const { data } = await getAlarmDetailById(this.props.detailId);
     this.setState({ detail: data });
@@ -48,6 +40,14 @@ class AlarmDetail extends Component {
     if (prevProps.detailId !== this.props.detailId) {
       this.setDetail();
     }
+  }
+
+  renderAction() {
+    return (
+      <div className="action-detail-wrapper">
+        <button onClick={this.showPath}>人脸轨迹</button>
+      </div>
+    );
   }
 
   render() {

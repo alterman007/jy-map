@@ -44,6 +44,7 @@ class MapOperation extends Component {
           attributionControl={false}
           center={[center.lat, center.lng]}
           zoom={this.state.zoom}
+          zoomSnap={0}
           onClick={this.handleClick}
           zoomControl={false}
           ref={this.mapEle}

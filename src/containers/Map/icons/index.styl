@@ -1,0 +1,39 @@
+.car-marker-with-tip {
+  background: url('./car.png');
+  position relative;
+  .name {
+    position absolute;
+    color: #fff;
+    left: 50%;
+    bottom: 100%;
+    transform: translate(-50%, -10px);
+    background: #20AAFF;
+    padding: 2px 8px;
+    word-break: keep-all;
+    font-size: 18px;
+    &::before {
+      content: ' ';
+      width: 10px;
+      height: 10px;
+      position absolute;
+      top: 100%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      z-index -1;
+      background: #20AAFF;
+    }
+  }
+}
+.leaflet-tooltip {
+  &.destination-tooltip {
+    background: #0005;
+    color: #fff;
+    font-size: 18px;
+    border: none;
+    padding: 10px;
+    &::before {
+      display none;
+    }
+  }
+}
+

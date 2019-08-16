@@ -6,7 +6,7 @@ import {
 } from '../actions/alarmHistory';
 
 const defaultState = {
-  visible: true,
+  visible: false,
   list: [],
   detailId: null,
 };

@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 // import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Marker, Popup } from 'react-leaflet';
-import { carIcon } from './icons';
+import { Marker, Tooltip } from 'react-leaflet';
+import { tipCarIcon } from './icons';
 
 const mapStateToProps = (state) => ({
   carPoints: state.map.carPoints,
@@ -15,10 +15,10 @@ class CarMarker extends Component {
       <Fragment>
         {
           carPoints.map((car, index) => (
-            <Marker key={car.name + index} position={[car.lat, car.lng]} icon={carIcon}>
-              <Popup className="default-marker-popup" closeButton={false}>
+            <Marker key={car.name + index} position={[car.lat, car.lng]} icon={tipCarIcon(car.name)}>
+              <Tooltip className="destination-tooltip" direction="right">
                 {car.name}
-              </Popup>
+              </Tooltip>
             </Marker>
           ))
         }

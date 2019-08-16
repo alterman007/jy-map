@@ -3,9 +3,10 @@ import carImage from './car.png';
 import peopleImage from './people.png';
 import moveImage from './move.png';
 
+import './index.styl';
+
 export const carIcon = new L.Icon({
   iconUrl: carImage,
-  // iconRetinaUrl: require('../assets/pointerIcon.svg'),
   iconAnchor: [24, 19],
   iconSize: [48, 38],
   popupAnchor: [0, -19],
@@ -13,7 +14,6 @@ export const carIcon = new L.Icon({
 
 export const peopleIcon = new L.Icon({
   iconUrl: peopleImage,
-  // iconRetinaUrl: require('../assets/pointerIcon.svg'),
   iconAnchor: [17, 20],
   iconSize: [34, 40],
   popupAnchor: [0, -20],
@@ -21,10 +21,20 @@ export const peopleIcon = new L.Icon({
 
 export const moveIcon = new L.Icon({
   iconUrl: moveImage,
-  // iconRetinaUrl: require('../assets/pointerIcon.svg'),
   iconAnchor: [17, 51],
   iconSize: [34, 51],
 });
+
+export function tipCarIcon(desc) {
+  return new L.DivIcon({
+    className: 'car-marker-with-tip',
+    html: `<span class="name">${desc}</span>`,
+    iconAnchor: [24, 19],
+    iconSize: [48, 38],
+    popupAnchor: [0, -19],
+    tooltipAnchor: [24, 0],
+  });
+}
 
 // export const suitcasePoint = new L.Icon({
 //   iconUrl: 'marker-icon.png',

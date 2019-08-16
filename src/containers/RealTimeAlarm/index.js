@@ -17,7 +17,7 @@ const mapDispatchProps = (dispatch) => ({
 });
 class RealTimeAlarm extends Component {
   state = {
-    hideList: false,
+    hideList: true,
     alarmList: [
       { id: 401, type: '人脸告警', name: '宁静', time: '2019.08.11 23:32:20' },
       { id: 402, type: '人脸告警', name: '宁静', time: '2019.08.11 23:32:20' },
