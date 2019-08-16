@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { DatePicker } from 'antd';
 import ForceSnapshot from '../ForceSnapshot';
 import { fetchForcePath } from '../../actions/forceHistory';
 import { setMapPath } from '../../actions/map';
@@ -19,19 +20,26 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 class ForceDetail extends Component {
+  pickerStyle = {
+    width: '100%',
+    background: 'rgba(71,156,223,0.30)',
+  };
+
   state = {
     detail: {},
+    fromTime: null,
+    toTime: null,
     showType: false,
   };
 
   changeShowType(showType) { // snapshot | path | video | false
     this.setState({ showType });
-    const { actions } = this.props;
-    if (showType === 'path') {
-      actions.fetchForcePath();
-    } else {
-      actions.setMapPath(null);
-    }
+    // const { actions } = this.props;
+    // if (showType === 'path') {
+    //   actions.fetchForcePath();
+    // } else {
+    //   actions.setMapPath(null);
+    // }
     if (showType === 'video') {
       this.playVideo();
     }
@@ -45,12 +53,45 @@ class ForceDetail extends Component {
     console.log('open video', this.props.detailId);
   }
 
+  onChange(type, date) {
+    console.log(type, date);
+  }
+
   renderAction() {
+    if (this.state.showType === 'path') {
+      return this.renderTimeSearch();
+    }
     return (
       <div className="action-detail-wrapper">
         <button onClick={this.changeShowType.bind(this, 'snapshot')}>联网抓拍</button>
         <button onClick={this.changeShowType.bind(this, 'path')}>单兵轨迹</button>
         <button onClick={this.changeShowType.bind(this, 'video')}>监控点播</button>
+      </div>
+    );
+  }
+
+  renderTimeSearch() {
+    return (
+      <div className="timer-range-search">
+        <div className="split-line" />
+        <DatePicker
+          className="data-picker"
+          showTime
+          placeholder="开始时间"
+          format="YYYY-MM-DD HH:mm:ss"
+          onChange={this.onChange.bind(this, 'from')}
+          style={this.pickerStyle}
+          size="large"
+        />
+        <DatePicker
+          className="data-picker"
+          showTime
+          placeholder="结束时间"
+          format="YYYY-MM-DD HH:mm:ss"
+          onChange={this.onChange.bind(this, 'to')}
+          style={this.pickerStyle}
+          size="large"
+        />
       </div>
     );
   }
@@ -85,7 +126,7 @@ class ForceDetail extends Component {
       return null;
     }
     return (
-      <div className="force-detail-wrapper corner-border">
+      <div className="force-detail-wrapper corner-border-highlight-bg">
         <img src={demoImg} alt="背景图片" />
         <div className="h6-name">{detail.name}</div>
         <div className="info">
@@ -104,6 +145,7 @@ class ForceDetail extends Component {
           日 期：{detail.time}
         </div>
         {this.renderAction()}
+        {/* {this.renderTimeSearch()} */}
         {this.renderSnapshot()}
       </div>
     );

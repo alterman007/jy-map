@@ -21,7 +21,7 @@ class TimeRangeSearch extends Component {
           size="large"
           style={this.pickerStyle}
           separator="-"
-          format="YYYY.MM.DD HH:mm:ss"
+          format="YYYY-MM-DD HH:mm:ss"
           onChange={onTimeChange}
           placeholder={['开始时间', '结束时间']}
         />
