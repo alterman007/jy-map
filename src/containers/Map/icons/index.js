@@ -8,6 +8,7 @@ export const carIcon = new L.Icon({
   // iconRetinaUrl: require('../assets/pointerIcon.svg'),
   iconAnchor: [24, 19],
   iconSize: [48, 38],
+  popupAnchor: [0, -19],
 });
 
 export const peopleIcon = new L.Icon({
@@ -15,6 +16,7 @@ export const peopleIcon = new L.Icon({
   // iconRetinaUrl: require('../assets/pointerIcon.svg'),
   iconAnchor: [17, 20],
   iconSize: [34, 40],
+  popupAnchor: [0, -20],
 });
 
 export const moveIcon = new L.Icon({

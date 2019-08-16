@@ -3,9 +3,9 @@ import demoImg from './demo.png';
 
 import './index.styl';
 
-function AlarmItem({ type, name, time }) {
+function AlarmItem({ type, name, time, onClick }) {
   return (
-    <li className="real-time-alarm-item">
+    <li className="real-time-alarm-item" onClick={onClick}>
       <img src={demoImg} alt=""/>
       <div className="alarm-desc">
         <div className="type-name">

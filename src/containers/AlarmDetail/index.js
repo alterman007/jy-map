@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import ForceSnapshot from '../ForceSnapshot';
 import { fetchForcePath } from '../../actions/forceHistory';
 import { setMapPath } from '../../actions/map';
-import { getForceDetailById } from '../../request/api';
+import { getAlarmDetailById } from '../../request/api';
 import demoImg from './demo.png';
 import './index.styl';
 
@@ -18,45 +17,26 @@ const mapDispatchToProps = (dispatch) => ({
   }, dispatch),
 });
 
-class ForceDetail extends Component {
+class AlarmDetail extends Component {
   state = {
     detail: {},
-    showType: false,
   };
 
-  changeShowType(showType) { // snapshot | path | video | false
-    this.setState({ showType });
+  showPath = () => {
     const { actions } = this.props;
-    if (showType === 'path') {
-      actions.fetchForcePath();
-    } else {
-      actions.setMapPath(null);
-    }
-    if (showType === 'video') {
-      this.playVideo();
-    }
-  }
-
-  toggleSnapshot = () => {
-    this.setState({ showSnapshot: !this.state.showSnapshot })
-  }
-
-  playVideo = () => {
-    console.log('open video', this.props.detailId);
+    actions.fetchForcePath();
   }
 
   renderAction() {
     return (
       <div className="action-detail-wrapper">
-        <button onClick={this.changeShowType.bind(this, 'snapshot')}>联网抓拍</button>
-        <button onClick={this.changeShowType.bind(this, 'path')}>单兵轨迹</button>
-        <button onClick={this.changeShowType.bind(this, 'video')}>监控点播</button>
+        <button onClick={this.showPath}>人脸轨迹</button>
       </div>
     );
   }
 
   async setDetail() {
-    const { data } = await getForceDetailById(this.props.detailId);
+    const { data } = await getAlarmDetailById(this.props.detailId);
     this.setState({ detail: data });
   }
 
@@ -67,15 +47,7 @@ class ForceDetail extends Component {
   componentDidUpdate(prevProps) {
     if (prevProps.detailId !== this.props.detailId) {
       this.setDetail();
-      this.changeShowType(false);
     }
-  }
-
-  renderSnapshot() {
-    if (this.state.showType === 'snapshot') {
-      return <ForceSnapshot />;
-    }
-    return null;
   }
 
   render() {
@@ -85,15 +57,14 @@ class ForceDetail extends Component {
       return null;
     }
     return (
-      <div className="force-detail-wrapper corner-border">
+      <div className="alarm-detail-wrapper corner-border-warning">
         <img src={demoImg} alt="背景图片" />
         <div className="h6-name">{detail.name}</div>
-        <div className="info">
-          所属派出所：{detail.belongTo}
-        </div>
-        <div className="info">
-          设备号：{detail.deviceCode}
-        </div>
+        {
+          detail.type === 'face' && <div className="info">
+            身份证：{detail.identity}
+          </div>
+        }
         <div className="info">
           经 度：{detail.lng}
         </div>
@@ -101,13 +72,21 @@ class ForceDetail extends Component {
           纬 度：{detail.lat}
         </div>
         <div className="info">
-          日 期：{detail.time}
+          告警日期：{detail.time}
+        </div>
+        <div className="info">
+          告警类别：<span className="warning">{detail.type === 'face' ? '人脸告警' : '车辆告警'}</span>
+        </div>
+        <div className="info">
+          设备号：{detail.deviceCode}
+        </div>
+        <div className="info">
+          所在区域：{detail.position}
         </div>
         {this.renderAction()}
-        {this.renderSnapshot()}
       </div>
     );
   }
 }
 
-export default connect(null, mapDispatchToProps)(ForceDetail);
+export default connect(null, mapDispatchToProps)(AlarmDetail);

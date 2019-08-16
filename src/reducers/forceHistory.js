@@ -5,7 +5,7 @@ import {
 } from '../actions/forceHistory';
 
 const defaultState = {
-  visible: true,
+  visible: false,
   list: [],
   // detailId: null,
 };

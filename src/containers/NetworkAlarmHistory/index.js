@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import TimeRangeSearch from '../../components/TimeRangeSearch';
 import Title from '../../components/Title';
-import { toggleAlarmHistoryVisible, fetchAlarmHistory } from '../../actions/alarmHistory';
+import {
+  toggleAlarmHistoryVisible,
+  fetchAlarmHistory,
+  selectAlarmItem,
+} from '../../actions/alarmHistory';
 import demoImg from './demo.png';
 
 import './index.styl';
@@ -17,6 +21,7 @@ const mapDispatchProps = (dispatch) => ({
   actions: bindActionCreators({
     toggleAlarmHistoryVisible,
     fetchAlarmHistory: fetchAlarmHistory.startAction,
+    selectAlarmItem,
   }, dispatch),
 });
 
@@ -41,6 +46,11 @@ class NetworkAlarmHistory extends Component {
     if (target.dataset.type) {
       this.setState({ tabActive: target.dataset.type });
     }
+  }
+
+  onSelectItem = (item) => {
+    const { actions } = this.props;
+    actions.selectAlarmItem(item.id);
   }
 
   onTimeChange = (dates) => {
@@ -73,7 +83,7 @@ class NetworkAlarmHistory extends Component {
       <ul className="alarm-list corner-border">
         {
           alarmHistoryList.map((item, index) => (
-            <li key={item.name + index} className="alarm-item">
+            <li key={item.name + index} onClick={() => this.onSelectItem(item)} className="alarm-item">
               <img src={demoImg} alt=""/>
               <div className="alarm-desc">
                 <span className="name">{item.name}</span>

@@ -15,3 +15,8 @@ export function getForceDetailById(args) {
 export function getForcePathById(args) {
   return axios.get('/mock/forcePath.json')
 }
+
+
+export function getAlarmDetailById(args) {
+  return axios.get('/mock/alarmDetail.json')
+}

@@ -29,22 +29,33 @@ html, body {
   }
 }
 
-
-.corner-border {
-  background: linear-gradient(#20AAFF, #20AAFF) left top,
-    linear-gradient(#20AAFF, #20AAFF) left top,
-    linear-gradient(#20AAFF, #20AAFF) right top,
-    linear-gradient(#20AAFF, #20AAFF) right top,
-    linear-gradient(#20AAFF, #20AAFF) left bottom,
-    linear-gradient(#20AAFF, #20AAFF) left bottom,
-    linear-gradient(#20AAFF, #20AAFF) right bottom,
-    linear-gradient(#20AAFF, #20AAFF) right bottom,
-    linear-gradient(#20AAFF55, #20AAFF55) top,
-    linear-gradient(#20AAFF55, #20AAFF55) bottom,
-    linear-gradient(#20AAFF55, #20AAFF55) left,
-    linear-gradient(#20AAFF55, #20AAFF55) right,
-    rgba(2, 18, 41, 0.6);
+conrer-order(conrerColor, borderCorlor, bgColor) {
+  background: conrerColor left top,
+    conrerColor left top,
+    conrerColor right top,
+    conrerColor right top,
+    conrerColor left bottom,
+    conrerColor left bottom,
+    conrerColor right bottom,
+    conrerColor right bottom,
+    borderCorlor top,
+    borderCorlor bottom,
+    borderCorlor left,
+    borderCorlor right,
+    bgColor;
   background-repeat: no-repeat;
   background-position: 0px 0px, 0px 0px, 0px 100%, 0px 100%, 100% 0px, 100% 0px, 100% 100%, 100% 100%, 0px 0px, 0px 100%, 0px 100%, 100% 100%;
   background-size: 2px 15px, 15px 2px, 2px 15px, 15px 2px, 2px 15px, 15px 2px, 2px 15px, 15px 2px, 100% 2px, 100% 2px, 2px 100%, 2px 100%;
+}
+
+.corner-border {
+  conrer-order(linear-gradient(#20AAFF, #20AAFF), linear-gradient(#20AAFF55, #20AAFF55), rgba(2, 18, 41, 0.6))
+}
+
+.corner-border-highlight-bg {
+  conrer-order(linear-gradient(#20AAFF, #20AAFF), linear-gradient(#20AAFF55, #20AAFF55), #102B52cc)
+}
+
+.corner-border-warning {
+  conrer-order(linear-gradient(#F52323, #F52323), linear-gradient(#F5232355, #F5232355), rgba(36,6,6,0.80))
 }

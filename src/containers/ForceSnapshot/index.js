@@ -89,7 +89,7 @@ class ForceSnapshot extends Component {
   renderList() {
     const { list } = this.state;
     return (
-      <div className="snapshot-list-wrapper corner-border">
+      <div className="snapshot-list-wrapper corner-border-highlight-bg">
         {
           list.map((item, index) => (
             <div className="snapshot-item" key={item.name + index}>

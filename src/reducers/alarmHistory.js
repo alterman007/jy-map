@@ -6,7 +6,7 @@ import {
 } from '../actions/alarmHistory';
 
 const defaultState = {
-  visible: false,
+  visible: true,
   list: [],
   detailId: null,
 };
@@ -15,7 +15,7 @@ const alarmHistory = handleActions(
   {
     [toggleAlarmHistoryVisible](state, { payload }) {
       const visible = typeof payload === 'boolean' ? payload : !state.visible;
-      return { ...state, visible };
+      return { ...state, visible, detailId: null };
     },
     [setAlarmHistoryList](state, { payload }) {
       return Array.isArray(payload) ? { ...state, list: payload } : state;
