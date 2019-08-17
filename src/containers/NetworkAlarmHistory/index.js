@@ -28,13 +28,12 @@ const mapDispatchProps = (dispatch) => ({
 class NetworkAlarmHistory extends Component {
   state = {
     tabActive: 'face', // face car
-    timeRange: {},
+    timeRange: [],
   }
-
-  componentDidMount() {
-    const { actions } = this.props;
-    const { timeRange, tabActive } = this.state;
-    actions.fetchAlarmHistory({ timeRange, tabActive });
+  componentDidUpdate(pp) {
+    if (this.props.alarmHistoryVisible && !pp.alarmHistoryVisible) {
+      this.onSearch();
+    }
   }
 
   handleClose = () => {
@@ -44,21 +43,29 @@ class NetworkAlarmHistory extends Component {
 
   switchTab = ({ target }) => {
     if (target.dataset.type) {
-      this.setState({ tabActive: target.dataset.type });
+      this.setState({ tabActive: target.dataset.type }, () => {
+        this.onSearch();
+      });
     }
   }
 
-  onSelectItem = (item) => {
-    const { actions } = this.props;
-    actions.selectAlarmItem(item.id);
+  onSelectItem = () => {
+    // const { actions } = this.props;
+    // actions.selectAlarmItem(item.id);
   }
 
   onTimeChange = (dates) => {
     console.log(dates);
+    this.setState({
+      timeRange: dates,
+    });
   }
 
   onSearch = () => {
     console.log('search');
+    const { actions } = this.props;
+    const { timeRange, tabActive } = this.state;
+    actions.fetchAlarmHistory({ timeRange, tabActive });
   }
 
   renderTypeTab() {
@@ -79,16 +86,21 @@ class NetworkAlarmHistory extends Component {
 
   renderAlarmList() {
     const { alarmHistoryList } = this.props;
+    const { tabActive } = this.state;
+    const isFace = tabActive === 'face';
+    // console.log(alarmHistoryList);
     return (
       <ul className="alarm-list corner-border">
         {
           alarmHistoryList.map((item, index) => (
-            <li key={item.name + index} onClick={() => this.onSelectItem(item)} className="alarm-item">
+            <li key={isFace ? item.alarmId : item.vehicleid} onClick={() => this.onSelectItem(item)} className="alarm-item">
               <img src={demoImg} alt=""/>
               <div className="alarm-desc">
-                <span className="name">{item.name}</span>
+                <span className="name">
+                  {isFace ? item.humanName : item.plateinfo}
+                </span>
                 <span className="time">
-                  告警时间：{item.time}
+                  告警时间：{isFace ? item.alarmTime : new Date(+item.passtime).toLocaleString('zh', { hour12: false })}
                 </span>
               </div>
             </li>

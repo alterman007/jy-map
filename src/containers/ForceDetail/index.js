@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { DatePicker } from 'antd';
 import ForceSnapshot from '../ForceSnapshot';
-import { fetchForcePath } from '../../actions/forceHistory';
+import { fetchForcePath, selectForceHistoryItem } from '../../actions/forceHistory';
 import { setMapPath, selectRealTimeMarker } from '../../actions/map';
 import demoImg from './demo.png';
 import './index.styl';
@@ -15,6 +15,7 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
     fetchForcePath: fetchForcePath.startAction,
     selectRealTimeMarker,
+    selectForceHistoryItem,
     setMapPath,
   }, dispatch),
 });
@@ -48,6 +49,7 @@ class ForceDetail extends Component {
   onClose = () => {
     const { actions } = this.props;
     actions.selectRealTimeMarker(null);
+    actions.selectForceHistoryItem(null);
     actions.setMapPath(null);
   }
 
@@ -118,7 +120,7 @@ class ForceDetail extends Component {
       return null;
     }
     if (this.state.showType === 'snapshot') {
-      return <ForceSnapshot onClose={this.onClose} />;
+      return <ForceSnapshot defaultValue={detail} onClose={this.onClose} />;
     }
     return (
       <div className="force-detail-wrapper corner-border-highlight-bg">

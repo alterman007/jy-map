@@ -59,10 +59,10 @@ const map = handleActions(
       return { ...state, movePath: payload ? convertDataToGeojson(payload, 'lineString'): null };
     },
     [toggleForceHistoryVisible](state) {
-      return { ...state, movePath: null };
+      return { ...state, movePath: null, forceHistoryMarker: null, selectedMarkerID: null };
     },
     [toggleAlarmHistoryVisible](state) {
-      return { ...state, movePath: null };
+      return { ...state, movePath: null, forceHistoryMarker: null, selectedMarkerID: null };
     },
   },
   defaultState,

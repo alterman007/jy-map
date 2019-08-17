@@ -11,7 +11,16 @@ export function getRealAlarm() {
 }
 
 export function getAlarmHistory(args) {
-  return axios.get('/mock/alarmHistory.json')
+  const { tabActive, timeRange } = args;
+  const url = tabActive === 'face' ? '/getFaceAlarmEntity.do' : '/getCarAlarmEntity.do';
+  const condition = {};
+  if (timeRange && timeRange[0]){
+    condition.biggintime = timeRange[0].valueOf();
+  }
+  if (timeRange && timeRange[1]){
+    condition.endtime = timeRange[1].valueOf();
+  }
+  return instance.post(url, condition);
 }
 
 export function getForceHistory(args) {

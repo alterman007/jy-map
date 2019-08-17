@@ -2,49 +2,14 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 import FontIcon from '../../components/FontIcon';
 import TimeRangeSearch from '../../components/TimeRangeSearch';
-import demoImg from './demo.png';
+// import demoImg from './demo.png';
 import './index.styl';
 
 class ForceSnapshot extends Component {
   state = {
     selected: 'people',
     list: [
-      {
-        name: '三强',
-        imgs: [demoImg, demoImg, demoImg],
-        id: 4,
-        type: 'people',
-        belongTo: '江桥镇一分局',
-        deviceCode: '945029472631947284',
-        time: '2019.08.11 23:32:23',
-        cameraPosition: '东南门南厅一街',
-        lng: 120.32323,
-        lat: 32.121213,
-      },
-      {
-        name: '三强',
-        imgs: [demoImg, demoImg, demoImg],
-        id: 4,
-        type: 'people',
-        belongTo: '江桥镇一分局',
-        deviceCode: '945029472631947284',
-        time: '2019.08.11 23:32:23',
-        cameraPosition: '东南门南厅一街',
-        lng: 120.32323,
-        lat: 32.121213,
-      },
-      {
-        name: '三强',
-        imgs: [demoImg, demoImg, demoImg],
-        id: 4,
-        type: 'people',
-        belongTo: '江桥镇一分局',
-        deviceCode: '945029472631947284',
-        time: '2019.08.11 23:32:23',
-        cameraPosition: '东南门南厅一街',
-        lng: 120.32323,
-        lat: 32.121213,
-      },
+      this.props.defaultValue,
     ],
   };
 
@@ -92,6 +57,7 @@ class ForceSnapshot extends Component {
 
   renderList() {
     const { list } = this.state;
+    console.log(list);
     return (
       <div className="snapshot-list-wrapper corner-border-highlight-bg">
         {
@@ -99,7 +65,7 @@ class ForceSnapshot extends Component {
             <div className="snapshot-item" key={item.name + index}>
               <div className="header">{item.name}</div>
               <div className="img-list">
-                {item.imgs.map((src, i) => <img key={src + i} src={src} alt="" />)}
+                {/* {item.imgs.map((src, i) => <img key={i} src={demoImg} alt="" />)} */}
               </div>
               <div className="desc">
                 <span>所属派出所：{item.belongTo}</span>
