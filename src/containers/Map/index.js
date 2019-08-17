@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import { Map, TileLayer } from 'react-leaflet';
 import { MapContext } from './context';
 import Path from './Path';
-import CarMarkers from './CarMarkers';
-import PeopleMarkers from './PeopleMarkers';
+// import CarMarkers from './CarMarkers';
+// import PeopleMarkers from './PeopleMarkers';
+import RealTimeMarker from './RealTimeMarker';
 
 import './index.styl';
 
@@ -50,8 +51,9 @@ class MapOperation extends Component {
           ref={this.mapEle}
         >
           {this.renderTileLayer()}
-          <CarMarkers />
-          <PeopleMarkers />
+          {/* <CarMarkers /> */}
+          {/* <PeopleMarkers /> */}
+          <RealTimeMarker />
           <Path />
         </Map>
       </MapContext.Provider>

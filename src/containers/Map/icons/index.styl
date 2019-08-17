@@ -1,12 +1,11 @@
-.car-marker-with-tip {
-  background: url('./car.png');
+.marker-with-tip {
   position relative;
   .name {
     position absolute;
     color: #fff;
     left: 50%;
     bottom: 100%;
-    transform: translate(-50%, -10px);
+    transform: translate(-50%, -15px);
     background: #20AAFF;
     padding: 2px 8px;
     word-break: keep-all;
@@ -23,7 +22,20 @@
       background: #20AAFF;
     }
   }
+  &.car {
+    background: url('./car.png');
+  }
+  &.people {
+    background: url('./people.png');
+  }
+  &.wifi {
+    background: url('./wifi.png');
+  }
+  &.camera {
+    background: url('./camera.png');
+  }
 }
+
 .leaflet-tooltip {
   &.destination-tooltip {
     background: #0005;

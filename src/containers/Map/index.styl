@@ -5,6 +5,32 @@
   top: 0;
   left: 0;
   background: #00192e !important;
+
+  .camera-marker-popup {
+    .leaflet-popup-content-wrapper {
+      background: none;
+      border-radius: 0;
+      font-size: 18px;
+      .leaflet-popup-content {
+        margin: 0;
+        transform: translate(-40px, 36px);
+        .camera-info {
+          transform: translate(-50%, 50%);
+          color: #fff;
+          padding: 10px;
+          word-break: keep-all;
+          .name {
+            font-size: 24px;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+    .leaflet-popup-tip-container {
+      display: none;
+    }
+  }
+
   .default-marker-popup {
     .leaflet-popup-content-wrapper {
       background: #20AAFF;

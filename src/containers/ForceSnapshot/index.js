@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
+import FontIcon from '../../components/FontIcon';
 import TimeRangeSearch from '../../components/TimeRangeSearch';
 import demoImg from './demo.png';
 import './index.styl';
@@ -82,6 +83,9 @@ class ForceSnapshot extends Component {
           <text transform="translate(14, 27)">人脸图像</text>
           <text transform="translate(169, 27)">车辆图像</text>
         </svg>
+        <button className="button-close" onClick={this.props.onClose}>
+          <FontIcon type="close" className="close-btn" />
+        </button>
       </div>
     );
   }

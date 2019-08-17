@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import { DatePicker } from 'antd';
 import ForceSnapshot from '../ForceSnapshot';
 import { fetchForcePath } from '../../actions/forceHistory';
-import { setMapPath } from '../../actions/map';
-import { getForceDetailById } from '../../request/api';
+import { setMapPath, selectRealTimeMarker } from '../../actions/map';
 import demoImg from './demo.png';
 import './index.styl';
 
@@ -15,6 +14,7 @@ import './index.styl';
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
     fetchForcePath: fetchForcePath.startAction,
+    selectRealTimeMarker,
     setMapPath,
   }, dispatch),
 });
@@ -26,7 +26,6 @@ class ForceDetail extends Component {
   };
 
   state = {
-    detail: {},
     fromTime: null,
     toTime: null,
     showType: false,
@@ -34,27 +33,34 @@ class ForceDetail extends Component {
 
   changeShowType(showType) { // snapshot | path | video | false
     this.setState({ showType });
-    // const { actions } = this.props;
-    // if (showType === 'path') {
-    //   actions.fetchForcePath();
-    // } else {
-    //   actions.setMapPath(null);
-    // }
+    if (showType === 'path') {
+      this.onSearchPath();
+    }
     if (showType === 'video') {
       this.playVideo();
     }
   }
 
-  toggleSnapshot = () => {
-    this.setState({ showSnapshot: !this.state.showSnapshot })
+  onClose = () => {
+    console.log('close');
+    const { actions } = this.props;
+    actions.selectRealTimeMarker(null);
+    actions.setMapPath(null);
   }
 
   playVideo = () => {
     console.log('open video', this.props.detailId);
   }
 
-  onChange(type, date) {
+  onTimeChange(type, date) {
+    this.setState({ type: date });
     console.log(type, date);
+  }
+
+  onSearchPath = () => {
+    const { actions } = this.props;
+    const { fromTime, toTime } = this.state;
+    actions.fetchForcePath({ from: fromTime, to: toTime });
   }
 
   renderAction() {
@@ -66,6 +72,7 @@ class ForceDetail extends Component {
         <button onClick={this.changeShowType.bind(this, 'snapshot')}>联网抓拍</button>
         <button onClick={this.changeShowType.bind(this, 'path')}>单兵轨迹</button>
         <button onClick={this.changeShowType.bind(this, 'video')}>监控点播</button>
+        <button onClick={this.onClose}>关&nbsp;&nbsp;&nbsp;&nbsp;闭</button>
       </div>
     );
   }
@@ -79,7 +86,7 @@ class ForceDetail extends Component {
           showTime
           placeholder="开始时间"
           format="YYYY-MM-DD HH:mm:ss"
-          onChange={this.onChange.bind(this, 'from')}
+          onChange={this.onTimeChange.bind(this, 'fromTime')}
           style={this.pickerStyle}
           size="large"
         />
@@ -88,42 +95,26 @@ class ForceDetail extends Component {
           showTime
           placeholder="结束时间"
           format="YYYY-MM-DD HH:mm:ss"
-          onChange={this.onChange.bind(this, 'to')}
+          onChange={this.onTimeChange.bind(this, 'toTime')}
           style={this.pickerStyle}
           size="large"
         />
+        <div className="action-detail-wrapper">
+          <button onClick={this.onSearchPath}>查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
+          <button onClick={this.onSearchPath}>播&nbsp;&nbsp;&nbsp;&nbsp;放</button>
+          <button onClick={this.onClose}>完&nbsp;&nbsp;&nbsp;&nbsp;成</button>
+        </div>
       </div>
     );
   }
 
-  async setDetail() {
-    const { data } = await getForceDetailById(this.props.detailId);
-    this.setState({ detail: data });
-  }
-
-  componentDidMount() {
-    this.setDetail();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.detailId !== this.props.detailId) {
-      this.setDetail();
-      this.changeShowType(false);
-    }
-  }
-
-  renderSnapshot() {
-    if (this.state.showType === 'snapshot') {
-      return <ForceSnapshot />;
-    }
-    return null;
-  }
-
   render() {
-    const { detailId } = this.props;
-    const { detail } = this.state;
-    if (!detailId) {
+    const { detail } = this.props;
+    if (!detail) {
       return null;
+    }
+    if (this.state.showType === 'snapshot') {
+      return <ForceSnapshot onClose={this.onClose} />;
     }
     return (
       <div className="force-detail-wrapper corner-border-highlight-bg">
@@ -145,8 +136,7 @@ class ForceDetail extends Component {
           日 期：{detail.time}
         </div>
         {this.renderAction()}
-        {/* {this.renderTimeSearch()} */}
-        {this.renderSnapshot()}
+        {/* {this.renderSnapshot()} */}
       </div>
     );
   }
