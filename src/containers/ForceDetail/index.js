@@ -41,8 +41,11 @@ class ForceDetail extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.onClose();
+  }
+
   onClose = () => {
-    console.log('close');
     const { actions } = this.props;
     actions.selectRealTimeMarker(null);
     actions.setMapPath(null);
@@ -110,6 +113,7 @@ class ForceDetail extends Component {
 
   render() {
     const { detail } = this.props;
+    // console.log(detail);
     if (!detail) {
       return null;
     }
@@ -121,10 +125,10 @@ class ForceDetail extends Component {
         <img src={demoImg} alt="背景图片" />
         <div className="h6-name">{detail.name}</div>
         <div className="info">
-          所属派出所：{detail.belongTo}
+          所属派出所：{detail.sspcs}
         </div>
         <div className="info">
-          设备号：{detail.deviceCode}
+          设备号：{detail.indexCode}
         </div>
         <div className="info">
           经 度：{detail.lng}
@@ -133,7 +137,10 @@ class ForceDetail extends Component {
           纬 度：{detail.lat}
         </div>
         <div className="info">
-          日 期：{detail.time}
+          日 期：{detail.createTime}
+        </div>
+        <div className="info">
+          WIFI嗅探数：{detail.wificount}
         </div>
         {this.renderAction()}
         {/* {this.renderSnapshot()} */}

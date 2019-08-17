@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import TimeRangeSearch from '../../components/TimeRangeSearch';
-import ForceDetail from '../ForceDetail';
+// import ForceDetail from '../ForceDetail';
 import Title from '../../components/Title';
 import {
   toggleForceHistoryVisible,
   fetchForceHistory,
+  selectForceHistoryItem,
 } from '../../actions/forceHistory';
+import {
+  selectRealTimeMarker,
+} from '../../actions/map';
 import demoImg from './demo.png';
 
 import './index.styl';
@@ -20,12 +24,13 @@ const mapDispatchProps = (dispatch) => ({
   actions: bindActionCreators({
     toggleForceHistoryVisible,
     fetchForceHistory: fetchForceHistory.startAction,
+    selectForceHistoryItem,
+    selectRealTimeMarker,
   }, dispatch),
 });
 
 class NetworkForceHistory extends Component {
   state = {
-    selectedId: null,
     timeRange: {},
   }
 
@@ -46,6 +51,8 @@ class NetworkForceHistory extends Component {
   handleClose = () => {
     const { actions } = this.props;
     actions.toggleForceHistoryVisible(false);
+    actions.selectRealTimeMarker(null);
+    actions.selectForceHistoryItem(null);
   }
 
   onTimeChange = (dates) => {
@@ -57,9 +64,10 @@ class NetworkForceHistory extends Component {
   }
 
   onSelectItem = (item) => {
-    this.setState({
-      selectedId: item.id,
-    });
+    // console.log(item);
+    const { actions } = this.props;
+    actions.selectForceHistoryItem(item);
+    actions.selectRealTimeMarker(null);
   }
 
   renderForceList() {
@@ -91,12 +99,12 @@ class NetworkForceHistory extends Component {
     );
   }
 
-  renderDetail() {
-    const { selectedId } = this.state;
-    if (selectedId) {
-      return <ForceDetail detailId={selectedId} />;
-    }
-  }
+  // renderDetail() {
+  //   const { selectedId } = this.state;
+  //   if (selectedId) {
+  //     return <ForceDetail detailId={selectedId} />;
+  //   }
+  // }
 
   render() {
     const { forceHistoryVisible } = this.props;
@@ -108,7 +116,7 @@ class NetworkForceHistory extends Component {
         <Title name="联网警力历史" onClose={this.handleClose} />
         <TimeRangeSearch onSearch={this.onSearch} onTimeChange={this.onTimeChange} />
         {this.renderForceList()}
-        {this.renderDetail()}
+        {/* {this.renderDetail()} */}
       </div>
     );
   }

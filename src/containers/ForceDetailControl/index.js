@@ -10,10 +10,10 @@ const mapStateToProps = (state) => ({
 class ForceDetailControl extends Component {
   render() {
     const { markerId, markers } = this.props;
-    const selectMarker = markers.find((marker) => marker.id === markerId);
+    const selectedItem = typeof markerId === 'object' ? markerId : markers.find((marker) => marker.id === markerId);
     // console.log(selectMarker);
-    if (selectMarker) {
-      return <ForceDetail key={selectMarker.id} detail={selectMarker} />
+    if (selectedItem) {
+      return <ForceDetail key={selectedItem.id} detail={selectedItem} />
     }
     return null;
   }

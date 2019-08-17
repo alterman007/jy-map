@@ -10,6 +10,7 @@ import { tipTypeIcon } from './icons';
 
 const mapStateToProps = (state) => ({
   markers: state.map.realTimeMarkers,
+  forceHistoryMarker: state.map.forceHistoryMarker,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -45,7 +46,7 @@ class RealTimeMarkers extends Component {
       <Marker
         key={marker.name + index}
         position={[marker.lat, marker.lng]}
-        onClick={this.handleCarClick.bind(this, marker)}
+        onClick={this.handleCarClick.bind(this, marker.id)}
         icon={tipTypeIcon(marker.type, marker.name)}
       />
     );
@@ -61,8 +62,25 @@ class RealTimeMarkers extends Component {
     );
   }
 
+  renderSelectedMarker(marker) {
+    console.log(marker);
+    return (
+      <Marker
+        key={marker.name}
+        position={[marker.lat, marker.lng]}
+        onClick={this.handleCarClick.bind(this, marker)}
+        icon={tipTypeIcon(1, marker.name)}
+      />
+    );
+  }
+
   render() {
-    const { markers } = this.props;
+    const { markers, forceHistoryMarker } = this.props;
+    // console.log(markers, forceHistoryMarker);
+    if (forceHistoryMarker && typeof forceHistoryMarker === 'object') {
+      return this.renderSelectedMarker(forceHistoryMarker);
+    }
+
     return (
       <Fragment>
         {
