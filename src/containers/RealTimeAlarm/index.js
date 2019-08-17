@@ -6,6 +6,7 @@ import AlarmItem from './AlarmItem';
 import {
   selectAlarmItem,
 } from '../../actions/alarmHistory';
+import { getRealAlarm } from '../../request/api';
 import alarmIcon from './alarmIcon.png';
 
 import './index.styl';
@@ -18,25 +19,36 @@ const mapDispatchProps = (dispatch) => ({
 class RealTimeAlarm extends Component {
   state = {
     hideList: true,
-    alarmList: [
-      { id: 401, type: '人脸告警', name: '宁静', time: '2019.08.11 23:32:20' },
-      { id: 402, type: '人脸告警', name: '宁静', time: '2019.08.11 23:32:20' },
-      { id: 403, type: '人脸告警', name: '宁静', time: '2019.08.11 23:32:20' },
-    ],
+    alarmList: [],
   };
 
   toggleAlarmVisible = () => {
-    // console.log('hello world');
     this.setState({
       hideList: !this.state.hideList,
     });
-    const { actions } = this.props;
-    actions.selectAlarmItem(null);
+    this.fetchList();
   }
 
-  onSelectItem = (item) => {
-    const { actions } = this.props;
-    actions.selectAlarmItem(item.id);
+  onSelectItem = () => {
+    // const { actions } = this.props;
+    // actions.selectAlarmItem(item.id);
+  }
+
+  componentDidMount() {
+    this.timer = setInterval(() => {
+      this.fetchList();
+    }, 10000);
+  }
+
+  componentWillUnmount() {
+    this.timer && clearInterval(this.timer);
+  }
+
+  async fetchList() {
+    const { data } = await getRealAlarm();
+    this.setState({
+      alarmList: data,
+    });
   }
 
   renderIcon() {
@@ -52,12 +64,12 @@ class RealTimeAlarm extends Component {
             name="实时告警"
             onClose={this.toggleAlarmVisible}
           />
-          <ul className="alarm-item-list">
+          <ul className="alarm-item-list corner-border">
             {
-              alarmList.map((item, index) => (
+              alarmList.map((item) => (
                 <AlarmItem
                   onClick={this.onSelectItem.bind(this, item)}
-                  key={item.name + index}
+                  key={item.alarmId || item.vehicleid}
                   {...item}
                 />
               ))

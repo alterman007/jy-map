@@ -2,30 +2,31 @@
   position fixed;
   right: 108px;
   top: 96px;
+  bottom: 100px;
+  overflow: hidden;
+  pointer-events: none;
+  img {
+    pointer-events: auto;
+    cursor pointer;
+  }
   .real-time-alarm-info {
     // border: 1px solid red;
     width: 447px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    pointer-events: auto;
     .alarm-item-list {
       margin: 0;
+      margin-top: -2px;
       padding: 0 10px;
       list-style: none;
       border: 2px solid #20AAFF66;
+      flex: auto;
+      height 100%;
       position relative;
-      &::after {
-        content: ' ';
-        position absolute;
-        bottom: -2px;
-        left: -2px;
-        right: -2px;
-        height: 15px;
-        pointer-events: none;
-        background: linear-gradient(#20AAFF, #20AAFF) left bottom,
-          linear-gradient(#20AAFF, #20AAFF) left bottom,
-          linear-gradient(#20AAFF, #20AAFF) right bottom,
-          linear-gradient(#20AAFF, #20AAFF) right bottom;
-        background-repeat: no-repeat;
-        background-size: 2px 15px, 15px 2px;
-      }
+      overflow-x hidden;
+      overflow-y auto;
     }
   }
 }

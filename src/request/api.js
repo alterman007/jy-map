@@ -1,5 +1,15 @@
 import axios from 'axios';
 
+const host = 'http://47.98.168.14:9094';
+
+const instance = axios.create({
+  baseURL: host,
+})
+
+export function getRealAlarm() {
+  return instance.get('/getRealAlarm.do');
+}
+
 export function getAlarmHistory(args) {
   return axios.get('/mock/alarmHistory.json')
 }
