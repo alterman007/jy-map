@@ -52,6 +52,16 @@ class RealTimeMarkers extends Component {
     );
   }
 
+  renderWifiMarker(marker, index) {
+    return (
+      <Marker
+        key={marker.name + index}
+        position={[marker.lat, marker.lng]}
+        icon={tipTypeIcon(marker.type, marker.name)}
+      />
+    );
+  }
+
   renderPeopleMarker(marker, index) {
     return (
       <Marker key={marker.name + index} position={[marker.lat, marker.lng]} icon={tipTypeIcon(marker.type, marker.name)}>
@@ -91,7 +101,7 @@ class RealTimeMarkers extends Component {
               case 2: // people
                 return this.renderPeopleMarker(marker, index);
               case 3: // wifi
-                return <div>{marker.type}</div>;
+                return this.renderWifiMarker(marker, index);
               case 4: // camera
                 return this.renderCameraMarker(marker, index);
               default:
