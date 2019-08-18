@@ -1,0 +1,53 @@
+.police-call-wrapper {
+  position fixed;
+  right: 108px;
+  top: 96px;
+  bottom: 100px;
+  overflow: hidden;
+  pointer-events: none;
+  .police-call-info {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    pointer-events: auto;
+    margin-right: 120px;
+    .police-call-list {
+      padding: 0 10px;
+      flex: auto;
+      overflow: auto;
+      font-size: 18px;
+      color: #fff;
+      .police-call-item {
+        padding: 10px 0;
+        border-bottom: 2px solid #10517F;
+        .desc {
+          display: flex;
+          flex-wrap: wrap;
+          span {
+            width: 50%;
+            flex: none;
+            &:nth-child(2n) {
+              width: 45%;
+              padding-left: 5%;
+            }
+          }
+        }
+        .text {
+        }
+      }
+    }
+  }
+  .police-call-icon {
+    pointer-events: auto;
+    // position absolute;
+    margin-top: 130px;
+    cursor pointer;
+    width: 107px;
+    height: 107px;
+  }
+  .police-call-info {
+    pointer-events: auto;
+    margin-right: 120px;
+    width: 768px;
+  }
+}

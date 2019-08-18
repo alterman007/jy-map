@@ -2,6 +2,7 @@ import React from 'react';
 import Map from './containers/Map';
 import Header from './components/Header';
 import RealTimeAlarm from './containers/RealTimeAlarm';
+import PoliceCall from './containers/PoliceCall';
 import NetworkForceHistory from './containers/NetworkForceHistory';
 import NetworkAlarmHistory from './containers/NetworkAlarmHistory';
 import HistorySwitcher from './containers/HistorySwitcher';
@@ -17,6 +18,7 @@ function App() {
       <div className="content">
         <Header />
         <RealTimeAlarm />
+        <PoliceCall />
         <NetworkForceHistory />
         <NetworkAlarmHistory />
         <HistorySwitcher />
