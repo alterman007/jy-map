@@ -34,9 +34,9 @@ class ForceDetail extends Component {
 
   changeShowType(showType) { // snapshot | path | video | false
     this.setState({ showType });
-    if (showType === 'path') {
-      this.onSearchPath();
-    }
+    // if (showType === 'path') {
+    //   this.onSearchPath();
+    // }
     if (showType === 'video') {
       this.playVideo();
     }
@@ -59,13 +59,17 @@ class ForceDetail extends Component {
 
   onTimeChange(type, date) {
     this.setState({ type: date });
-    console.log(type, date);
+    // console.log(type, date);
   }
 
-  onSearchPath = () => {
+  onSearchPath(moveFlag) {
     const { actions } = this.props;
     const { fromTime, toTime } = this.state;
-    actions.fetchForcePath({ from: fromTime, to: toTime });
+    actions.fetchForcePath({ from: fromTime, to: toTime, moveFlag });
+  }
+
+  onPlay = () => {
+    // const { actions }
   }
 
   renderAction() {
@@ -105,8 +109,8 @@ class ForceDetail extends Component {
           size="large"
         />
         <div className="action-detail-wrapper">
-          <button onClick={this.onSearchPath}>查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
-          <button onClick={this.onSearchPath}>播&nbsp;&nbsp;&nbsp;&nbsp;放</button>
+          <button onClick={this.onSearchPath.bind(this, false)}>查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
+          <button onClick={this.onSearchPath.bind(this, true)}>播&nbsp;&nbsp;&nbsp;&nbsp;放</button>
           <button onClick={this.onClose}>完&nbsp;&nbsp;&nbsp;&nbsp;成</button>
         </div>
       </div>

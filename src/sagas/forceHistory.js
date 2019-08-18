@@ -6,6 +6,7 @@ import {
 } from '../actions/forceHistory';
 import {
   setMapPath,
+  setMoveFlag,
 } from '../actions/map';
 import {
   getForceHistory,
@@ -23,6 +24,7 @@ function* watchFetchForceHistory() {
 
 function* watchFetchForcePath() {
   yield takeLatest(fetchForcePath.startAction, function* (action) {
+    yield put(setMoveFlag(action.payload.moveFlag));
     const res = yield call(getForcePathById, action.payload);
     yield put(setMapPath(res.data));
   });

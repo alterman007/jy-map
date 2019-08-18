@@ -1,6 +1,7 @@
 import { handleActions } from 'redux-actions';
 import {
   setMapPath,
+  setMoveFlag,
   selectRealTimeMarker,
   setRealTimeMarkers,
 } from '../actions/map';
@@ -42,6 +43,7 @@ const defaultState = {
   // 点击历史条目，指向对应数据
   selectedMarkerID: null,
   movePath: null,
+  moveFlag: false,
 };
 
 const map = handleActions(
@@ -64,6 +66,10 @@ const map = handleActions(
     [toggleAlarmHistoryVisible](state) {
       return { ...state, movePath: null, forceHistoryMarker: null, selectedMarkerID: null };
     },
+    [setMoveFlag](state, { payload }) {
+      // console.log({ payload });
+      return { ...state, moveFlag: payload };
+    }
   },
   defaultState,
 );

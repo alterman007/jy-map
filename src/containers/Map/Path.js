@@ -7,6 +7,7 @@ import MoveMarker from './moveMarker';
 
 const mapStateToProps = (state) => ({
   movePath: state.map.movePath,
+  moveFlag: state.map.moveFlag,
 });
 
 class Path extends Component {
@@ -22,7 +23,7 @@ class Path extends Component {
   fitBounds() {
     const bounds = turf.getCoords(this.props.movePath)
       .map((d) => d.concat().reverse());
-    this.context.fitBounds(bounds, { maxZoom: 16 });
+    this.context.fitBounds(bounds, { maxZoom: 16, padding: [150, 150] });
   }
 
   moveMarkerAlongPath() {
@@ -37,12 +38,14 @@ class Path extends Component {
 
   componentDidUpdate() {
     this.destroyMoveMarker();
-    const { movePath } = this.props;
+    const { movePath, moveFlag } = this.props;
     if (!movePath) {
       return;
     }
     this.fitBounds();
-    this.moveMarkerAlongPath();
+    if (moveFlag) {
+      this.moveMarkerAlongPath();
+    }
   }
 
   componentWillUnmount() {
