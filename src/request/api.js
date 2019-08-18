@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { transformLatLng } from '../utils/map';
 
 const host = 'http://47.98.168.14:9094';
 
@@ -7,7 +8,8 @@ const instance = axios.create({
 })
 
 export function getRealAlarm() {
-  return instance.get('/getRealAlarm.do');
+  return instance.get('/getRealAlarm.do')
+    .then(transformLatLng({ path: 'data', latName: 'latitude', lngName: 'longitude' }));
 }
 
 export function getPoliceCall() {
@@ -24,7 +26,8 @@ export function getAlarmHistory(args) {
   if (timeRange && timeRange[1]){
     condition.endtime = timeRange[1].valueOf();
   }
-  return instance.post(url, condition);
+  return instance.post(url, condition)
+    .then(transformLatLng({ path: 'data.result', latName: 'latitude', lngName: 'longitude' }));
 }
 
 export function getForceHistory(args) {
