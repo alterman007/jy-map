@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Map, TileLayer } from 'react-leaflet';
 import { MapContext } from './context';
 import Path from './Path';
+import Area from './Area';
 // import CarMarkers from './CarMarkers';
 // import PeopleMarkers from './PeopleMarkers';
 import RealTimeMarker from './RealTimeMarker';
@@ -55,6 +56,7 @@ class MapOperation extends Component {
           {/* <PeopleMarkers /> */}
           <RealTimeMarker />
           <Path />
+          <Area />
         </Map>
       </MapContext.Provider>
     );
