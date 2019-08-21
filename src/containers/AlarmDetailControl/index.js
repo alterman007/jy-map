@@ -3,14 +3,16 @@ import { connect } from 'react-redux';
 import AlarmDetail from '../AlarmDetail';
 
 const mapStateToProps = (state) => ({
-  detailId: state.alarmHistory.detailId,
+  alarmDetail: state.map.showAlarmHistoryDetail,
+  alarmMarker: state.map.alarmMarker,
 });
 
 class AlarmDetailControl extends Component {
   render() {
-    const { detailId } = this.props;
-    if (detailId) {
-      return <AlarmDetail key={detailId} detailId={detailId} />
+    const { alarmDetail, alarmMarker } = this.props;
+    // console.log(alarmDetail === alarmMarker);
+    if (alarmDetail && alarmDetail === alarmMarker) {
+      return <AlarmDetail detail={alarmDetail} />
     }
     return null;
   }

@@ -5,17 +5,20 @@ import { connect } from 'react-redux';
 import { Marker, Tooltip, Popup } from 'react-leaflet';
 import {
   selectRealTimeMarker,
+  setAlarmHistoryDetail,
 } from '../../actions/map';
 import { tipTypeIcon } from './icons';
 
 const mapStateToProps = (state) => ({
   markers: state.map.realTimeMarkers,
+  alarmMarker: state.map.alarmMarker,
   forceHistoryMarker: state.map.forceHistoryMarker,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
     selectRealTimeMarker,
+    setAlarmHistoryDetail,
   }, dispatch),
 });
 
@@ -88,12 +91,26 @@ class RealTimeMarkers extends Component {
       />
     );
   }
+  renderAlarmMarker(marker) {
+    const { setAlarmHistoryDetail } = this.props.actions;
+    return (
+      <Marker
+        key={marker.name}
+        position={[marker.lat, marker.lng]}
+        onClick={setAlarmHistoryDetail.bind(this, marker)}
+        icon={tipTypeIcon(1, marker.name)}
+      />
+    );
+  }
 
   render() {
-    const { markers, forceHistoryMarker } = this.props;
+    const { markers, alarmMarker, forceHistoryMarker } = this.props;
     // console.log(markers, forceHistoryMarker);
     if (forceHistoryMarker && typeof forceHistoryMarker === 'object') {
       return this.renderSelectedMarker(forceHistoryMarker);
+    }
+    if (alarmMarker) {
+      return this.renderAlarmMarker(alarmMarker);
     }
 
     return (

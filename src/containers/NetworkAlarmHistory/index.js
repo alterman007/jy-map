@@ -48,9 +48,10 @@ class NetworkAlarmHistory extends Component {
     }
   }
 
-  onSelectItem = () => {
-    // const { actions } = this.props;
-    // actions.selectAlarmItem(item.id);
+  onSelectItem = (item) => {
+    const { actions } = this.props;
+    item.type = this.state.tabActive;
+    actions.selectAlarmItem(item);
   }
 
   onTimeChange = (dates) => {
@@ -88,17 +89,16 @@ class NetworkAlarmHistory extends Component {
     return (
       <ul className="alarm-list corner-border">
         {
-          alarmHistoryList.map((item, index) => {
-            console.log(item)
+          alarmHistoryList.map((item) => {
             return (
             <li key={isFace ? item.alarmId : item.vehicleid} onClick={() => this.onSelectItem(item)} className="alarm-item">
-              <img src={isFace ? item.facePicUrl : item.bkgPicUrl } alt=""/>
+              <img src={isFace ? item.facePicUrl : item.picVehicle } alt=""/>
               <div className="alarm-desc">
                 <span className="name">
-                  {isFace ? item.humanName : item.plateinfo}
+                  {isFace ? item.humanName : item.plateInfo}
                 </span>
                 <span className="time">
-                  告警时间：{isFace ? item.alarmTime : new Date(+item.passtime).toLocaleString('zh', { hour12: false })}
+                  告警时间：{isFace ? item.alarmTime : item.passTimeStr }
                 </span>
               </div>
             </li>

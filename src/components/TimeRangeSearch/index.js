@@ -12,7 +12,7 @@ class TimeRangeSearch extends Component {
   };
 
   render() {
-    const { onTimeChange, history } = this.props;
+    const { onTimeChange, onSearch, history } = this.props;
     return (
       <div className="time-range-search-wrapper">
         {
@@ -30,7 +30,7 @@ class TimeRangeSearch extends Component {
             />
             <button
           className="search-btn"
-          // onClick={onSearch}
+          onClick={onSearch}
           // onClick={() => this.props.renderPoliceAll(false)}
         >搜索</button>
            </>

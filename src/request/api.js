@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { transformLatLng } from '../utils/map';
 
-// const host = 'http://47.98.168.14:9094';
-const url = 'http://15.75.19.155/'
-const host = process.env.NODE_ENV === 'development' ? url : 'http://15.75.19.155'
+const host = 'http://47.98.168.14:9094';
+// const url = 'http://15.75.19.155/'
+// const host = process.env.NODE_ENV === 'development' ? url : 'http://15.75.19.155'
 
 const instance = axios.create({
   baseURL: host,
@@ -19,6 +19,7 @@ export function getPoliceCall() {
 }
 
 export function getAlarmHistory(args) {
+  // return axios.get('/mock/alarmHistory.json');
   const { tabActive, timeRange } = args;
   const url = tabActive === 'face' ? '/getFaceAlarmEntity.do?limit=20' : '/getCarAlarmEntity.do?limit=20';
   const condition = {};
@@ -28,7 +29,9 @@ export function getAlarmHistory(args) {
   if (timeRange && timeRange[1]){
     condition.endtime = timeRange[1].valueOf();
   }
-  return instance.post(url, condition);
+  // console.log(url, condition);
+  return instance.post(url, condition)
+    .then(transformLatLng({path: "data", latName: "latitude", lngName: "longitude"}));
 }
 
 export function getForceHistory(args) {
@@ -56,7 +59,7 @@ export function getForcePathById(args) {
 
 // 获取告警详情
 export function getAlarmDetailById(args) {
-  return axios.get('/mock/alarmDetail.json')
+  return axios.get('/mock/alarmDetail.json');
 }
 
 // 获取监控点位列表

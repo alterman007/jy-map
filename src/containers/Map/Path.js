@@ -8,6 +8,7 @@ import MoveMarker from './moveMarker';
 const mapStateToProps = (state) => ({
   movePath: state.map.movePath,
   moveFlag: state.map.moveFlag,
+  alarmDetail: state.map.showAlarmHistoryDetail,
 });
 
 class Path extends Component {
@@ -53,10 +54,15 @@ class Path extends Component {
   }
 
   render() {
-    const { movePath } = this.props;
-    console.log("movePath", movePath)
+    const { movePath, alarmDetail } = this.props;
+    // console.log("movePath", movePath)
     if (!movePath) {
       return null;
+    }
+    if (alarmDetail) {
+      this.geojsonStyle.color = '#F52323';
+    } else {
+      this.geojsonStyle.color = '#20AAFF';
     }
     return (
       <GeoJSON

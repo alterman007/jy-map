@@ -4,6 +4,7 @@ import {
   setMoveFlag,
   selectRealTimeMarker,
   setRealTimeMarkers,
+  setAlarmHistoryDetail,
 } from '../actions/map';
 import {
   toggleForceHistoryVisible,
@@ -11,6 +12,7 @@ import {
 } from '../actions/forceHistory';
 import {
   toggleAlarmHistoryVisible,
+  selectAlarmItem,
 } from '../actions/alarmHistory';
 import {
   convertDataToGeojson,
@@ -44,6 +46,8 @@ const defaultState = {
   selectedMarkerID: null,
   movePath: null,
   moveFlag: false,
+  alarmMarker: null,
+  showAlarmHistoryDetail: null,
 };
 
 const map = handleActions(
@@ -61,14 +65,20 @@ const map = handleActions(
       return { ...state, movePath: payload ? convertDataToGeojson(payload, 'lineString'): null };
     },
     [toggleForceHistoryVisible](state) {
-      return { ...state, movePath: null, forceHistoryMarker: null, selectedMarkerID: null };
+      return { ...state, movePath: null, forceHistoryMarker: null, selectedMarkerID: null, alarmMarker: null };
     },
     [toggleAlarmHistoryVisible](state) {
-      return { ...state, movePath: null, forceHistoryMarker: null, selectedMarkerID: null };
+      return { ...state, movePath: null, forceHistoryMarker: null, selectedMarkerID: null, alarmMarker: null };
     },
     [setMoveFlag](state, { payload }) {
       // console.log({ payload });
       return { ...state, moveFlag: payload };
+    },
+    [selectAlarmItem](state, { payload }) {
+      return { ...state, alarmMarker: payload, forceHistoryMarker: null, selectedMarkerID: null, movePath: null };
+    },
+    [setAlarmHistoryDetail](state, { payload }) {
+      return { ...state, showAlarmHistoryDetail: payload }
     }
   },
   defaultState,

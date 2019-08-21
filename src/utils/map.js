@@ -30,4 +30,4 @@ export function transformLatLng(config = {}) {
     Array.isArray(target) ? target.forEach(coverTarge) : coverTarge(target);
     return data;
   }
-} 
+}
