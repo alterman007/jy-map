@@ -27,14 +27,20 @@ class RealTimeMarkers extends Component {
   }
   renderCameraMarker(marker, index) {
     return (
-      <Marker key={marker.name + index} position={[marker.lat, marker.lng]} icon={tipTypeIcon(marker.type, marker.name)}>
+      <Marker key={marker.name + index} position={[marker.lat,marker.lng]} icon={tipTypeIcon(marker.type, marker.name)}>
         <Popup className="camera-marker-popup" direction="right" closeButton={false}>
           <div className="camera-info corner-border">
             <div className="name">{marker.name}</div>
-            <div className="desc">联网电台：江桥镇一分局</div>
-            <div className="desc">联网电台：江桥镇一分局</div>
-            <div className="desc">联网电台：江桥镇一分局</div>
-            <div className="desc">联网电台：江桥镇一分局</div>
+            <div className="desc">接警单编号:{marker.id}</div>
+            {/* <div className="desc">电台呼号:{}</div> */}
+            <div className="desc">姓名:{marker.policeman}</div>
+            <div className="desc">证件号码:{marker.zjhm}</div>
+            <div className="desc">警员编号/车牌号:{marker.busnum1}</div>
+            <div className="desc">警种名称:{marker.jcmc}</div>
+            <div className="desc">单位名称:{marker.dwmc}</div>
+            <div className="desc">电话号码:{marker.dhhm}</div>
+            <div className="desc">纬度: {marker.lat}</div>
+            <div className="desc">经度: {marker.lng}</div>
           </div>
         </Popup>
       </Marker>
@@ -73,7 +79,6 @@ class RealTimeMarkers extends Component {
   }
 
   renderSelectedMarker(marker) {
-    console.log(marker);
     return (
       <Marker
         key={marker.name}
@@ -100,12 +105,12 @@ class RealTimeMarkers extends Component {
                 return this.renderCarMarker(marker, index);
               case 2: // people
                 return this.renderPeopleMarker(marker, index);
-              case 3: // wifi
-                return this.renderWifiMarker(marker, index);
-              case 4: // camera
+              // case 3: // wifi
+              //   return this.renderWifiMarker(marker, index);
+              case 3: // camera
                 return this.renderCameraMarker(marker, index);
               default:
-                return <div>unknown</div>
+                return <div key={index}>unknown</div>
             }
           })
         }

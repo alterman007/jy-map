@@ -54,6 +54,7 @@ class Path extends Component {
 
   render() {
     const { movePath } = this.props;
+    console.log("movePath", movePath)
     if (!movePath) {
       return null;
     }

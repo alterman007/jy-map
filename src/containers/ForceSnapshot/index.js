@@ -4,6 +4,7 @@ import FontIcon from '../../components/FontIcon';
 import TimeRangeSearch from '../../components/TimeRangeSearch';
 // import demoImg from './demo.png';
 import './index.styl';
+import { getCarCaptureById } from '../../request/api';
 
 class ForceSnapshot extends Component {
   state = {
@@ -11,7 +12,24 @@ class ForceSnapshot extends Component {
     list: [
       this.props.defaultValue,
     ],
+    captureList: []
   };
+
+  componentDidMount() {
+    this.getCaptureInfo()
+  }
+
+  async getCaptureInfo() {
+    try {
+      const { data } = await getCarCaptureById(this.props.defaultValue.indexCode);
+      const res = JSON.parse(JSON.stringify(data.splice(0,10)))
+      this.setState({
+        captureList: res
+      })
+    } catch (error) {
+      
+    }
+  }
 
   changeSelected = (ev) => {
     const { type } = ev.target.dataset;
@@ -57,7 +75,6 @@ class ForceSnapshot extends Component {
 
   renderList() {
     const { list } = this.state;
-    console.log(list);
     return (
       <div className="snapshot-list-wrapper corner-border-highlight-bg">
         {
@@ -67,19 +84,44 @@ class ForceSnapshot extends Component {
               <div className="img-list">
                 {/* {item.imgs.map((src, i) => <img key={i} src={demoImg} alt="" />)} */}
               </div>
-              <div className="desc">
+              {/* <div className="desc">
                 <span>所属派出所：{item.belongTo}</span>
                 <span>设备号：{item.deviceCode}</span>
                 <span>经 度：{item.lng}</span>
                 <span>摄像头位置：{item.cameraPosition}</span>
                 <span>纬 度：{item.lat}</span>
                 <span>创建日期：{item.time}</span>
-              </div>
+              </div> */}
             </div>
           ))
-        }
+        }     
+        {this.renderCaptureList()}
       </div>
     );
+  }
+
+  renderCaptureList() {
+    const { captureList } = this.state
+    return (
+      <ul>
+        {
+          captureList.map(c => {
+            return <li key={c.id}>
+              <img src={c.baseImageSrc} alt="" />
+              <div>
+                
+              <span>所属派出所：{c.sspcs}</span>
+                <span>设备号：{c.indexCode}</span>
+                <span>经 度：{c.longitude}</span>
+                <span>摄像头位置：{c.cameraName}</span>
+                <span>纬 度：{c.latitude}</span>
+                <span>拍摄时间：{c.createTime}</span>
+              </div>
+            </li>
+          })
+        }
+      </ul>
+    )
   }
 
   render() {
@@ -87,7 +129,7 @@ class ForceSnapshot extends Component {
       <div className="force-snapshot-wrapper">
         {this.renderTab()}
         <div className="search-wrapper">
-          <TimeRangeSearch onSearch={this.onSearch} onTimeChange={this.onTimeChange} />
+          <TimeRangeSearch onSearch={this.onSearch} history onTimeChange={this.onTimeChange} />
         </div>
         {this.renderList()}
       </div>

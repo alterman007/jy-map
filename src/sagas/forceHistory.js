@@ -17,7 +17,6 @@ import {
 function* watchFetchForceHistory() {
   yield takeLatest(fetchForceHistory.startAction, function* (action) {
     const res = yield call(getForceHistory, action.payload);
-    // console.log(res);
     yield put(setForceHistoryList(res.data));
   });
 }
@@ -26,7 +25,8 @@ function* watchFetchForcePath() {
   yield takeLatest(fetchForcePath.startAction, function* (action) {
     yield put(setMoveFlag(action.payload.moveFlag));
     const res = yield call(getForcePathById, action.payload);
-    yield put(setMapPath(res.data));
+    console.log("警力",res);
+    yield put(setMapPath(res));
   });
 }
 

@@ -11,7 +11,7 @@ import rootSagas from './sagas';
 import rootReducer from './reducers';
 import configStore from './configStore';
 
-import 'moment/locale/zh-cn';
+import 'moment/locale/zh-cn'
 import './core/initLeaflet';
 
 moment.locale('zh-cn');

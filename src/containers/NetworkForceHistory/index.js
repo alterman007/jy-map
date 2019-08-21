@@ -83,13 +83,13 @@ class NetworkForceHistory extends Component {
                   {item.name}
                 </span>
                 <span className="item">
-                  所属派出所：{item.belongTo}
+                  所属派出所：{item.sspcs}
                 </span>
                 <span className="item">
-                  设备号：{item.deviceCode}
+                  设备号：{item.indexCode}
                 </span>
                 <span className="item">
-                  日期：{item.time}
+                  日期：{item.createTime}
                 </span>
               </div>
             </li>
@@ -114,7 +114,7 @@ class NetworkForceHistory extends Component {
     return (
       <div className="network-force-history-wrapper">
         <Title name="联网警力历史" onClose={this.handleClose} />
-        <TimeRangeSearch onSearch={this.onSearch} onTimeChange={this.onTimeChange} />
+        <TimeRangeSearch onSearch={this.onSearch} history onTimeChange={this.onTimeChange} />
         {this.renderForceList()}
         {/* {this.renderDetail()} */}
       </div>

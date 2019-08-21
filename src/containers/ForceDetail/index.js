@@ -7,6 +7,7 @@ import { fetchForcePath, selectForceHistoryItem } from '../../actions/forceHisto
 import { setMapPath, selectRealTimeMarker } from '../../actions/map';
 import demoImg from './demo.png';
 import './index.styl';
+import { monitorPlay } from '../../request/api';
 
 // const mapStateToProps = (state) => ({
 //   detailId: state.forceHistory.detailId,
@@ -54,18 +55,19 @@ class ForceDetail extends Component {
   }
 
   playVideo = () => {
-    console.log('open video', this.props.detailId);
+    console.log('open video', this.props.detail.indexCode);
+    monitorPlay(this.props.detail.indexCode)
   }
 
-  onTimeChange(type, date) {
-    this.setState({ type: date });
-    // console.log(type, date);
+  onTimeChange(type, undef, date) {
+    this.setState({ [type]: date });
   }
 
   onSearchPath(moveFlag) {
+    console.log("查询/播放")
     const { actions } = this.props;
     const { fromTime, toTime } = this.state;
-    actions.fetchForcePath({ from: fromTime, to: toTime, moveFlag });
+    actions.fetchForcePath({ name: this.props.detail.name, biggintime: fromTime, endtime: toTime, moveFlag});
   }
 
   onPlay = () => {
@@ -79,7 +81,7 @@ class ForceDetail extends Component {
     return (
       <div className="action-detail-wrapper">
         <button onClick={this.changeShowType.bind(this, 'snapshot')}>联网抓拍</button>
-        <button onClick={this.changeShowType.bind(this, 'path')}>单兵轨迹</button>
+        <button onClick={this.changeShowType.bind(this, 'path')}>车辆轨迹</button>
         <button onClick={this.changeShowType.bind(this, 'video')}>监控点播</button>
         <button onClick={this.onClose}>关&nbsp;&nbsp;&nbsp;&nbsp;闭</button>
       </div>
@@ -119,7 +121,6 @@ class ForceDetail extends Component {
 
   render() {
     const { detail } = this.props;
-    // console.log(detail);
     if (!detail) {
       return null;
     }

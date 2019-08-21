@@ -33,8 +33,8 @@ export const moveIcon = new L.Icon({
 const mapTypeToName = {
   1: 'car',
   2: 'people',
-  3: 'wifi',
-  4: 'camera',
+  3: 'camera',
+  4: 'wifi',
 }
 const tipMarkerConfig = {
   car: {
@@ -49,17 +49,17 @@ const tipMarkerConfig = {
     iconSize: [34, 40],
     popupAnchor: [0, -20],
   },
-  camera: {
-    iconUrl: cameraImage,
-    iconAnchor: [15, 16],
-    iconSize: [30, 32],
-    popupAnchor: [0, -16],
-  },
   wifi: {
     iconUrl: wifiImage,
     iconAnchor: [19, 19],
     iconSize: [38, 38],
     popupAnchor: [0, -19],
+  },
+  camera: {
+    iconUrl: cameraImage,
+    iconAnchor: [15, 16],
+    iconSize: [30, 32],
+    popupAnchor: [0, -16],
   },
 };
 
@@ -81,6 +81,18 @@ export function tipCarIcon(desc) {
     tooltipAnchor: [24, 0],
   });
 }
+
+export const tipMonitorIcon = (desc) => {
+  return new L.DivIcon({
+    className: 'marker-with-tip monitor',
+    // html: `<span class="name">${desc}</span>`,
+    iconAnchor: [24, 19],
+    iconSize: [48, 38],
+    popupAnchor: [0, -19],
+    tooltipAnchor: [24, 0],
+    // iconUrl: cameraImage,
+  });
+} 
 
 // export const suitcasePoint = new L.Icon({
 //   iconUrl: 'marker-icon.png',

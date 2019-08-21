@@ -4,16 +4,23 @@ import {
 } from '../actions/map';
 import createSocketChannel from '../request/socket';
 import { transformLatLng } from '../utils/map';
+// const host = 'ws://47.98.168.14:9094/socket/trail';
+const url = 'ws://15.75.19.155:80/socket/trail'
+const host = process.env.NODE_ENV === 'development' ? url : 'ws://15.75.19.155:80/socket/trail'
 
-const markerTransformer = transformLatLng({ path: '' });
-
+const markerTransformer = transformLatLng({path: ''})
 export function* watchSocket() {
-  const socketChannel = yield call(createSocketChannel, 'ws://47.98.168.14:9094/socket/trail');
+  const socketChannel = yield call(createSocketChannel, host);
   while (true) {
     const data = yield take(socketChannel);
+    // console.log(data.type)
     switch (data.type) {
       case 'mapposition':
-        const res = markerTransformer(data.data);
+        console.log("data", data)
+        const res = markerTransformer(data.data)
+        console.log("mapposition", res.filter((d) => {
+          return d.type !== 3
+        }))
         yield put(setRealTimeMarkers(res));
         break;
       default:
