@@ -78,7 +78,7 @@ export function getCarCaptureById(args) {
 // 获取分局统计
 
 export function getPoliceStationStatistical(args) {
-  return instance.get("/getdepart.do?date1=1565952041&date2=1565952036")
+  return instance.get("/getdepart.do")
 }
 
 // 获取密钥调取海康视频客户端
@@ -89,13 +89,10 @@ export function getAppSecrect() {
 // 调取海康软件
 export async function monitorPlay(key) {
   try {
-    const res = await getAppSecrect();
-    console.log("调取海康软件---res", res)
-    const  data  = res.data
-    console.log("调取海康软件", data)
+    const { data } = await getAppSecrect();
     var params = `hikvideoclient://ReqType:PlayReal;VersionTag:artemis;SvrIp:15.202.201.200;SvrPort:443;Appkey:27053604;AppSecret:${data.appSecret};time:${data.time};timesecret:${data.timeSecret};httpsflag:1;CamList:${key || 31011941001310013511};`
-    // console.log(m.index_code)
     // var param = 'hikvideoclient://ReqType:' + PalyType + ';' + 'VersionTag:artemis' + ';' + 'SvrIp:' + SvrIp + ';' + 'SvrPort:' + SvrPort + ';' + 'Appkey:' + appkey + ';' + 'AppSecret:' + appSecret + ';' + 'time:' + time + ';' + 'timesecret:' + timeSecret + ';' + 'httpsflag:' + httpsflag + ';' + 'CamList:' + CamList + ';';
+    console.log(params)
     document.getElementById("exe").src = params
   } catch (error) {
     console.error(error)

@@ -22,7 +22,7 @@ class MonitorMarkers extends Component {
     }
   }
   handleClick(m = {}) {
-    monitorPlay(m.index_code)
+    monitorPlay(m.indexCode)
   }
   render() {
     const { monitorList } = this.state;
