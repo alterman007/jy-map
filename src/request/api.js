@@ -89,10 +89,12 @@ export function getAppSecrect() {
 // 调取海康软件
 export async function monitorPlay(key) {
   try {
+    console.log("monitorindexCode", key)
     const { data } = await getAppSecrect();
     var params = `hikvideoclient://ReqType:PlayReal;VersionTag:artemis;SvrIp:15.202.201.200;SvrPort:443;Appkey:27053604;AppSecret:${data.appSecret};time:${data.time};timesecret:${data.timeSecret};httpsflag:1;CamList:${key || 31011941001310013511};`
+    console.log("appsecrect", data)
+    console.log("params", params)
     // var param = 'hikvideoclient://ReqType:' + PalyType + ';' + 'VersionTag:artemis' + ';' + 'SvrIp:' + SvrIp + ';' + 'SvrPort:' + SvrPort + ';' + 'Appkey:' + appkey + ';' + 'AppSecret:' + appSecret + ';' + 'time:' + time + ';' + 'timesecret:' + timeSecret + ';' + 'httpsflag:' + httpsflag + ';' + 'CamList:' + CamList + ';';
-    console.log(params)
     document.getElementById("exe").src = params
   } catch (error) {
     console.error(error)
