@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { transformLatLng } from '../utils/map';
 
-// const host = 'http://47.98.168.14:9094';
-const url = 'http://15.75.19.155/'
+const url = 'http://47.98.168.14:9094';
+// const url = 'http://15.75.19.155/'
 const host = process.env.NODE_ENV === 'development' ? url : 'http://15.75.19.155'
 
 const instance = axios.create({
@@ -89,11 +89,8 @@ export function getAppSecrect() {
 // 调取海康软件
 export async function monitorPlay(key) {
   try {
-    console.log("monitorindexCode", key)
     const { data } = await getAppSecrect();
     var params = `hikvideoclient://ReqType:PlayReal;VersionTag:artemis;SvrIp:15.202.201.200;SvrPort:443;Appkey:27053604;AppSecret:${data.data.appSecret};time:${data.data.time};timesecret:${data.data.timeSecret};httpsflag:1;CamList:${key || 31011941001310013511};`
-    console.log("appSecrect", data)
-    console.log("params", params)
     // var param = 'hikvideoclient://ReqType:' + PalyType + ';' + 'VersionTag:artemis' + ';' + 'SvrIp:' + SvrIp + ';' + 'SvrPort:' + SvrPort + ';' + 'Appkey:' + appkey + ';' + 'AppSecret:' + appSecret + ';' + 'time:' + time + ';' + 'timesecret:' + timeSecret + ';' + 'httpsflag:' + httpsflag + ';' + 'CamList:' + CamList + ';';
     document.getElementById("exe").src = params
   } catch (error) {

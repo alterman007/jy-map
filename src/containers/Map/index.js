@@ -24,7 +24,7 @@ class MapOperation extends Component {
   };
 
   handleClick = (ev) => {
-    console.log(ev.latlng);
+    console.log(ev);
   }
 
   componentDidMount() {
@@ -32,20 +32,20 @@ class MapOperation extends Component {
       leafletMap: this.mapEle.current.leafletElement,
     });
   }
-  // renderTileLayer() {
-  //   return (<Fragment>
-  //     <TileLayer url="//map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}" />
-  //   </Fragment>);
-  // }
   renderTileLayer() {
-    return (
-    <Fragment>
-        <TileLayer url="http://15.75.0.255:25003/v3/tile?z={z}&y={y}&x={x}" />
-        <TileLayer url="http://15.75.0.255:25033/v3/tile?z={z}&y={y}&x={x}" />
-        <TileLayer url="http://15.75.0.255:25777/v3/tile?z={z}&y={y}&x={x}" />
-    </Fragment>
-    )
+    return (<Fragment>
+      <TileLayer url="//map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}" />
+    </Fragment>);
   }
+  // renderTileLayer() {
+  //   return (
+  //   <Fragment>
+  //       <TileLayer url="http://15.75.0.255:25003/v3/tile?z={z}&y={y}&x={x}" />
+  //       <TileLayer url="http://15.75.0.255:25033/v3/tile?z={z}&y={y}&x={x}" />
+  //       <TileLayer url="http://15.75.0.255:25777/v3/tile?z={z}&y={y}&x={x}" />
+  //   </Fragment>
+  //   )
+  // }
 
   render() {
     const { center } = this.props;
@@ -60,7 +60,7 @@ class MapOperation extends Component {
           onClick={this.handleClick}
           zoomControl={false}
           ref={this.mapEle}
-          maxZoom={20}
+          maxZoom={16}
         >
           {this.renderTileLayer()}
           {/* <CarMarkers /> */}
