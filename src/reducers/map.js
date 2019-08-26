@@ -5,6 +5,7 @@ import {
   selectRealTimeMarker,
   setRealTimeMarkers,
   setAlarmHistoryDetail,
+  setMapZoom,
 } from '../actions/map';
 import {
   toggleForceHistoryVisible,
@@ -48,6 +49,7 @@ const defaultState = {
   moveFlag: false,
   alarmMarker: null,
   showAlarmHistoryDetail: null,
+  mapzoom: null,
 };
 
 const map = handleActions(
@@ -85,6 +87,9 @@ const map = handleActions(
     },
     [setAlarmHistoryDetail](state, { payload }) {
       return { ...state, showAlarmHistoryDetail: payload }
+    },
+    [setMapZoom](state, {payload}) {
+      return { ...state, mapzoom: payload }
     }
   },
   defaultState,

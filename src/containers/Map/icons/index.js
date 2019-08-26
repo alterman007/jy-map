@@ -100,7 +100,7 @@ export function tipCarIcon(desc) {
 export const tipMonitorIcon = (desc) => {
   return new L.DivIcon({
     className: 'marker-with-tip monitor',
-    // html: `<span class="name">${desc}</span>`,
+    html: `<span class="name">${desc}</span>`,
     iconAnchor: [24, 19],
     iconSize: [48, 38],
     popupAnchor: [0, -19],

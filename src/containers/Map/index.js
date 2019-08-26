@@ -1,9 +1,11 @@
 import React, { Component, Fragment, createRef } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Map, TileLayer } from 'react-leaflet';
 import { MapContext } from './context';
 import Path from './Path';
 import MonitorMarkers from './MonitorMarkers';
+import { setMapZoom } from '../../actions/map';
 // import Area from './Area';
 // import CarMarkers from './CarMarkers';
 // import PeopleMarkers from './PeopleMarkers';
@@ -16,6 +18,16 @@ const mapStateToProps = (state) => ({
   center: state.map.center,
 });
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators({
+      setMapZoom
+    }, dispatch)
+  }
+}
+
+let isUpdateZoom = false
+
 class MapOperation extends Component {
   mapEle = createRef();
   state = {
@@ -25,6 +37,17 @@ class MapOperation extends Component {
 
   handleClick = (ev) => {
     console.log(ev);
+  }
+
+  onZoomEnd(opt) {
+    const { actions } = this.props
+    if (opt.sourceTarget._animateToZoom === opt.sourceTarget.options.maxZoom && isUpdateZoom) {
+      actions.setMapZoom(opt.sourceTarget._animateToZoom)
+      isUpdateZoom = false
+    } else if (opt.sourceTarget._animateToZoom <= opt.sourceTarget.options.maxZoom && !isUpdateZoom) {
+      actions.setMapZoom(opt.sourceTarget._animateToZoom)
+      isUpdateZoom = true
+    }
   }
 
   componentDidMount() {
@@ -61,6 +84,7 @@ class MapOperation extends Component {
           zoomControl={false}
           ref={this.mapEle}
           maxZoom={16}
+          onZoomEnd={this.onZoomEnd.bind(this)}
         >
           {this.renderTileLayer()}
           {/* <CarMarkers /> */}
@@ -75,4 +99,4 @@ class MapOperation extends Component {
   }
 }
 
-export default connect(mapStateToProps)(MapOperation);
+export default connect(mapStateToProps, mapDispatchToProps)(MapOperation);
