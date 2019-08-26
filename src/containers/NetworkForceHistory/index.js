@@ -64,7 +64,6 @@ class NetworkForceHistory extends Component {
   }
 
   onSelectItem = (item) => {
-    // console.log(item);
     const { actions } = this.props;
     actions.selectForceHistoryItem(item);
     actions.selectRealTimeMarker(null);

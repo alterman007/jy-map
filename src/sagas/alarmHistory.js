@@ -8,9 +8,7 @@ import {
 // 获取告警历史数据
 function* watchFetchAlarmHistory() {
   yield takeLatest(fetchAlarmHistory.startAction, function* (action) {
-    console.log('fetchAlarmHistory', action.payload);
     const { data } = yield call(getAlarmHistory, action.payload);
-    console.log("获取告警历史数据", data);
     yield put(setAlarmHistoryList(data));
   });
 }

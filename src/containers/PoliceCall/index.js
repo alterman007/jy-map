@@ -5,6 +5,7 @@ import { getPoliceCall, getPoliceStationStatistical } from '../../request/api';
 import icon from './icon2.png';
 
 import './index.styl';
+import PieChart from '../../components/PieChart';
 
 class PoliceCall extends Component {
   state = {
@@ -14,13 +15,15 @@ class PoliceCall extends Component {
     type: false,
     statistical:[]
   };
+  pieChart = React.createRef()
   constructor() {
     super()
     this.renderPoliceAll = this.renderPoliceAll.bind(this)
   }
   componentDidMount() {
     this.fetchList();
-    this.fetchStatistical()
+    this.fetchStatistical();
+    // this.createPieChart();
   }
 
   togglePoliceVisible = () => {
@@ -73,7 +76,8 @@ class PoliceCall extends Component {
       });
       return (
         <div className="police-call-list corner-border">
-          <ul className="police-station-statistical">
+          <PieChart data={statistical}/>
+          {/* <ul className="police-station-statistical">
             <li>全市警情数量: {total}</li>
            {
              statistical.map((p,index) => {
@@ -86,7 +90,7 @@ class PoliceCall extends Component {
                )
              })
            }
-          </ul>
+          </ul> */}
         </div>
       )
     }
@@ -102,7 +106,7 @@ class PoliceCall extends Component {
                   <span>处理民警姓名：{item.fkrxm}</span>
                   <span>处理案情单位：{item.fkdwmc}</span>
                   <span>处理民警警号：{item.fkrgh}</span>
-                  <span>案&nbsp;&nbsp;由：{item.aymc}</span>
+                  <span>案&nbsp;&nbsp;由：{item.aymc === 'null' ? '' : item.aymc}</span>
                 </div>
                 <div className="text">
                   <span>出警情况：{item.cjqk}</span>
@@ -121,7 +125,7 @@ class PoliceCall extends Component {
           name="110联网警情"
           onClose={this.togglePoliceVisible}
         />
-        <TimeRangeSearch onSearch={this.onSearch} renderPoliceAll={this.renderPoliceAll} onTimeChange={this.onTimeChange} />
+        <TimeRangeSearch selectName={this.state.type} onSearch={this.onSearch} renderPoliceAll={this.renderPoliceAll} onTimeChange={this.onTimeChange} />
         {
           this.renderType()
         }

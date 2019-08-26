@@ -2,7 +2,7 @@ import axios from 'axios';
 import { transformLatLng } from '../utils/map';
 
 const url = 'http://47.98.168.14:9094';
-// const url = 'http://15.75.19.155/'
+// const url = 'http://15.75.19.155/';
 const host = process.env.NODE_ENV === 'development' ? url : 'http://15.75.19.155'
 
 const instance = axios.create({

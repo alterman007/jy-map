@@ -55,14 +55,14 @@ class Path extends Component {
 
   render() {
     const { movePath, alarmDetail } = this.props;
-    // console.log("movePath", movePath)
     if (!movePath) {
       return null;
     }
     if (alarmDetail) {
       this.geojsonStyle.color = '#F52323';
     } else {
-      this.geojsonStyle.color = '#20AAFF';
+      // this.geojsonStyle.color = '#20AAFF';
+      this.geojsonStyle.color = '#27FFDD';
     }
     return (
       <GeoJSON

@@ -35,21 +35,16 @@ class Area extends React.Component {
         className: `marker-with-tip areaIcon`,
         html: `<span class=areaIconName name>${ev.sourceTarget.feature.properties.name}</span>`,
         iconAnchor: [17, 20],
-        iconSize: [44, 48],
+        iconSize: [44, 38],
         popupAnchor: [0, -20],
       });
       L.marker(ev.sourceTarget.feature.properties.center.reverse(), {icon: myIcon}).addTo(this.context);
     })
   }
   render() {
-    const { area, clickAreaPosition, clickAreaName } = this.state;
+    const { clickAreaName } = this.state;
     return (
       <>
-        {/* <Marker
-          position={clickAreaPosition.reverse()}
-          icon={tipTypeIcon("5", clickAreaName)}
-        > 
-        </Marker> */}
         <GeoJSON
           data={shArea}
           style={(f) => {

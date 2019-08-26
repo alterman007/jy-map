@@ -12,7 +12,7 @@ class TimeRangeSearch extends Component {
   };
 
   render() {
-    const { onTimeChange, onSearch, history } = this.props;
+    const { onTimeChange, onSearch, history, selectName } = this.props;
     return (
       <div className="time-range-search-wrapper">
         {
@@ -40,11 +40,12 @@ class TimeRangeSearch extends Component {
           <>
           <button
           className="search-btn"
-          // onClick={onSearch}
+          style={{background: !selectName ? '#20aaff':'rgba(32,170,255,0.5)'}}
           onClick={() => this.props.renderPoliceAll(false)}
         >实时警情</button>
         <button
           className="search-btn"
+              style={{ background: selectName ? '#20aaff' : 'rgba(32,170,255,0.5)'}}
           onClick={() => this.props.renderPoliceAll(true)}
         >分局统计</button>
           </>
