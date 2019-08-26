@@ -57,7 +57,7 @@ class AlarmDetail extends Component {
     const { detail, actions } = this.props;
     const { fromTime, toTime } = this.state;
     actions.fetchForcePath({
-      name: detail.name,
+      humanId: detail.humanId,
       biggintime: fromTime,
       endtime: toTime,
       moveFlag: false,
@@ -67,16 +67,6 @@ class AlarmDetail extends Component {
   onTimeChange(type, undef, date) {
     this.setState({ [type]: date });
   }
-
-  // componentDidMount() {
-  //   this.setDetail();
-  // }
-
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.detailId !== this.props.detailId) {
-  //     this.setDetail();
-  //   }
-  // }
 
   renderAction() {
     const { detail } = this.props;

@@ -59,23 +59,29 @@ const map = handleActions(
       return { ...state, selectedMarkerID: payload };
     },
     [selectForceHistoryItem](state, { payload }) {
+      if (payload) {
+        return { ...state, forceHistoryMarker: payload, center: { lng: payload.lng, lat: payload.lat } };
+      }
       return { ...state, forceHistoryMarker: payload };
     },
     [setMapPath](state, { payload }) {
       return { ...state, movePath: payload ? convertDataToGeojson(payload, 'lineString'): null };
     },
     [toggleForceHistoryVisible](state) {
-      return { ...state, movePath: null, forceHistoryMarker: null, selectedMarkerID: null, alarmMarker: null };
+      return { ...state, movePath: null, forceHistoryMarker: null, showAlarmHistoryDetail: null, selectedMarkerID: null, alarmMarker: null };
     },
     [toggleAlarmHistoryVisible](state) {
-      return { ...state, movePath: null, forceHistoryMarker: null, selectedMarkerID: null, alarmMarker: null };
+      return { ...state, movePath: null, forceHistoryMarker: null, showAlarmHistoryDetail: null, selectedMarkerID: null, alarmMarker: null };
     },
     [setMoveFlag](state, { payload }) {
-      // console.log({ payload });
       return { ...state, moveFlag: payload };
     },
     [selectAlarmItem](state, { payload }) {
-      return { ...state, alarmMarker: payload, forceHistoryMarker: null, selectedMarkerID: null, movePath: null };
+      const newState = { ...state, alarmMarker: payload, forceHistoryMarker: null, selectedMarkerID: null, movePath: null };
+      if (payload) {
+        newState.center = { lng: payload.lng, lat: payload.lat };
+      }
+      return newState;
     },
     [setAlarmHistoryDetail](state, { payload }) {
       return { ...state, showAlarmHistoryDetail: payload }

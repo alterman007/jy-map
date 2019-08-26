@@ -45,16 +45,29 @@ export function getForceDetailById(args) {
 
 // 获取车辆轨迹
 export function getForcePathById(args) {
-  const { name, biggintime, endtime } = args;
-  return instance.post(`/getCarEntity.do?vehicleIdentification=${name}&biggintime=${biggintime ? biggintime : ""}&endtime=${endtime ? endtime: ""}`).then(data => {
-    const path = []
-     data.data.forEach((d) => {
-      if( d.longitude > 119 && d.longitude <122 && d.latitude > 29 && d.latitude < 32) {
-        path.push([d.longitude, d.latitude])
-      }
+  if (args.name) {
+    const { name, biggintime, endtime } = args;
+    return instance.post(`/getCarEntity.do?vehicleIdentification=${name}&biggintime=${biggintime ? biggintime : ""}&endtime=${endtime ? endtime: ""}`).then(data => {
+      const path = []
+       data.data.forEach((d) => {
+        if( d.longitude > 119 && d.longitude <122 && d.latitude > 29 && d.latitude < 32) {
+          path.push([d.longitude, d.latitude])
+        }
+      })
+      return path;
     })
-    return path;
-  })
+  } else {
+    const { humanId, biggintime, endtime } = args;
+    return instance.post(`/getFaceAlarmEntity.do?humanId=${humanId}&biggintime=${biggintime ? biggintime : ""}&endtime=${endtime ? endtime: ""}`).then(data => {
+      const path = []
+       data.data.forEach((d) => {
+        if( d.longitude > 119 && d.longitude <122 && d.latitude > 29 && d.latitude < 32) {
+          path.push([d.longitude, d.latitude])
+        }
+      })
+      return path;
+    })
+  }
 }
 
 // 获取告警详情
