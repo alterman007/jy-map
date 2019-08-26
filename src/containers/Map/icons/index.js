@@ -4,6 +4,7 @@ import peopleImage from './people.png';
 import cameraImage from './camera.png';
 import wifiImage from './wifi.png';
 import moveImage from './move.png';
+import areaImage from './area.png';
 
 import './index.styl';
 
@@ -21,6 +22,13 @@ export const peopleIcon = new L.Icon({
   popupAnchor: [0, -20],
 });
 
+export const areaIcon = new L.Icon({
+  iconUrl: areaImage,
+  iconAnchor: [17, 20],
+  iconSize: [34, 40],
+  popupAnchor: [0, -20],
+})
+
 export const moveIcon = new L.Icon({
   iconUrl: moveImage,
   iconAnchor: [17, 51],
@@ -35,6 +43,7 @@ const mapTypeToName = {
   2: 'people',
   3: 'camera',
   4: 'wifi',
+  5: 'areaIcon'
 }
 const tipMarkerConfig = {
   car: {
@@ -61,13 +70,19 @@ const tipMarkerConfig = {
     iconSize: [30, 32],
     popupAnchor: [0, -16],
   },
+  areaIcon: {
+    iconUrl: areaImage,
+    iconAnchor: [17, 20],
+    iconSize: [44, 40],
+    popupAnchor: [0, -20],
+  }
 };
 
 export function tipTypeIcon(type, name) {
   const typeName = mapTypeToName[type];
   return new L.DivIcon(Object.assign({}, tipMarkerConfig[typeName], {
     className: `marker-with-tip ${typeName}`,
-    html: `<span class="name">${name}</span>`,
+    html: `<span class=${type === '5' ? 'areaIconName name' : 'name'}>${name}</span>`,
   }));
 }
 

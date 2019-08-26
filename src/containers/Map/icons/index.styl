@@ -21,6 +21,29 @@
       background: #20AAFF;
     }
   }
+
+  .areaIconName {
+     position absolute;
+    color: #fff;
+    left: 50%;
+    bottom: 100%;
+    transform: translate(-50%, -15px);
+    background: red;
+    padding: 2px 8px;
+    word-break: keep-all;
+    font-size: 18px;
+    &::before {
+      content: ' ';
+      width: 10px;
+      height: 10px;
+      position absolute;
+      top: 100%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      z-index -1;
+      background: red;
+    }
+  }
   &.car {
     background: url('./car.png');
   }
@@ -35,6 +58,10 @@
   }
   &.monitor {
     background: url('./m3.png');
+    background-size: 48px 38px;
+  }
+  &.areaIcon {
+    background: url('./area.png');
     background-size: 48px 38px;
   }
 }

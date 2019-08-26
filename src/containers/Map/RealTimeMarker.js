@@ -24,7 +24,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 class RealTimeMarkers extends Component {
   handleCarClick(marker) {
-    console.log('handleCarClick', marker);
     const { actions } = this.props;
     actions.selectRealTimeMarker(marker);
   }
