@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { getMonitorList, monitorPlay } from '../../request/api';
-import { Marker, Tooltip } from 'react-leaflet';
+// import { Marker, Tooltip } from 'react-leaflet';
 import { tipMonitorIcon } from './icons';
+import MarkerCluster from './MarkerCluster';
 
 class MonitorMarkers extends Component {
   monitorEle = React.createRef()
@@ -26,23 +27,14 @@ class MonitorMarkers extends Component {
   }
   render() {
     const { monitorList } = this.state;
+    console.log(monitorList);
     return (
       <Fragment>
-        {
-          monitorList.map((m, index) => (
-            <Marker
-            key={index}
-            // position={[m.latitude, m.longitude]}
-            position={[m.lat, m.lng]}
-            icon={tipMonitorIcon(m.name)}
-            onClick={this.handleClick.bind(this,m)}
-            >
-              <Tooltip className="destination-tooltip" direction="right">
-                {m.name}
-              </Tooltip>
-            </Marker>
-          ))
-        }
+        <MarkerCluster
+          markers={monitorList}
+          wrapperOptions={{enableDefaultStyle: true}}
+          markerOptions={{icon: tipMonitorIcon('Default title'), title: 'Default title'}}
+        />
         <iframe width="0" height="0" title="iframe" id="exe" ref={this.monitorEle}></iframe>
       </Fragment>
     );
