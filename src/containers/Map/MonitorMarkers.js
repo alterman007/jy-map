@@ -34,6 +34,7 @@ class MonitorMarkers extends Component {
           markers={monitorList}
           wrapperOptions={{enableDefaultStyle: true}}
           markerOptions={{icon: tipMonitorIcon('Default title'), title: 'Default title'}}
+          options={{ maxClusterRadius: 80 }}
         />
         <iframe width="0" height="0" title="iframe" id="exe" ref={this.monitorEle}></iframe>
       </Fragment>

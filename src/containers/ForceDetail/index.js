@@ -64,10 +64,14 @@ class ForceDetail extends Component {
   }
 
   onSearchPath(moveFlag) {
-    console.log("查询/播放")
+    // console.log("查询/播放");
+    // if (Math.random() > 0.9) {
+    //   console.log('throw err');
+    //   throw new Error('err');
+    // }
     const { actions } = this.props;
     const { fromTime, toTime } = this.state;
-    actions.fetchForcePath({ name: this.props.detail.name, biggintime: fromTime, endtime: toTime, moveFlag});
+    actions.fetchForcePath({ name: this.props.detail.name, biggintime: fromTime, endtime: toTime, moveFlag });
   }
 
   onPlay = () => {
