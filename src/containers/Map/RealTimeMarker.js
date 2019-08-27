@@ -13,6 +13,7 @@ const mapStateToProps = (state) => ({
   markers: state.map.realTimeMarkers,
   alarmMarker: state.map.alarmMarker,
   forceHistoryMarker: state.map.forceHistoryMarker,
+  movePath: state.map.movePath,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -104,7 +105,10 @@ class RealTimeMarkers extends Component {
   }
 
   render() {
-    const { markers, alarmMarker, forceHistoryMarker } = this.props;
+    const { markers, alarmMarker, forceHistoryMarker, movePath } = this.props;
+    if (movePath) {
+      return null;
+    }
     // console.log(markers, forceHistoryMarker);
     if (forceHistoryMarker && typeof forceHistoryMarker === 'object') {
       return this.renderSelectedMarker(forceHistoryMarker);

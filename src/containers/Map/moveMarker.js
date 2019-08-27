@@ -12,7 +12,7 @@ class MoveMarker {
   constructor(map, path, option = defaultOption) {
     this.map = map;
     this.path = path;
-    this.option = Object.assign(defaultOption, option);
+    this.option = Object.assign({}, defaultOption, option);
     this.init();
   }
 
