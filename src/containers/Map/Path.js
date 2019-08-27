@@ -3,12 +3,15 @@ import { connect } from 'react-redux';
 import { GeoJSON } from 'react-leaflet';
 import * as turf from '@turf/turf';
 import { MapContext } from './context';
+import { tipTypeIcon } from './icons';
 import MoveMarker from './moveMarker';
 
 const mapStateToProps = (state) => ({
   movePath: state.map.movePath,
   moveFlag: state.map.moveFlag,
   alarmDetail: state.map.showAlarmHistoryDetail,
+  markerId: state.map.selectedMarkerID,
+  markers: state.map.realTimeMarkers,
 });
 
 class Path extends Component {
@@ -28,7 +31,13 @@ class Path extends Component {
   }
 
   moveMarkerAlongPath() {
-    this.moveMarker = new MoveMarker(this.context, this.props.movePath);
+    const { markerId, markers } = this.props;
+    const forceItem = typeof markerId === 'object' ? markerId : markers.find((marker) => marker.id === markerId);
+    let icon;
+    if (forceItem) {
+      icon = tipTypeIcon(1, forceItem.name);
+    }
+    this.moveMarker = new MoveMarker(this.context, this.props.movePath, { icon });
   }
 
   destroyMoveMarker() {
