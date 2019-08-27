@@ -8,6 +8,9 @@ import {
   setAlarmHistoryDetail,
 } from '../../actions/map';
 import { tipTypeIcon } from './icons';
+import MarkerCluster from './MarkerCluster';
+import { MapContext } from './context';
+import L from 'leaflet';
 
 const mapStateToProps = (state) => ({
   markers: state.map.realTimeMarkers,
@@ -24,6 +27,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 class RealTimeMarkers extends Component {
+  static contextType = MapContext
   handleCarClick(marker) {
     const { actions } = this.props;
     actions.selectRealTimeMarker(marker);
@@ -102,6 +106,51 @@ class RealTimeMarkers extends Component {
       />
     );
   }
+  handleClick(opt) {
+    if (opt.options.type === 1) return this.handleCarClick(opt.options.id);
+    if (opt.options.type === 3) {
+      const marker = opt.options.info
+      L.popup({
+        className: 'camera-marker-popup',
+        closeButton: false
+      })
+        .setLatLng([marker.lat, marker.lng])
+        .setContent(`
+        <div class="camera-info corner-border">
+          <div class="name">${marker.name}</div>
+          <div class="desc">接警单编号:${marker.id || ''}</div>
+          <div class="desc">姓名:${marker.policeman || ''}</div>
+          <div class="desc">证件号码:${marker.zjhm || ''}</div>
+          <div class="desc">警员编号/车牌号:${marker.busnum1 || ''}</div>
+          <div class="desc">警种名称:${marker.jcmc || ''}</div>
+          <div class="desc">单位名称:${marker.dwmc || ''}</div>
+          <div class="desc">电话号码:${marker.dhhm || ''}</div>
+          <div class="desc">纬度: ${marker.lat}</div>
+          <div class="desc">经度: ${marker.lng}</div>
+        </div>
+      `)
+        .openOn(this.context);
+    }
+  }
+  renderAllMarkers(markerList) {
+    markerList.map(marker => {
+      marker.options = {
+        icon: tipTypeIcon(marker.type, marker.name),
+        type: marker.type,
+        id: marker.id,
+        info: marker
+      }
+    })
+    return (
+      <MarkerCluster
+        markers={markerList}
+        wrapperOptions={{enableDefaultStyle: true}}
+        // markerOptions={{icon: tipTypeIcon(marker.type, marker.name), title: 'Default title'}}
+        options={{ maxClusterRadius: 80 }}
+        onMarkerClick={this.handleClick.bind(this)}
+      />
+    )
+  }
 
   render() {
     const { markers, alarmMarker, forceHistoryMarker, movePath } = this.props;
@@ -117,20 +166,21 @@ class RealTimeMarkers extends Component {
     return (
       <Fragment>
         {
-          markers.map((marker, index) => {
-            switch (marker.type) {
-              case 1: // car
-                return this.renderCarMarker(marker, index);
-              case 2: // people
-                return this.renderPeopleMarker(marker, index);
-              // case 3: // wifi
-              //   return this.renderWifiMarker(marker, index);
-              case 3: // camera
-                return this.renderCameraMarker(marker, index);
-              default:
-                return <div key={index}>unknown</div>
-            }
-          })
+          this.renderAllMarkers(markers)
+          // markers.map((marker, index) => {
+          //   switch (marker.type) {
+          //     case 1: // car
+          //       return this.renderCarMarker(marker, index);
+          //     case 2: // people
+          //       return this.renderPeopleMarker(marker, index);
+          //     // case 3: // wifi
+          //     //   return this.renderWifiMarker(marker, index);
+          //     case 3: // camera
+          //       return this.renderCameraMarker(marker, index);
+          //     default:
+          //       return <div key={index}>unknown</div>
+          //   }
+          // })
         }
       </Fragment>
     );

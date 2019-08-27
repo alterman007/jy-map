@@ -9,59 +9,67 @@ class PieChart extends React.Component {
   }
   createPieChart() {
     var mychart = echarts.init(this.pieChart.current);
-    mychart.setOption({title : {
-      // text: '今日警情统计',
-      subtext: `${moment().format('YYYY MM DD')}`,
-      x: 'center',
-      textStyle: {
-        color: 'white'
+    mychart.setOption({
+      title: {
+        // text: '今日警情统计',
+        // subtext: `${moment().format('YYYY MM DD')}`,
+        x: 'center',
+        textStyle: {
+          color: 'white'
+        },
+        subtextStyle: {
+          color: 'white'
+        },
+        y: 'center'
       },
-      subtextStyle: {
-        color: 'white'
+      tooltip: {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
       },
-      y: 'center'
-  },
-  tooltip : {
-      trigger: 'item',
-      formatter: "{a} <br/>{b} : {c} ({d}%)"
-  },
-  // legend: {
-  //     // orient: 'vertical',
-  //     // top:'bottom',
-  //   // left: 'left',
-  //   // right: '20px',
-  //   // textStyle: {
-  //   //     color: 'white'
-  //   //   },
-  //   // data: this.props.data.map(e => {
-  //   //   console.log(e)
-  //   //     return e.dwmc
-  //   // })
-  // },
+      // legend: {
+      //     // orient: 'vertical',
+      //     // top:'bottom',
+      //   // left: 'left',
+      //   // right: '20px',
+      //   // textStyle: {
+      //   //     color: 'white'
+      //   //   },
+      //   // data: this.props.data.map(e => {
+      //   //   console.log(e)
+      //   //     return e.dwmc
+      //   // })
+      // },
+      label: {
+        fontSize: 20
+    },
   series : [
-      {
-          name: '分局警情统计',
-          type: 'pie',
-          radius: ['29%', '59%'],
-          center: ['50%', '40%'],
-          label:{
-              show:true,
-              formatter:'{b}: {d}%',
-            // formatter: (fj) => {
-            //   return `${fj.data.name}: ${fj.data.value}起`
-            // }
-          },
-      data: this.props.data.map(e => {
-        return {value: e['count(*)'], name: e.dwmc}
-      }),
-          itemStyle: {
-              emphasis: {
-                  shadowBlur: 10,
-                  shadowOffsetX: 0,
-              shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
+    {
+        name: '分局警情统计',
+        type: 'pie',
+        radius: ['29%', '59%'],
+        center: ['50%', '50%'],
+        label:{
+            show:true,
+            formatter:'{b}: {d}%',
+          // formatter: (fj) => {
+          //   return `${fj.data.name}: ${fj.data.value}起`
+          // }
+        },
+    data: this.props.data.map(e => {
+      return {value: e['count(*)'], name: e.dwmc}
+    }),
+    itemStyle: {
+      normal: {
+        fontSize:20
+      },
+      emphasis: {
+        shadowBlur: 10,
+        shadowOffsetX: 0,
+        shadowColor: 'rgba(0, 0, 0, 0.5)',
+        fontSize: 20
       }
-      }
+    }
+    }
   ]})
   }
 

@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { GeoJSON } from 'react-leaflet';
+import { Marker, GeoJSON } from 'react-leaflet';
 import * as turf from '@turf/turf';
 import { MapContext } from './context';
 import { tipTypeIcon } from './icons';
 import MoveMarker from './moveMarker';
+import { moveIcon } from './icons';
 
 const mapStateToProps = (state) => ({
   movePath: state.map.movePath,
@@ -62,6 +63,18 @@ class Path extends Component {
     this.destroyMoveMarker();
   }
 
+  renderEndPoint() {
+    const coords = turf.getCoords(this.props.movePath);
+    const startPoint = coords[0].concat().reverse();
+    const endPoint = coords[coords.length - 1].concat().reverse();
+    return (
+      <Fragment>
+        <Marker position={startPoint} icon={moveIcon} />
+        <Marker position={endPoint} icon={moveIcon} />
+      </Fragment>
+    )
+  }
+
   render() {
     const { movePath, alarmDetail } = this.props;
     if (!movePath) {
@@ -74,10 +87,13 @@ class Path extends Component {
       this.geojsonStyle.color = '#27FFDD';
     }
     return (
-      <GeoJSON
-        data={turf.featureCollection([movePath])}
-        style={this.geojsonStyle}
-      />
+      <Fragment>
+        <GeoJSON
+          data={turf.featureCollection([movePath])}
+          style={this.geojsonStyle}
+        />
+        {this.renderEndPoint()}
+      </Fragment>
     );
   }
 }

@@ -46,7 +46,7 @@ class TodayStatisics extends React.PureComponent {
           name: '今日告警',
           data: [Math.round(alarm/all*100)],
           stack: 'income',
-          barWidth: 20,
+          barWidth: 30,
           label: {
               normal: {
                 show: true,
@@ -56,7 +56,7 @@ class TodayStatisics extends React.PureComponent {
                   return '今日告警' + alarm
                 },
               color: 'white',
-                fontSize: 16
+                fontSize: 20
               }
           },
           itemStyle: {
@@ -70,7 +70,7 @@ class TodayStatisics extends React.PureComponent {
           name: '今日警情',
           data: [Math.round(info/all*100)],
           stack: 'income',
-          barWidth: 20,
+          barWidth: 30,
           label: {
               normal: {
                 show: true,
@@ -81,7 +81,7 @@ class TodayStatisics extends React.PureComponent {
                   return '今日警情' + info
                 },
               color: 'white',
-              fontSize: 16
+              fontSize: 20
               }
           },
           itemStyle: {
