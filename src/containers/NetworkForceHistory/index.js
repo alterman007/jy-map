@@ -16,6 +16,7 @@ import {
 import demoImg from './demo.png';
 
 import './index.styl';
+import { message } from 'antd';
 
 const mapStateToProps = (state) => ({
   forceHistoryVisible: state.forceHistory.visible,
@@ -79,6 +80,9 @@ class NetworkForceHistory extends Component {
       selectId: item.id
     })
     const { actions } = this.props;
+    if (!item.lat && !item.lng) {
+      return message.error("暂无定位信息")
+    }
     // actions.setForceHistoryListIsSelected(forceHistoryList)
     actions.selectForceHistoryItem(item);
     actions.selectRealTimeMarker(null);
@@ -91,6 +95,7 @@ class NetworkForceHistory extends Component {
       <ul className="force-list corner-border">
         {
           forceHistoryList.map((item, index) => {
+            console.log(forceHistoryList)
             return (
             <li key={item.name + index} ref="li" onClick={() => this.onSelectItem(item)} className={`${item.id === selectId ? 'active force-item' : 'force-item'} `}>
               <img src={demoImg} alt="" />

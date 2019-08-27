@@ -45,6 +45,7 @@ class MonitorMarkers extends Component {
   render() {
     const { monitorList } = this.state;
     const { movePath } = this.props;
+    console.log('monitorList',monitorList)
     if (movePath) {
       return null;
     }

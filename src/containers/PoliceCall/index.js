@@ -16,6 +16,7 @@ class PoliceCall extends Component {
     type: false,
     statistical:[]
   };
+  timer = null;
   pieChart = React.createRef()
   constructor() {
     super()
@@ -31,10 +32,11 @@ class PoliceCall extends Component {
     this.setState({
       hideList: !this.state.hideList,
     });
-    setInterval(() => {
+    clearInterval(this.timer)
+    this.timer = setInterval(() => {
       this.fetchStatistical()
       this.fetchList()
-    }, 5000)
+    }, 10000)
   }
   async fetchList() {
     const { data } = await getPoliceCall();
@@ -84,7 +86,7 @@ class PoliceCall extends Component {
     }
     const { list } = this.state;
     return (
-      <div className="police-call-list corner-border">
+      <div className="police-border police-call-list">
           {
             list.map((item, index) => (
               <div className="police-call-item" key={item.dwdZjid + index}>

@@ -25,7 +25,6 @@ function* watchFetchForcePath() {
   yield takeLatest(fetchForcePath.startAction, function* (action) {
     yield put(setMoveFlag(action.payload.moveFlag));
     const res = yield call(getForcePathById, action.payload);
-    console.log("警力",res);
     if (!res || res.length < 2) {
       return;
     }
