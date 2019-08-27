@@ -8,6 +8,7 @@ import {
   toggleForceHistoryVisible,
   fetchForceHistory,
   selectForceHistoryItem,
+  setForceHistoryListIsSelected
 } from '../../actions/forceHistory';
 import {
   selectRealTimeMarker,
@@ -26,12 +27,14 @@ const mapDispatchProps = (dispatch) => ({
     fetchForceHistory: fetchForceHistory.startAction,
     selectForceHistoryItem,
     selectRealTimeMarker,
+    setForceHistoryListIsSelected
   }, dispatch),
 });
 
 class NetworkForceHistory extends Component {
   state = {
     timeRange: {},
+    selectId: null,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -64,19 +67,34 @@ class NetworkForceHistory extends Component {
   }
 
   onSelectItem = (item) => {
+    // const forceHistoryList = [...this.props.forceHistoryList];
+    // forceHistoryList.map(force => {
+    //   if (force.id === item.id) {
+    //     force.isSelect = true
+    //   } else {
+    //     force.isSelect = false
+    //   }
+    // })
+    this.setState({
+      selectId: item.id
+    })
     const { actions } = this.props;
+    // actions.setForceHistoryListIsSelected(forceHistoryList)
     actions.selectForceHistoryItem(item);
     actions.selectRealTimeMarker(null);
   }
 
   renderForceList() {
     const { forceHistoryList } = this.props;
+    const { selectId } = this.state;
     return (
       <ul className="force-list corner-border">
         {
-          forceHistoryList.map((item, index) => (
-            <li key={item.name + index} onClick={() => this.onSelectItem(item)} className="force-item">
-              <img src={demoImg} alt=""/>
+          forceHistoryList.map((item, index) => {
+            console.log(item.id, selectId)
+            return (
+            <li key={item.name + index} ref="li" onClick={() => this.onSelectItem(item)} className={`${item.id === selectId ? 'active force-item' : 'force-item'} `}>
+              <img src={demoImg} alt="" />
               <div className="force-desc">
                 <span className="name">
                   {item.name}
@@ -92,7 +110,8 @@ class NetworkForceHistory extends Component {
                 </span>
               </div>
             </li>
-          ))
+           )
+          })
         }
       </ul>
     );

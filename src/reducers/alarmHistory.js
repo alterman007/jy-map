@@ -3,6 +3,7 @@ import {
   toggleAlarmHistoryVisible,
   setAlarmHistoryList,
   selectAlarmItem,
+  setAlarmHistoryListIsSelected
 } from '../actions/alarmHistory';
 
 const defaultState = {
@@ -23,6 +24,9 @@ const alarmHistory = handleActions(
     [selectAlarmItem](state, { payload }) {
       return { ...state, detailId: payload };
     },
+    [setAlarmHistoryListIsSelected](state, { payload }) {
+      return { ...state, list: payload}
+    }
   },
   defaultState,
 );

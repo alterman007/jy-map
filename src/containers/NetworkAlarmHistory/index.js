@@ -8,6 +8,7 @@ import {
   toggleAlarmHistoryVisible,
   fetchAlarmHistory,
   selectAlarmItem,
+  setAlarmHistoryListIsSelected
 } from '../../actions/alarmHistory';
 
 import './index.styl';
@@ -21,6 +22,7 @@ const mapDispatchProps = (dispatch) => ({
     toggleAlarmHistoryVisible,
     fetchAlarmHistory: fetchAlarmHistory.startAction,
     selectAlarmItem,
+    setAlarmHistoryListIsSelected
   }, dispatch),
 });
 
@@ -28,6 +30,7 @@ class NetworkAlarmHistory extends Component {
   state = {
     tabActive: 'face', // face car
     timeRange: [],
+    selectedId: null
   }
   componentDidUpdate(pp) {
     if (this.props.alarmHistoryVisible && !pp.alarmHistoryVisible) {
@@ -41,6 +44,7 @@ class NetworkAlarmHistory extends Component {
   }
 
   switchTab = ({ target }) => {
+    console.log(target.dataset)
     if (target.dataset.type) {
       this.setState({ tabActive: target.dataset.type }, () => {
         this.onSearch();
@@ -49,9 +53,17 @@ class NetworkAlarmHistory extends Component {
   }
 
   onSelectItem = (item) => {
+    // const alarmHistoryList = [...this.props.alarmHistoryList]
+    // alarmHistoryList.map(alarm => {
+    //   alarm.id === item.id ? alarm.isSelected = true : alarm.isSelected = false
+    // })
+    this.setState({
+      selectedId: item.id
+    })
     const { actions } = this.props;
     item.type = this.state.tabActive;
     actions.selectAlarmItem(item);
+    // actions.setAlarmHistoryListIsSelected(alarmHistoryList)
   }
 
   onTimeChange = (dates) => {
@@ -84,14 +96,14 @@ class NetworkAlarmHistory extends Component {
 
   renderAlarmList() {
     const { alarmHistoryList } = this.props;
-    const { tabActive } = this.state;
+    const { tabActive, selectedId} = this.state;
     const isFace = tabActive === 'face';
     return (
       <ul className="alarm-list corner-border">
         {
           alarmHistoryList.map((item) => {
             return (
-            <li key={isFace ? item.alarmId : item.vehicleid} onClick={() => this.onSelectItem(item)} className="alarm-item">
+              <li key={item.id} onClick={() => this.onSelectItem(item)} className={`${item.id == selectedId ? 'isSelected alarm-item' : 'alarm-item'}`}>
               <img src={isFace ? item.facePicUrl : item.picVehicle } alt=""/>
               <div className="alarm-desc">
                 <span className="name">

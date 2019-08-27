@@ -2,6 +2,7 @@ import { handleActions } from 'redux-actions';
 import {
   toggleForceHistoryVisible,
   setForceHistoryList,
+  setForceHistoryListIsSelected
 } from '../actions/forceHistory';
 
 const defaultState = {
@@ -19,6 +20,10 @@ const forceHistory = handleActions(
     [setForceHistoryList](state, { payload }) {
       return Array.isArray(payload) ? { ...state, list: payload } : state;
     },
+    [setForceHistoryListIsSelected](state, { payload }) {
+      console.log(payload)
+      return { ...state, list: payload }
+    }
   },
   defaultState,
 );
