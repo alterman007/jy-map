@@ -16,11 +16,7 @@ export function* watchSocket() {
     // console.log(data.type)
     switch (data.type) {
       case 'mapposition':
-        console.log("data", data)
         const res = markerTransformer(data.data)
-        console.log("mapposition", res.filter((d) => {
-          return d.type !== 3
-        }))
         yield put(setRealTimeMarkers(res));
         break;
       default:

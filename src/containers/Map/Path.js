@@ -37,7 +37,7 @@ class Path extends Component {
     if (forceItem) {
       icon = tipTypeIcon(1, forceItem.name);
     }
-    this.moveMarker = new MoveMarker(this.context, this.props.movePath, { icon });
+    this.moveMarker = new MoveMarker(this.context, this.props.movePath, { icon, duration: 60000 });
   }
 
   destroyMoveMarker() {

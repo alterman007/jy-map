@@ -39,36 +39,43 @@ class MapOperation extends Component {
     console.log(ev);
   }
 
-  onZoomEnd(opt) {
-    const { actions } = this.props
-    if (opt.sourceTarget._animateToZoom === opt.sourceTarget.options.maxZoom && isUpdateZoom) {
-      actions.setMapZoom(opt.sourceTarget._animateToZoom)
-      isUpdateZoom = false
-    } else if (opt.sourceTarget._animateToZoom <= opt.sourceTarget.options.maxZoom && !isUpdateZoom) {
-      actions.setMapZoom(opt.sourceTarget._animateToZoom)
-      isUpdateZoom = true
-    }
-  }
+  // onZoomEnd(opt) {
+  //   const { actions } = this.props
+  //   if (opt.sourceTarget._animateToZoom === opt.sourceTarget.options.maxZoom && isUpdateZoom) {
+  //     actions.setMapZoom(opt.sourceTarget._animateToZoom)
+  //     isUpdateZoom = false
+  //   } else if (opt.sourceTarget._animateToZoom <= opt.sourceTarget.options.maxZoom && !isUpdateZoom) {
+  //     actions.setMapZoom(opt.sourceTarget._animateToZoom)
+  //     isUpdateZoom = true
+  //   }
+  // }
 
   componentDidMount() {
     this.setState({
       leafletMap: this.mapEle.current.leafletElement,
     });
   }
-  renderTileLayer() {
-    return (<Fragment>
-      <TileLayer url="//map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}" />
-    </Fragment>);
-  }
   // renderTileLayer() {
-  //   return (
-  //   <Fragment>
-  //       <TileLayer url="http://15.75.0.255:25003/v3/tile?z={z}&y={y}&x={x}" />
-  //       <TileLayer url="http://15.75.0.255:25033/v3/tile?z={z}&y={y}&x={x}" />
-  //       <TileLayer url="http://15.75.0.255:25777/v3/tile?z={z}&y={y}&x={x}" />
-  //   </Fragment>
-  //   )
+  //   return (<Fragment>
+  //     <TileLayer url="//map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}" />
+  //   </Fragment>);
   // }
+  renderTileLayer() {
+    if (process.env.NODE_ENV === 'development') {
+      return (
+        <Fragment>
+          <TileLayer url="//map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}" />
+        </Fragment>
+      );
+    }
+    return (
+    <Fragment>
+        <TileLayer url="http://15.75.0.255:25003/v3/tile?z={z}&y={y}&x={x}" />
+        <TileLayer url="http://15.75.0.255:25033/v3/tile?z={z}&y={y}&x={x}" />
+        <TileLayer url="http://15.75.0.255:25777/v3/tile?z={z}&y={y}&x={x}" />
+    </Fragment>
+    )
+  }
 
   render() {
     const { center } = this.props;
@@ -84,15 +91,15 @@ class MapOperation extends Component {
           zoomControl={false}
           ref={this.mapEle}
           maxZoom={16}
-          onZoomEnd={this.onZoomEnd.bind(this)}
+          // onZoomEnd={this.onZoomEnd.bind(this)} //监听地图缩放级别
         >
           {this.renderTileLayer()}
           {/* <CarMarkers /> */}
           {/* <PeopleMarkers /> */}
+          <Area />
           <MonitorMarkers />
           <RealTimeMarker />
           <Path />
-          <Area />
         </Map>
       </MapContext.Provider>
     );

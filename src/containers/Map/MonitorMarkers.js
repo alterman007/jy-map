@@ -8,7 +8,8 @@ import MarkerCluster from './MarkerCluster';
 
 const mapStateToProps = (state) => {
   return {
-    mapzoom: state.map.mapzoom
+    // mapzoom: state.map.mapzoom,
+    movePath: state.map.movePath
   }
 }
 
@@ -43,17 +44,22 @@ class MonitorMarkers extends Component {
   }
   render() {
     const { monitorList } = this.state;
+    const { movePath } = this.props;
+    if (movePath) {
+      return null;
+    }
     return (
       <Fragment>
         {
-          this.props.mapzoom === this.context.options.maxZoom ? monitorList.map((marker, index) => {
-            return <Marker
-            key={marker.name + index}
-            position={[marker.lat, marker.lng]}
-            onClick={this.handleClick.bind(this, marker.id)}
-            icon={tipMonitorIcon()}
-          />
-          }) : <MarkerCluster
+          // this.props.mapzoom === this.context.options.maxZoom ? monitorList.map((marker, index) => {
+          //   return <Marker
+          //   key={marker.name + index}
+          //   position={[marker.lat, marker.lng]}
+          //   onClick={this.handleClick.bind(this, marker.id)}
+          //   icon={tipMonitorIcon()}
+          // />
+          // }) :
+          <MarkerCluster
           markers={monitorList}
           wrapperOptions={{enableDefaultStyle: true}}
           markerOptions={{icon: tipMonitorIcon('Default title'), title: 'Default title'}}

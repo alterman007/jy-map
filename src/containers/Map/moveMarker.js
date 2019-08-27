@@ -4,7 +4,7 @@ import { moveIcon } from './icons';
 
 const defaultOption = {
   icon: moveIcon,
-  duration: 30000,
+  duration: 60000,
   repeat: true,
 };
 
