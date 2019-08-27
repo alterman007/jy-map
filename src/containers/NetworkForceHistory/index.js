@@ -91,7 +91,6 @@ class NetworkForceHistory extends Component {
       <ul className="force-list corner-border">
         {
           forceHistoryList.map((item, index) => {
-            console.log(item.id, selectId)
             return (
             <li key={item.name + index} ref="li" onClick={() => this.onSelectItem(item)} className={`${item.id === selectId ? 'active force-item' : 'force-item'} `}>
               <img src={demoImg} alt="" />

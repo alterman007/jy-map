@@ -6,6 +6,7 @@ import icon from './icon2.png';
 
 import './index.styl';
 import PieChart from '../../components/PieChart';
+import TodayStatisics from '../../components/TodayStatistics';
 
 class PoliceCall extends Component {
   state = {
@@ -75,22 +76,9 @@ class PoliceCall extends Component {
         total += s["count(*)"]
       });
       return (
-        <div className="police-call-list corner-border">
+        <div className="police-statistical corner-border">
+          <TodayStatisics data={statistical}/>
           <PieChart data={statistical}/>
-          {/* <ul className="police-station-statistical">
-            <li>全市警情数量: {total}</li>
-           {
-             statistical.map((p,index) => {
-               return (
-                 <li key={index}>
-                   <p>分局:{p.dwmc}</p>
-                   <p>机构代码:{p.fkdw}</p>
-                   <p>报警数量:{p["count(*)"]}</p>
-                 </li>
-               )
-             })
-           }
-          </ul> */}
         </div>
       )
     }
