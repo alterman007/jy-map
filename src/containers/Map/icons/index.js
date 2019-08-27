@@ -73,7 +73,7 @@ export function tipTypeIcon(type, name) {
 
 export function tipCarIcon(desc) {
   return new L.DivIcon({
-    className: 'marker-with-tip',
+    className: 'marker-with-tip car',
     html: `<span class="name">${desc}</span>`,
     iconAnchor: [24, 19],
     iconSize: [48, 38],
@@ -92,7 +92,7 @@ export const tipMonitorIcon = (desc) => {
     tooltipAnchor: [24, 0],
     // iconUrl: cameraImage,
   });
-} 
+}
 
 // export const suitcasePoint = new L.Icon({
 //   iconUrl: 'marker-icon.png',
