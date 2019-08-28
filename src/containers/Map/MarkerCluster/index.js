@@ -4,10 +4,10 @@ import { LayerGroup } from 'react-leaflet';
 
 import './index.styl';
 
-let prevMarkerClusterGroup;
+// let this.prevMarkerClusterGroup;
 
 export default class MarkerClusterGroup extends LayerGroup {
-
+  prevMarkerClusterGroup;
   componentDidMount() {
     if (this.props.markers && this.props.markers.length) {
       this.addMarkerClusterGroupToMap(this.props.markers);
@@ -26,8 +26,8 @@ export default class MarkerClusterGroup extends LayerGroup {
     const nextProps = this.props;
     if (nextProps.markers && nextProps.markers.length) {
       // Remove layer only if MarkerClusterGroup was previously rendered
-      prevMarkerClusterGroup && this.layerContainer.removeLayer(
-        prevMarkerClusterGroup
+      this.prevMarkerClusterGroup && this.layerContainer.removeLayer(
+        this.prevMarkerClusterGroup
       );
       this.addMarkerClusterGroupToMap(nextProps.markers);
     }
@@ -78,7 +78,7 @@ export default class MarkerClusterGroup extends LayerGroup {
     markerClusterGroup.addLayers(leafletMarkers);
     this.layerContainer.addLayer(markerClusterGroup);
 
-    prevMarkerClusterGroup = markerClusterGroup;
+    this.prevMarkerClusterGroup = markerClusterGroup;
 
     // Init listeners for layerContainer even when component receiving new props
     // because we have removed the previous layer from layerContainer
