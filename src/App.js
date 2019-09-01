@@ -1,5 +1,6 @@
 import React from 'react';
 import Map from './containers/Map';
+import Switcher from './containers/Switcher';
 import Header from './components/Header';
 import RealTimeAlarm from './containers/RealTimeAlarm';
 import PoliceCall from './containers/PoliceCall';
@@ -17,6 +18,7 @@ function App() {
       <Map />
       <div className="content">
         <Header />
+        <Switcher />
         <RealTimeAlarm />
         <PoliceCall />
         <NetworkForceHistory />
