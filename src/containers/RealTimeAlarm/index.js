@@ -26,7 +26,10 @@ class RealTimeAlarm extends Component {
     this.setState({
       hideList: !this.state.hideList,
     });
-    this.fetchList();
+    clearInterval(this.timer);
+    this.timer = setInterval(() => {
+      this.fetchList();
+    }, 5000);
   }
 
   onSelectItem = () => {
@@ -35,9 +38,7 @@ class RealTimeAlarm extends Component {
   }
 
   componentDidMount() {
-    this.timer = setInterval(() => {
-      this.fetchList();
-    }, 10000);
+    this.fetchList();
   }
 
   componentWillUnmount() {
@@ -53,6 +54,7 @@ class RealTimeAlarm extends Component {
 
   renderIcon() {
     return <img onClick={this.toggleAlarmVisible} className="alarm-icon" src={alarmIcon} alt="警告" />;
+    // return <span className="alarm-icon"></span>
   }
 
   renderContent() {
@@ -66,13 +68,13 @@ class RealTimeAlarm extends Component {
           />
           <ul className="alarm-item-list corner-border">
             {
-              alarmList.map((item) => (
-                <AlarmItem
+              alarmList.map((item) => {
+               return <AlarmItem
                   onClick={this.onSelectItem.bind(this, item)}
-                  key={item.alarmId || item.vehicleid}
+                  key={item.alarmId || item.id}
                   {...item}
                 />
-              ))
+              })
             }
           </ul>
         </Fragment>

@@ -6,6 +6,13 @@ export function convertDataToGeojson(data, type) {
   return turf[type](decodeData);
 }
 
+export function transformPolygon(pscbj) {
+  return pscbj.map(pcs => {
+    return turf.polygon([pcs.list], {
+      name: pcs.dm
+    })
+  })
+}
 
 export function getKey(data, path) {
   if(!path) {

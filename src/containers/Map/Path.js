@@ -5,7 +5,8 @@ import * as turf from '@turf/turf';
 import { MapContext } from './context';
 import { tipTypeIcon } from './icons';
 import MoveMarker from './moveMarker';
-import { moveIcon } from './icons';
+import { startIcon, endIcon } from './icons';
+import { getuuid } from '../../utils/func';
 
 const mapStateToProps = (state) => ({
   movePath: state.map.movePath,
@@ -38,7 +39,7 @@ class Path extends Component {
     if (forceItem) {
       icon = tipTypeIcon(1, forceItem.name);
     }
-    this.moveMarker = new MoveMarker(this.context, this.props.movePath, { icon, duration: 60000 });
+    this.moveMarker = new MoveMarker(this.context, this.props.movePath, { icon, duration: 100000 });
   }
 
   destroyMoveMarker() {
@@ -47,12 +48,15 @@ class Path extends Component {
     }
   }
 
-  componentDidUpdate() {
-    this.destroyMoveMarker();
+  componentDidUpdate(prevProps) {
+    // this.destroyMoveMarker();
     const { movePath, moveFlag } = this.props;
     if (!movePath) {
+      this.destroyMoveMarker();
       return;
     }
+    if(prevProps.movePath === movePath) return;
+    this.destroyMoveMarker()
     this.fitBounds();
     if (moveFlag) {
       this.moveMarkerAlongPath();
@@ -67,10 +71,12 @@ class Path extends Component {
     const coords = turf.getCoords(this.props.movePath);
     const startPoint = coords[0].concat().reverse();
     const endPoint = coords[coords.length - 1].concat().reverse();
+    // console.log(startPoint,startIcon)
+    // debugger
     return (
       <Fragment>
-        <Marker position={startPoint} icon={moveIcon} />
-        <Marker position={endPoint} icon={moveIcon} />
+        <Marker position={startPoint} icon={startIcon} />
+        <Marker position={endPoint} icon={endIcon} />
       </Fragment>
     )
   }
@@ -91,6 +97,7 @@ class Path extends Component {
         <GeoJSON
           data={turf.featureCollection([movePath])}
           style={this.geojsonStyle}
+          key={getuuid()}
         />
         {this.renderEndPoint()}
       </Fragment>

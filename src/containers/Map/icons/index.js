@@ -1,11 +1,14 @@
-import L from 'leaflet'
+import L from 'leaflet';
+import alarmCarImage from './alarmCar.png';
+import alarmFaceImage from './alarmFace.png';
 import carImage from './car.png';
 import peopleImage from './people.png';
 import cameraImage from './camera.png';
 import wifiImage from './wifi.png';
 import moveImage from './move.png';
 import areaImage from './area.png';
-
+import startImage from './start.png';
+import endImage from './end.png';
 import './index.styl';
 
 export const carIcon = new L.Icon({
@@ -34,6 +37,17 @@ export const moveIcon = new L.Icon({
   iconAnchor: [17, 51],
   iconSize: [34, 51],
 });
+
+export const startIcon = new L.Icon({
+  iconUrl: startImage,
+  iconAnchor: [17, 51],
+  iconSize: [34, 51],
+})
+export const endIcon = new L.Icon({
+  iconUrl: endImage,
+  iconAnchor: [17, 51],
+  iconSize: [34, 51],
+})
 // car 1 车辆 2 单兵 3 wifi 4 电台
 // people
 // wifi
@@ -43,7 +57,9 @@ const mapTypeToName = {
   2: 'people',
   3: 'camera',
   4: 'wifi',
-  5: 'areaIcon'
+  5: 'areaIcon',
+  6: 'alarmFace',
+  7: 'alarmCar'
 }
 const tipMarkerConfig = {
   car: {
@@ -67,11 +83,23 @@ const tipMarkerConfig = {
   camera: {
     iconUrl: cameraImage,
     iconAnchor: [15, 16],
-    iconSize: [30, 32],
+    iconSize: [36, 32],
     popupAnchor: [0, -16],
   },
   areaIcon: {
     iconUrl: areaImage,
+    iconAnchor: [17, 20],
+    iconSize: [44, 40],
+    popupAnchor: [0, -20],
+  },
+  alarmFace: {
+    iconUrl: alarmFaceImage,
+    iconAnchor: [17, 20],
+    iconSize: [44, 40],
+    popupAnchor: [0, -20],
+  },
+  alarmCar: {
+    iconUrl: alarmCarImage,
     iconAnchor: [17, 20],
     iconSize: [44, 40],
     popupAnchor: [0, -20],

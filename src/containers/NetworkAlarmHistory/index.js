@@ -12,10 +12,12 @@ import {
 } from '../../actions/alarmHistory';
 
 import './index.styl';
+import { message } from 'antd';
 
 const mapStateToProps = (state) => ({
   alarmHistoryVisible: state.alarmHistory.visible,
   alarmHistoryList: state.alarmHistory.list,
+  movePath: state.map.movePath
 });
 const mapDispatchProps = (dispatch) => ({
   actions: bindActionCreators({
@@ -26,16 +28,25 @@ const mapDispatchProps = (dispatch) => ({
   }, dispatch),
 });
 
+
+
 class NetworkAlarmHistory extends Component {
   state = {
     tabActive: 'face', // face car
-    timeRange: [],
+    timeRange: '',
     selectedId: null
   }
+
+  alarm = '';
+
   componentDidUpdate(pp) {
     if (this.props.alarmHistoryVisible && !pp.alarmHistoryVisible) {
       this.onSearch();
     }
+  }
+
+  componentDidMount() {
+    console.log(this.alarm)
   }
 
   handleClose = () => {
@@ -44,31 +55,26 @@ class NetworkAlarmHistory extends Component {
   }
 
   switchTab = ({ target }) => {
-    console.log(target.dataset)
     if (target.dataset.type) {
-      this.setState({ tabActive: target.dataset.type }, () => {
+      this.setState({ tabActive: target.dataset.type, timeRange: '' }, () => {
         this.onSearch();
       });
     }
   }
 
   onSelectItem = (item) => {
-    // const alarmHistoryList = [...this.props.alarmHistoryList]
-    // alarmHistoryList.map(alarm => {
-    //   alarm.id === item.id ? alarm.isSelected = true : alarm.isSelected = false
-    // })
+    if(!+item.latitude || !+item.longitude ) return message.warning("暂无定位信息");
     this.setState({
       selectedId: item.id
     })
     const { actions } = this.props;
     item.type = this.state.tabActive;
     actions.selectAlarmItem(item);
-    // actions.setAlarmHistoryListIsSelected(alarmHistoryList)
   }
 
-  onTimeChange = (dates) => {
+  onTimeChange = (time) => {
     this.setState({
-      timeRange: dates,
+      timeRange: time,
     });
   }
 
@@ -77,6 +83,8 @@ class NetworkAlarmHistory extends Component {
     const { timeRange, tabActive } = this.state;
     actions.fetchAlarmHistory({ timeRange, tabActive });
   }
+
+  
 
   renderTypeTab() {
     const { tabActive } = this.state;
@@ -110,7 +118,8 @@ class NetworkAlarmHistory extends Component {
                   {isFace ? item.humanName : item.plateInfo}
                 </span>
                 <span className="time">
-                  告警时间：{isFace ? item.alarmTime : item.passTimeStr }
+                  {/* 告警时间： */}
+                  {isFace ? item.alarmTime : item.passTimeStr }
                 </span>
               </div>
             </li>
@@ -122,15 +131,16 @@ class NetworkAlarmHistory extends Component {
   }
 
   render() {
-    const { alarmHistoryVisible } = this.props;
+    const { alarmHistoryVisible, movePath } = this.props;
+    if(movePath) return null;
     if (!alarmHistoryVisible) {
       return null;
     }
     return (
-      <div className="network-alarm-history-wrapper">
+      <div className="network-alarm-history-wrapper" ref={this.alarm}>
         <Title name="联网告警历史" onClose={this.handleClose} />
         {this.renderTypeTab()}
-        <hr />
+        {/* <hr /> */}
         <TimeRangeSearch onSearch={this.onSearch} history onTimeChange={this.onTimeChange} />
         {this.renderAlarmList()}
       </div>

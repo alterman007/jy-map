@@ -10,6 +10,12 @@ class TimeRangeSearch extends Component {
     width: '60%',
     background: 'rgba(71,156,223,0.30)',
   };
+  
+
+  onTimeChange(undef, time) {
+    console.log(time, "shijian")
+    this.props.onTimeChange(time)
+  }
 
   render() {
     const { onTimeChange, onSearch, history, selectName } = this.props;
@@ -18,7 +24,7 @@ class TimeRangeSearch extends Component {
         {
           history &&
            <>
-            <RangePicker
+            {/* <RangePicker
               className="time-range-wrapper"
               showTime
               size="large"
@@ -27,12 +33,22 @@ class TimeRangeSearch extends Component {
               format="YYYY-MM-DD HH:mm:ss"
               onChange={onTimeChange}
               placeholder={['开始时间', '结束时间']}
-            />
+            /> */}
+            <DatePicker
+              className="data-picker"
+              showTime
+              size="large"
+              style={this.pickerStyle}
+              separator="-"
+              format="YYYY-MM-DD HH:mm:ss"
+              onChange={this.onTimeChange.bind(this)}
+              placeholder="选择时间"
+              />
             <button
           className="search-btn"
           onClick={onSearch}
           // onClick={() => this.props.renderPoliceAll(false)}
-        >搜索</button>
+        >搜&nbsp;&nbsp;索</button>
            </>
         }
         {
@@ -40,12 +56,18 @@ class TimeRangeSearch extends Component {
           <>
           <button
           className="search-btn"
-          style={{background: !selectName ? '#20aaff':'rgba(32,170,255,0.5)'}}
+          style={{
+            background: !selectName ? '#68E0FB':'#05121C',
+            color: !selectName ? 'black' : 'white',
+        }}
           onClick={() => this.props.renderPoliceAll(false)}
         >实时警情</button>
         <button
           className="search-btn"
-              style={{ background: selectName ? '#20aaff' : 'rgba(32,170,255,0.5)'}}
+              style={{
+                 background: selectName ? '#68E0FB' : '#05121C',
+                 color: selectName ? 'black' : 'white',
+            }}
           onClick={() => this.props.renderPoliceAll(true)}
         >分局统计</button>
           </>

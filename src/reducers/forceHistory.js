@@ -21,7 +21,6 @@ const forceHistory = handleActions(
       return Array.isArray(payload) ? { ...state, list: payload } : state;
     },
     [setForceHistoryListIsSelected](state, { payload }) {
-      console.log(payload)
       return { ...state, list: payload }
     }
   },

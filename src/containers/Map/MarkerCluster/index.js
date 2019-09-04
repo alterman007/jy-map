@@ -12,9 +12,9 @@ export default class MarkerClusterGroup extends LayerGroup {
     if (this.props.markers && this.props.markers.length) {
       this.addMarkerClusterGroupToMap(this.props.markers);
     }
-
+    const className =  ' marker-cluster-styled';
     this.props.wrapperOptions.enableDefaultStyle && (
-      this.context.map._container.className += ' marker-cluster-styled'
+      this.context.map._container.className += className
     );
 
     !this.props.wrapperOptions.disableDefaultAnimation && (

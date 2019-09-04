@@ -9,7 +9,8 @@ import MarkerCluster from './MarkerCluster';
 const mapStateToProps = (state) => {
   return {
     // mapzoom: state.map.mapzoom,
-    movePath: state.map.movePath
+    movePath: state.map.movePath,
+    iShowMonitorMarkers: state.map.iShowMonitorMarkers
   }
 }
 
@@ -39,15 +40,16 @@ class MonitorMarkers extends Component {
     }
   }
   handleClick(opt = {}) {
-    console.log("monitorIndexCode",opt.options.indexCode)
     monitorPlay(opt.options.indexCode)
   }
   render() {
     const { monitorList } = this.state;
-    const { movePath } = this.props;
-    console.log('monitorList',monitorList)
+    const { movePath, iShowMonitorMarkers } = this.props;
     if (movePath) {
       return null;
+    }
+    if(!iShowMonitorMarkers) {
+      return null
     }
     return (
       <Fragment>

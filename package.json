@@ -57,6 +57,7 @@
     "react-dev-utils": "^9.0.2",
     "react-dom": "^16.9.0",
     "react-leaflet": "^1.9.1",
+    "react-leaflet-heatmap-layer": "^1.0.4",
     "react-redux": "^7.1.0",
     "redux": "^4.0.4",
     "redux-actions": "^2.6.5",

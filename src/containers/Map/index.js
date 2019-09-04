@@ -1,30 +1,19 @@
 import React, { Component, Fragment, createRef } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Map, TileLayer } from 'react-leaflet';
 import { MapContext } from './context';
 import Path from './Path';
 import MonitorMarkers from './MonitorMarkers';
-import { setMapZoom } from '../../actions/map';
-// import Area from './Area';
-// import CarMarkers from './CarMarkers';
-// import PeopleMarkers from './PeopleMarkers';
 import RealTimeMarker from './RealTimeMarker';
 
 import './index.styl';
-import Area from './Area';
+import Area from './Area/index';
+import HDPICModal from '../../components/HDPICModal';
 
 const mapStateToProps = (state) => ({
   center: state.map.center,
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    actions: bindActionCreators({
-      setMapZoom
-    }, dispatch)
-  }
-}
 
 let isUpdateZoom = false
 
@@ -38,17 +27,6 @@ class MapOperation extends Component {
   handleClick = (ev) => {
     console.log(ev);
   }
-
-  // onZoomEnd(opt) {
-  //   const { actions } = this.props
-  //   if (opt.sourceTarget._animateToZoom === opt.sourceTarget.options.maxZoom && isUpdateZoom) {
-  //     actions.setMapZoom(opt.sourceTarget._animateToZoom)
-  //     isUpdateZoom = false
-  //   } else if (opt.sourceTarget._animateToZoom <= opt.sourceTarget.options.maxZoom && !isUpdateZoom) {
-  //     actions.setMapZoom(opt.sourceTarget._animateToZoom)
-  //     isUpdateZoom = true
-  //   }
-  // }
 
   componentDidMount() {
     this.setState({
@@ -87,20 +65,24 @@ class MapOperation extends Component {
           onClick={this.handleClick}
           zoomControl={false}
           ref={this.mapEle}
-          maxZoom={16}
+          maxZoom={18}
+          minZoom={6}
           // onZoomEnd={this.onZoomEnd.bind(this)} //监听地图缩放级别
         >
           {this.renderTileLayer()}
           {/* <CarMarkers /> */}
           {/* <PeopleMarkers /> */}
+
+          {/* <CarMarkers /> */}
           <Area />
           <MonitorMarkers />
           <RealTimeMarker />
           <Path />
+          <HDPICModal />
         </Map>
       </MapContext.Provider>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MapOperation);
+export default connect(mapStateToProps)(MapOperation);

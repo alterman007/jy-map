@@ -6,6 +6,9 @@ import {
   setRealTimeMarkers,
   setAlarmHistoryDetail,
   setMapZoom,
+  setMapTrail,
+  setMapPCSArea,
+  setRadioTrall,
 } from '../actions/map';
 import {
   toggleForceHistoryVisible,
@@ -18,27 +21,31 @@ import {
 import {
   convertDataToGeojson,
 } from '../utils/map';
+import { setIshowCarMarkers, setIshowRadioMarkers, setIshowHeatLayers, setIshowMonitorMarkers } from '../actions/cpmStatus';
 
 const defaultState = {
-  carPoints: [
-    { type: 'car', lng: 121.375985, lat: 31.254194, name: '沪A123456' },
-    { type: 'car', lng: 121.256683, lat: 31.238638, name: '沪A123456' },
-    { type: 'car', lng: 121.368088, lat: 31.212068, name: '沪A123456' },
-    { type: 'car', lng: 121.338219, lat: 31.281926, name: '沪A123456' },
+  carMarkers: [
+    // { type: 'car', lng: 121.375985, lat: 31.254194, name: '沪A123456',indexCode: "1111",id: 1},
+    // { type: 'car', lng: 121.256683, lat: 31.238638, name: '沪A123456',indexCode: "1111",id: 2 },
+    // { type: 'car', lng: 121.368088, lat: 31.212068, name: '沪A123456',indexCode: "1111", id: 3 },
+    // { type: 'car', lng: 121.338219, lat: 31.281926, name: '沪A123456',indexCode: "1111", id: 4 },
+  ],
+  radioMarkers: [
+    { type: 3, lng: 121.368088, lat: 31.212068, name: '手持电台', id: 4 },
   ],
   peoplePoints: [
-    { type: 'people', lat: 31.205900, lng: 121.267776, name: '笑傲江湖' },
-    { type: 'people', lat: 31.191070, lng: 121.412315, name: '天龙八部' },
-    { type: 'people', lat: 31.238494, lng: 121.320642, name: '铁血丹心' },
-    { type: 'people', lat: 31.275029, lng: 121.254558, name: '神雕侠侣' },
+    // { type: 'people', lat: 31.205900, lng: 121.267776, name: '笑傲江湖' },
+    // { type: 'people', lat: 31.191070, lng: 121.412315, name: '天龙八部' },
+    // { type: 'people', lat: 31.238494, lng: 121.320642, name: '铁血丹心' },
+    // { type: 'people', lat: 31.275029, lng: 121.254558, name: '神雕侠侣' },
   ],
   // type: 1 车辆 2 单兵 3 wifi 4 电台
   realTimeMarkers: [
-    { type: 1, lng: 121.267776, lat: 31.205900, name: '沪A3456', id: 1 },
-    { type: 2, lng: 121.375985, lat: 31.254194, name: '单兵装备', id: 2 },
-    { type: 3, lng: 121.256683, lat: 31.238638, name: '笑傲江湖', id: 3 },
-    { type: 4, lng: 121.368088, lat: 31.212068, name: '手持电台', id: 4 },
-    { type: 1, lng: 121.338219, lat: 31.281926, name: '沪A1257', id: 5 },
+    // { type: 1, lng: 121.267776, lat: 31.205900, name: '沪A3456', id: 1 },
+    // { type: 2, lng: 121.375985, lat: 31.254194, name: '单兵装备', id: 2 },
+    // { type: 3, lng: 121.256683, lat: 31.238638, name: '笑傲江湖', id: 3 },
+    // { type: 4, lng: 121.368088, lat: 31.212068, name: '手持电台', id: 4 },
+    // { type: 1, lng: 121.338219, lat: 31.281926, name: '沪A1257', id: 5 },
   ],
   forceHistoryMarker: null,
   center: { lng: 121.331696, lat: 31.238858 },
@@ -50,10 +57,40 @@ const defaultState = {
   alarmMarker: null,
   showAlarmHistoryDetail: null,
   mapzoom: null,
+  pcsArea: [],
+  
+  iShowCarMarkers: true, //是否显示车辆
+  iShowHeatLayers: false,
+  iShowRadioMarkers: true, //是否显示电台
+  iShowMonitorMarkers: false, // 是否显示监控固定点位
+  iShowNetworkAlarmHistory: false,
+  iShowNetWorkForceHistory: false,
 };
 
 const map = handleActions(
   {
+    [setIshowCarMarkers](state, { payload }) { // 设置是否显示实时车辆点位
+      return {...state, iShowCarMarkers: !state.iShowCarMarkers}
+    },
+    [setMapTrail](state, { payload }) {
+      // return { ...state, realTimeMarkers: payload };
+      return {...state, carMarkers: payload}
+    },
+    [setRadioTrall](state, { payload }) {
+      return {...state, radioMarkers:　payload}
+    },
+    [setIshowRadioMarkers](state) {
+      return {...state, iShowRadioMarkers: !state.iShowRadioMarkers}
+    },
+    [setIshowHeatLayers](state) {
+      return {...state, iShowHeatLayers: !state.iShowHeatLayers}
+    },
+    [setIshowMonitorMarkers](state) {
+      return {...state, iShowMonitorMarkers: !state.iShowMonitorMarkers}
+    },
+    [setMapPCSArea](state, { payload }) {
+      return {...state, pcsArea: payload }
+    },
     [setRealTimeMarkers](state, { payload }) {
       return { ...state, realTimeMarkers: payload };
     },

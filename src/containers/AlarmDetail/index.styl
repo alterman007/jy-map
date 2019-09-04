@@ -2,6 +2,7 @@
   position fixed;
   top: 200px;
   left: 630px;
+  //left: 530px;
   width: 350px;
   white-space: nowrap;
   overflow hidden;
@@ -47,5 +48,33 @@
       opacity 0.8;
       color: #FFF;
     }
+  }
+}
+
+.tranformToLeft0 {
+  animation: tranformToLeft0 2s;
+  animation-fill-mode: forwards;
+}
+
+.tranformToLeft530 {
+  animation: tranformToLeft530 2s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes tranformToLeft530 {
+   0% {
+    left: 110px;
+  }
+  100% {
+    left: 530px;
+  }
+}
+
+@keyframes tranformToLeft0{
+  0% {
+    left: 530px;
+  }
+  100% {
+    left: 110px;
   }
 }

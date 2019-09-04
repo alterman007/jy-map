@@ -37,6 +37,8 @@
           span {
             width: 50%;
             flex: none;
+            letter-spacing:1px;
+            margin-bottom: 10px;
             &:nth-child(2n) {
               width: 45%;
               padding-left: 5%;
@@ -48,10 +50,20 @@
       }
     }
   }
+  .isAlarmComing {
+    animation: isAlarmComing .5s infinite;
+  }
+
+  .police-alarm-status {
+    
+    opacity: 0;
+    position: absolute;
+    right: 3px;
+  }
+
   .police-call-icon {
     pointer-events: auto;
-    // position absolute;
-    margin-top: 130px;
+    // margin-top: 130px;
     cursor pointer;
     width: 107px;
     height: 107px;
@@ -59,7 +71,7 @@
   .police-call-info {
     pointer-events: auto;
     margin-right: 120px;
-    width: 768px;
+    width: 668px;
   }
   .police-station-statistical {
     li {
@@ -67,5 +79,14 @@
       padding: 10px 0;
       border-bottom: 1px solid white;
     }
+  }
+}
+
+@keyframes isAlarmComing {
+  0% {
+    opacity: 0
+  }
+  100% {
+    opacity: 1
   }
 }

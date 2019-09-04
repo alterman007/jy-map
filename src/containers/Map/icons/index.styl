@@ -1,14 +1,15 @@
 .marker-with-tip {
   .name {
     position absolute;
-    color: #fff;
+    color: black;
     left: 50%;
     bottom: 100%;
     transform: translate(-50%, -15px);
-    background: #20AAFF;
+    background: #13FFD5;
     padding: 2px 8px;
     word-break: keep-all;
     font-size: 18px;
+    letter-spacing: 2px;
     &::before {
       content: ' ';
       width: 10px;
@@ -19,6 +20,7 @@
       transform: translate(-50%, -50%) rotate(45deg);
       z-index -1;
       background: #20AAFF;
+       background: #13FFD5;
     }
   }
 
@@ -58,7 +60,7 @@
   }
   &.monitor {
     background: url('./m3.png');
-    background-size: 48px 38px;
+    background-repeat: no-repeat;
     &:hover .name{
         display: block;
     }
@@ -69,6 +71,26 @@
   &.areaIcon {
     background: url('./area.png');
     background-size: 48px 38px;
+  }
+  &.alarmCar {
+     background: url('./alarmCar.png');
+    background-size: 48px 40px;
+    .name {
+      background: red;
+      &::before {
+        background: red;
+      }
+    }
+  }
+  &.alarmFace {
+    background: url('./alarmFace.png');
+    background-size: 48px 36px;
+    .name {
+      background: red;
+       &::before {
+        background: red;
+      }
+    }
   }
 }
 

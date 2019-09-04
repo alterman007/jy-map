@@ -5,19 +5,34 @@ import { DatePicker } from 'antd';
 import ForceSnapshot from '../ForceSnapshot';
 import { fetchForcePath, selectForceHistoryItem } from '../../actions/forceHistory';
 import { setMapPath, selectRealTimeMarker } from '../../actions/map';
+import { setTransFormToLeft } from '../../actions/cpmStatus';
 import demoImg from './demo.png';
 import './index.styl';
 import { monitorPlay } from '../../request/api';
+import moment from 'moment';
 
 // const mapStateToProps = (state) => ({
 //   detailId: state.forceHistory.detailId,
 // });
+
+const Left0 = 'tranformToLeft0';
+const Left530 = 'tranformToLeft530';
+const classes = 'force-detail-wrapper corner-border-highlight-bg ';
+
+const mapStateToProps = (state) => {
+  
+  return {
+    tranformToLeft: state.cmpStatus.tranformToLeft
+  }
+}
+
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
     fetchForcePath: fetchForcePath.startAction,
     selectRealTimeMarker,
     selectForceHistoryItem,
     setMapPath,
+    setTransFormToLeft
   }, dispatch),
 });
 
@@ -30,7 +45,7 @@ class ForceDetail extends Component {
   state = {
     fromTime: null,
     toTime: null,
-    showType: false,
+    showType: false
   };
 
   changeShowType(showType) { // snapshot | path | video | false
@@ -52,10 +67,10 @@ class ForceDetail extends Component {
     actions.selectRealTimeMarker(null);
     actions.selectForceHistoryItem(null);
     actions.setMapPath(null);
+    actions.setTransFormToLeft('')
   }
 
   playVideo = () => {
-    console.log('open video', this.props.detail.indexCode);
     monitorPlay(this.props.detail.indexCode)
   }
 
@@ -63,15 +78,21 @@ class ForceDetail extends Component {
     this.setState({ [type]: date });
   }
 
-  onSearchPath(moveFlag) {
-    // console.log("查询/播放");
-    // if (Math.random() > 0.9) {
-    //   console.log('throw err');
-    //   throw new Error('err');
-    // }
+  async onSearchPath(moveFlag) {
     const { actions } = this.props;
-    const { fromTime, toTime } = this.state;
-    actions.fetchForcePath({ name: this.props.detail.name, biggintime: fromTime, endtime: toTime, moveFlag });
+    const { fromTime , toTime } = this.state;
+    const config = {
+      name: this.props.detail.name,
+      moveFlag
+    }
+    if(toTime) {
+      config.biggintime = moment(toTime).format('YYYY-MM-DD 00:00:00');
+      config.endtime = toTime
+    } else {
+      config.endtime= moment().format('YYYY-MM-DD HH:mm:ss')
+      config.biggintime = moment(config.endtime).format('YYYY-MM-DD 00:00:00')
+    }
+    actions.fetchForcePath(config)
   }
 
   onPlay = () => {
@@ -96,19 +117,19 @@ class ForceDetail extends Component {
     return (
       <div className="timer-range-search">
         <div className="split-line" />
-        <DatePicker
+        {/* <DatePicker
           className="data-picker"
           showTime
-          placeholder="开始时间"
+          placeholder="输入时间"
           format="YYYY-MM-DD HH:mm:ss"
           onChange={this.onTimeChange.bind(this, 'fromTime')}
           style={this.pickerStyle}
           size="large"
-        />
+        /> */}
         <DatePicker
           className="data-picker"
           showTime
-          placeholder="结束时间"
+          placeholder="选择时间"
           format="YYYY-MM-DD HH:mm:ss"
           onChange={this.onTimeChange.bind(this, 'toTime')}
           style={this.pickerStyle}
@@ -124,7 +145,7 @@ class ForceDetail extends Component {
   }
 
   render() {
-    const { detail } = this.props;
+    const { detail, tranformToLeft } = this.props;
     if (!detail) {
       return null;
     }
@@ -132,8 +153,8 @@ class ForceDetail extends Component {
       return <ForceSnapshot defaultValue={detail} onClose={this.onClose} />;
     }
     return (
-      <div className="force-detail-wrapper corner-border-highlight-bg">
-        <img src={demoImg} alt="背景图片" />
+      <div className={tranformToLeft + ' ' + classes}>
+        <img src={detail.pic} alt="背景图片" />
         <div className="h6-name">{detail.name}</div>
         <div className="info">
           所属派出所：{detail.sspcs}
@@ -160,4 +181,4 @@ class ForceDetail extends Component {
   }
 }
 
-export default connect(null, mapDispatchToProps)(ForceDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(ForceDetail);

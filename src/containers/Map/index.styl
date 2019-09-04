@@ -7,17 +7,26 @@
   background: #00192e !important;
 
   .camera-marker-popup {
+    
+    .leaflet-popup-close-button {
+      font-size: 30px;
+      top: 10px;
+      right: 30px;
+      color: white;
+    }
     .leaflet-popup-content-wrapper {
       background: none;
       border-radius: 0;
       font-size: 18px;
+      letter-spacing: 1px;
+      
       .leaflet-popup-content {
         margin: 0;
-        transform: translate(-40px, 36px);
+        //  transform: translate(-40px, 36px);
         .camera-info {
-          transform: translate(-50%, 50%);
+         // transform: translate(-50%, 50%);
           color: #fff;
-          padding: 10px;
+          padding: 20px;
           word-break: break-all;
           .name {
             font-size: 24px;
@@ -47,4 +56,9 @@
       }
     }
   }
+}
+
+
+.sh {
+  pointer-events: none !important;
 }

@@ -1,10 +1,10 @@
 import { Marker } from 'leaflet';
 import * as turf from '@turf/turf';
-import { moveIcon } from './icons';
+import { moveIcon, carIcon } from './icons';
 
 const defaultOption = {
   icon: moveIcon,
-  duration: 60000,
+  duration: 100000,
   repeat: true,
 };
 
@@ -20,7 +20,8 @@ class MoveMarker {
     this.pathLength = turf.length(this.path);
     this.startTime = Date.now();
     const initPos = this.getLinePointByPercent(0);
-    this.marker = new Marker(initPos, { icon: this.option.icon });
+    this.marker = new Marker(initPos, { icon: this.option.icon || carIcon });
+    // this.marker = new Marker(initPos, { icon: this.props.icon });
     this.map.addLayer(this.marker);
     this.move();
   }

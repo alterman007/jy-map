@@ -12,6 +12,8 @@ import {
   getForceHistory,
   getForcePathById,
 } from '../request/api';
+import { message } from 'antd';
+import { setTransFormToLeft } from '../actions/cpmStatus';
 
 // 获取警力历史数据
 function* watchFetchForceHistory() {
@@ -26,8 +28,9 @@ function* watchFetchForcePath() {
     yield put(setMoveFlag(action.payload.moveFlag));
     const res = yield call(getForcePathById, action.payload);
     if (!res || res.length < 2) {
-      return;
+      return message.warning('暂无当日轨迹信息');
     }
+    yield put(setTransFormToLeft('tranformToLeft0'))
     yield put(setMapPath(res));
   });
 }

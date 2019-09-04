@@ -4,7 +4,9 @@ import FontIcon from '../../components/FontIcon';
 import TimeRangeSearch from '../../components/TimeRangeSearch';
 // import demoImg from './demo.png';
 import './index.styl';
-import { getCarCaptureById } from '../../request/api';
+import { getCarCaptureById, getFaceCaptureById } from '../../request/api';
+import { message } from 'antd';
+import moment from 'moment';
 
 class ForceSnapshot extends Component {
   state = {
@@ -12,19 +14,42 @@ class ForceSnapshot extends Component {
     list: [
       this.props.defaultValue,
     ],
-    captureList: []
+    carCaptureList: [],
+    faceCaptureList: [],
+    time: ''
   };
 
   componentDidMount() {
-    this.getCaptureInfo()
+    this.getFaceCaptureInfo()
   }
-
-  async getCaptureInfo() {
+  async getFaceCaptureInfo(config) {
     try {
-      const { data } = await getCarCaptureById(this.props.defaultValue.indexCode);
-      const res = JSON.parse(JSON.stringify(data.splice(0,10)))
+      const params = config ? config : {
+        vehicleIdentification: this.props.defaultValue.name,
+        endtime: this.props.defaultValue.createTime,
+        biggintime: moment( this.props.defaultValue.createTime).format('YYYY-MM-DD 00:00:00')
+      }
+      const { data } = await getFaceCaptureById(params);
       this.setState({
-        captureList: res
+        carCaptureList: data
+      })
+    } catch (error) {
+      console.error(error);
+      // message.error('')
+    }
+  }
+  async getCarCaptureById(config) {
+    try {
+      const params = config ? config : {
+        vehicleIdentification: this.props.defaultValue.name,
+        endtime: this.props.defaultValue.createTime,
+        biggintime: moment(this.props.defaultValue.createTime).format('YYYY-MM-DD 00:00:00'),
+        limit: 20
+      }
+      const { data } = await getCarCaptureById(params);
+      // const res = JSON.parse(JSON.stringify(data.splice(0,10)))
+      this.setState({
+        carCaptureList: data
       })
     } catch (error) {
       
@@ -34,16 +59,33 @@ class ForceSnapshot extends Component {
   changeSelected = (ev) => {
     const { type } = ev.target.dataset;
     if (type) {
-      this.setState({ selected: type });
+      this.setState({ selected: type }, () => {
+        type === 'people' ? this.getFaceCaptureInfo() : this.getCarCaptureById()
+      });
     }
   }
 
-  onSearch = (ev) => {
-    console.log('start search');
+  async onSearch (ev) {
+    try {
+      const { time, selected } = this.state;
+      console.log("onSearch",time)
+      const config = {
+        vehicleIdentification: this.props.defaultValue.name,
+        biggintime: moment(time).format('YYYY-MM-DD 00:00:00'),
+        endtime: time,
+        limit: 20
+      }
+      selected === 'people' ?  this.getFaceCaptureInfo(config) : this.getCarCaptureById(config)
+    } catch (error) {
+      message.error('查询失败', error)
+    }
   }
 
-  onTimeChange = (ev) => {
-    console.log('timer change');
+  onTimeChange(time) {
+    console.log(time)
+    this.setState({
+      time
+    })
   }
 
   renderTab() {
@@ -95,22 +137,21 @@ class ForceSnapshot extends Component {
             </div>
           ))
         }     
-        {this.renderCaptureList()}
+        {this.rendercarCaptureList()}
       </div>
-    );
+    )
   }
 
-  renderCaptureList() {
-    const { captureList } = this.state
-    return (
+  rendercarCaptureList() {
+    const { carCaptureList, selected } = this.state
+    return carCaptureList.length > 0 ? (
       <ul>
         {
-          captureList.map(c => {
+          carCaptureList.map(c => {
             return <li key={c.id}>
-              <img src={c.baseImageSrc} alt="" />
+              <div className="img"><img src={selected === 'people' ? c.baseImageSrc : c.carNumberSrc} alt="" /></div>
               <div>
-                
-              <span>所属派出所：{c.sspcs}</span>
+                <span>所属派出所：{c.sspcs}</span>
                 <span>设备号：{c.indexCode}</span>
                 <span>经 度：{c.longitude}</span>
                 <span>摄像头位置：{c.cameraName}</span>
@@ -121,7 +162,7 @@ class ForceSnapshot extends Component {
           })
         }
       </ul>
-    )
+    ) : <div className="search-by-time">暂无当日抓拍信息, 输入日期以搜索</div>
   }
 
   render() {
@@ -129,7 +170,7 @@ class ForceSnapshot extends Component {
       <div className="force-snapshot-wrapper">
         {this.renderTab()}
         <div className="search-wrapper">
-          <TimeRangeSearch onSearch={this.onSearch} history onTimeChange={this.onTimeChange} />
+          <TimeRangeSearch onSearch={this.onSearch.bind(this)} history onTimeChange={this.onTimeChange.bind(this)} />
         </div>
         {this.renderList()}
       </div>

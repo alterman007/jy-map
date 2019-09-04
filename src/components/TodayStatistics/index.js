@@ -9,14 +9,10 @@ class TodayStatisics extends React.PureComponent {
   }
   
   createChart() {
-    const { data } = this.props;
-    let info = 0; // 计算警情总数
-    let alarm = 1100; // 告警 暂无数据
-    data.map(d => {
-      info += d['count(*)']
-    })
-    let all = alarm + info
-    console.log()
+    const { total, deal } = this.props;
+    let info = total; // 计算警情总数
+    let alarm = deal; // 告警 暂无数据
+    let all = alarm + info;
     var mychart = echarts.init(this.columnarChart.current);
     var option = {
       tooltip: {
@@ -43,7 +39,7 @@ class TodayStatisics extends React.PureComponent {
       },
       series: [{
           type: 'bar',
-          name: '今日告警',
+          name: '已出警',
           data: [Math.round(alarm/all*100)],
           stack: 'income',
           barWidth: 30,
@@ -53,7 +49,7 @@ class TodayStatisics extends React.PureComponent {
                 position: 'inside',
                 // formatter: '{a}\n{c}%',
                 formatter: (f) => {
-                  return '今日告警' + alarm
+                  return '已出警' + alarm
                 },
               color: 'white',
                 fontSize: 20

@@ -3,9 +3,15 @@ html, body {
   padding: 0;
   height: 100%;
 }
-
-#root, .app-root {
+#root {
   height: 100%;
+  // width: 2880px;
+  // transform: scaleX(0.67);
+  // transform-origin: 0%;
+}
+.app-root {
+  height:100px;
+  position: relative;
 }
 
 // antd
@@ -29,7 +35,7 @@ html, body {
     background: url('./assets/imgs//right.png');
   }
   .ant-calendar-picker-input {
-    background: none;
+    background: black;
     border: none;
     border-radius: 0;
     color: #fff;
@@ -63,23 +69,23 @@ conrer-order(conrerColor, borderCorlor, bgColor) {
     bgColor;
   background-repeat: no-repeat;
   background-position: 0px 0px, 0px 0px, 0px 100%, 0px 100%, 100% 0px, 100% 0px, 100% 100%, 100% 100%, 0px 0px, 0px 100%, 0px 100%, 100% 100%;
-  background-size: 2px 15px, 15px 2px, 2px 15px, 15px 2px, 2px 15px, 15px 2px, 2px 15px, 15px 2px, 100% 2px, 100% 2px, 2px 100%, 2px 100%;
+  background-size: 4px 15px, 15px 4px, 4px 15px, 15px 4px, 4px 15px, 15px 4px, 4px 15px, 15px 4px, 100% 4px, 100% 2px, 2px 100%, 2px 100%;
 }
 
 .corner-border {
-  conrer-order(linear-gradient(#20AAFF, #20AAFF), linear-gradient(#20AAFF55, #20AAFF55), rgba(2, 18, 41, 0.6))
+  // conrer-order(linear-gradient(#20AAFF, #20AAFF), linear-gradient(#20AAFF55, #20AAFF55), rgba(2, 18, 41, 0.6))
+  conrer-order(linear-gradient(#76FBD7, #76FBD7), linear-gradient(#23547655, #23547655), #05121C)
 }
-
-.police-border {
-  conrer-order(linear-gradient(#20AAFF, #20AAFF), linear-gradient(#20AAFF55, #20AAFF55), rgba(32, 170, 255, 0.8))
+.camerinfo-border {
+  conrer-order(linear-gradient(#76FBD7, #76FBD7), linear-gradient(#23547655, #23547655), #05121C)
 }
-
 .corner-border-highlight-bg {
-  conrer-order(linear-gradient(#20AAFF, #20AAFF), linear-gradient(#20AAFF55, #20AAFF55), #102B52cc)
+  conrer-order(linear-gradient(#76FBD7, #76FBD7), linear-gradient(#23547655, #23547655), #05121C)
+  //conrer-order(linear-gradient(#20AAFF, #20AAFF), linear-gradient(#20AAFF55, #20AAFF55), #102B52cc)
 }
 
 .corner-border-warning {
-  conrer-order(linear-gradient(#F52323, #F52323), linear-gradient(#F5232355, #F5232355), rgba(36,6,6,0.80))
+  conrer-order(linear-gradient(#F52323, #F52323), linear-gradient(#F5232355, #F5232355), rgba(5,8,28,1))
 }
 
 ::-webkit-scrollbar {
@@ -89,14 +95,34 @@ conrer-order(conrerColor, borderCorlor, bgColor) {
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #20AAFFaa;
+    background-color: #68CCFB;
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background-color: #20AAFF;
+    background-color: #68CCFB;
 }
 
+.resetModalStye {
+  .ant-modal-content {
+    background: transparent;
+    .ant-modal-close-x {
+        font-size: 22px;
+        color: white;
+    }
+    .ant-modal-header {
+      background: transparent;
+      .ant-modal-title {
+        font-size: 24px;
+        color: white;
+      }
+    }
+    .ant-modal-body {
+      color: white;
+      font-size: 18px;
+    }
+  }
+}
 
 // /*滑道*/
 // ::-webkit-scrollbar-track {
