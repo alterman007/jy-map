@@ -21,10 +21,10 @@ function App() {
         <PoliceCall />
         <NetworkForceHistory />
         <NetworkAlarmHistory />
-        {/* <HistorySwitcher /> */}
+        <HistorySwitcher />
         <ForceDetailControl />
         <AlarmDetailControl />
-        <Switcher />
+        {/* <Switcher /> */}
       </div>
     </div>
   );

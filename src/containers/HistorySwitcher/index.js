@@ -54,7 +54,7 @@ class HistorySwitcher extends Component {
   }
 
   handleHeatClick = () => {
-    return message.warning("建设中...");
+    return message.warning("建设中...", 0);
     this.props.actions.setIshowHeatLayers() 
   }
   render() {
