@@ -57,6 +57,7 @@ export function getAlarmHistory(args) {
     condition.endtime = moment().format('YYYY-MM-DD HH:mm:ss')
     condition.biggintime = moment(condition.endtime).format('YYYY-MM-DD 00:00:00')
   }
+  // return axios.get('/mock/alarmHistory.json')
   return instance.post(url, qs.stringify(condition), urlencoded)
     .then(transformLatLng({path: "data", latName: "latitude", lngName: "longitude"}));
 }

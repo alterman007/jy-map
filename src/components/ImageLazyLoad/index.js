@@ -1,6 +1,6 @@
 // 图片懒加载
 import React, { useEffect } from 'react';
-
+import demoImage from './demo.png';
 
 const threshold = [0.1] // 这是触发时机 0.01代表出现 1%的面积出现在可视区触发一次回掉函数 threshold = [0, 0.25, 0.5, 0.75]  表示分别在0% 25% 50% 75% 时触发回掉函数
 
@@ -18,21 +18,24 @@ const io = new IntersectionObserver((entries) => { // 观察者
 
 const ImageLazyLoad = ({ imgsrc, imgClick }) => {
   const imgRef = React.useRef();
-  const onload = () => {
-    io.observe(imgRef.current)
-  }
+  // const onload = () => {
+  //   console.log("测试")
+  //   io.observe(imgRef.current)
+  // }
   useEffect(() => {
+    io.observe(imgRef.current)
     return () => {
       io.disconnect(imgRef.current); // 组件卸载时取消监听;
     }
   }, [])
   return (
-    <img data-src={imgsrc} src="" ref={imgRef} onError={onload} onClick={imgClick} />
+    <img data-src={imgsrc} src="" ref={imgRef} onClick={imgClick} />
   )
 }
 
 ImageLazyLoad.defaultProps = {
-  imgClick: () => {}
+  imgClick: () => { },
+  imgsrc: demoImage
 }
 
 export default ImageLazyLoad;

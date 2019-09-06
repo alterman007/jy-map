@@ -1,16 +1,16 @@
 import React from 'react';
-import moment from 'moment';
 import { bindActionCreators } from 'redux';
 import echarts from 'echarts';
 import { connect } from 'react-redux';
-import { setIshowPrevButton } from '../../actions/cpmStatus';
+import { setIshowPrevButton, setIshowPCSPoliceModal } from '../../actions/cpmStatus';
 import './index.styl';
 import PrevButton from './PrevButton';
 
 const mapDipatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators({
-      setIshowPrevButton
+      setIshowPrevButton,
+      setIshowPCSPoliceModal
     }, dispatch)
   }
 }
@@ -56,10 +56,10 @@ class PieChart extends React.Component {
           show:true,
           formatter:'{b}: {d}%',
         },
-    // data: data.map(e => {
-    //   return {value: e['allnum'], name: e.name, fkdw: e.fkdw || 0}
-    // }),
-    data : [{value: 70, name: 1}, {value: 20, name: 2}],
+    data: data.map(e => {
+      return {value: e['allnum'], name: e.name, fkdw: e.fkdw || 0}
+    }),
+    // data : [{value: 70, name: 1}, {value: 20, name: 2}],
     itemStyle: {
       normal: {
         fontSize:20
@@ -79,6 +79,9 @@ class PieChart extends React.Component {
     if(!+fkdw) return; // 区分点击的是分局还是派出所;
     this.props.fetchStatistical(fkdw, name)
     this.props.actions.setIshowPrevButton(true)
+    // this.props.actions.setIshowPCSPoliceModal({
+    //   iShow: true
+    // })
   })
   }
 

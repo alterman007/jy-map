@@ -11,7 +11,8 @@ import {
   SET_ISSHOW_NETWORK_FORCEH_ISTORY,
   SET_ISSHOW_RADIO_MARKERS,
   SET_ISSHOW_PREV_BUTTON,
-  SET_ISSHOW_HDPIC_MODAL
+  SET_ISSHOW_HDPIC_MODAL,
+  SET_ISSHOW_PCSPOLICECALL_MODAL
 } from '../constants/actionTypes';
 import { createHttpAction } from './util';
 
@@ -26,3 +27,4 @@ export const setIshowNetworkAlarmHistory = createAction(SET_ISSHOW_NETWORK_ALARM
 export const setIshowNetWorkForceHistory = createAction(SET_ISSHOW_NETWORK_FORCEH_ISTORY); //联网警力历史 （一般指车辆）
 export const setIshowPrevButton = createAction(SET_ISSHOW_PREV_BUTTON); // 饼图上一级按钮控制
 export const setIshowHDPICModal = createAction(SET_ISSHOW_HDPIC_MODAL); // 高清图弹框
+export const setIshowPCSPoliceModal = createAction(SET_ISSHOW_PCSPOLICECALL_MODAL); // 派出所警情统计弹框

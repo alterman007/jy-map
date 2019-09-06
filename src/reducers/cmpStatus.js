@@ -1,5 +1,13 @@
 import { handleActions } from 'redux-actions';
-import { setTransFormToLeft, setIsAlarmComing, setIshowPrevButton, setIshowHDPICModal } from '../actions/cpmStatus';
+import
+{
+  setTransFormToLeft,
+  setIsAlarmComing,
+  setIshowPrevButton,
+  setIshowHDPICModal,
+  setIshowPCSPoliceModal
+}
+  from '../actions/cpmStatus';
 
 const defaultState = {
     tranformToLeft: '', //控制弹出框平移动画
@@ -8,11 +16,18 @@ const defaultState = {
     isShowHDPICModal: {
       src: "",
       ishow: false
-    } // 是否显示高清大图modal
+  }, // 是否显示高清大图modal
+  iShowPCSPoliceCallModal: {
+    iSHow: false
+  }
   };
 
 const cmpStatus = handleActions(
-{
+  {
+    [setIshowPCSPoliceModal](state, { payload }) {
+      console.log("payload", payload)
+      return {...state, iShowPCSPoliceCallModal: payload}
+    },
     [setTransFormToLeft](state, { payload }) {
       return {...state, tranformToLeft: payload}
     },

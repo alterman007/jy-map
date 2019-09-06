@@ -10,6 +10,7 @@ import ForceDetailControl from './containers/ForceDetailControl';
 import AlarmDetailControl from './containers/AlarmDetailControl';
 import Switcher from './containers/Switcher';
 import './App.styl';
+import PCSPoliceCallModal from './components/PCSPoliceCallModal';
 
 function App() {
   return (
@@ -21,10 +22,11 @@ function App() {
         <PoliceCall />
         <NetworkForceHistory />
         <NetworkAlarmHistory />
-        {/* <HistorySwitcher /> */}
+        <HistorySwitcher />
         <ForceDetailControl />
         <AlarmDetailControl />
-        <Switcher />
+        {/* <Switcher /> */}
+        {/* <PCSPoliceCallModal /> */}
       </div>
     </div>
   );

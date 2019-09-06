@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import TimeRangeSearch from '../../components/TimeRangeSearch';
 import Title from '../../components/Title';
+import ImageLazyLoad from '../../components/ImageLazyLoad';
 import {
   toggleAlarmHistoryVisible,
   fetchAlarmHistory,
@@ -106,13 +107,15 @@ class NetworkAlarmHistory extends Component {
     const { alarmHistoryList } = this.props;
     const { tabActive, selectedId} = this.state;
     const isFace = tabActive === 'face';
+    // const test = "http://img4.bdimg.com/it/u=3565682627,2876030475&fm=26&gp=0.jpg"
     return (
       <ul className="alarm-list corner-border">
         {
           alarmHistoryList.map((item) => {
             return (
               <li key={item.id} onClick={() => this.onSelectItem(item)} className={`${item.id == selectedId ? 'isSelected alarm-item' : 'alarm-item'}`}>
-              <img src={isFace ? item.facePicUrl : item.picVehicle } alt=""/>
+                <ImageLazyLoad imgsrc={isFace ? item.facePicUrl : item.picVehicle} />
+              {/* <img src={isFace ? item.facePicUrl : item.picVehicle } alt=""/> */}
               <div className="alarm-desc">
                 <span className="name">
                   {isFace ? item.humanName : item.plateInfo}

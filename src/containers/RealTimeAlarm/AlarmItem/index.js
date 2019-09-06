@@ -34,7 +34,7 @@ function AlarmItem(item) {
     address = item.crossingName
     hdpic = item.picVehicle
   }
-  imgsrc="http://img4.imgtn.bdimg.com/it/u=3565682627,2876030475&fm=26&gp=0.jpg"
+  // imgsrc="http://img4.imgtn.bdimg.com/it/u=3565682627,2876030475&fm=26&gp=0.jpg"
   const imgClick = () => {
     item.actions.setIshowHDPICModal({
       hdpic,
