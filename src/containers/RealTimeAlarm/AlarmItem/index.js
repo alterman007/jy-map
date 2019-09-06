@@ -4,6 +4,7 @@ import { setIshowHDPICModal } from '../../../actions/cpmStatus';
 import './index.styl';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import ImageLazyLoad from '../../../components/ImageLazyLoad';
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -15,16 +16,6 @@ const mapDispatchToProps = (dispatch) => {
 
 function AlarmItem(item) {
   const { onClick } = item;
-  const imgClick = (hdpic, name, time, address, type) => {
-    item.actions.setIshowHDPICModal({
-      hdpic,
-      ishow: true,
-      name,
-      time,
-      address,
-      type
-    })
-  }
   let type, name, time, imgsrc, address, hdpic;
 
   if (item.alarmId) {
@@ -43,9 +34,21 @@ function AlarmItem(item) {
     address = item.crossingName
     hdpic = item.picVehicle
   }
+  imgsrc="http://img4.imgtn.bdimg.com/it/u=3565682627,2876030475&fm=26&gp=0.jpg"
+  const imgClick = () => {
+    item.actions.setIshowHDPICModal({
+      hdpic,
+      ishow: true,
+      name,
+      time,
+      address,
+      type
+    })
+  }
   return (
     <li className="real-time-alarm-item" onClick={onClick}>
-      <img src={imgsrc} alt="" onClick={imgClick.bind(this,hdpic, name, time, address, type)}/>
+      <ImageLazyLoad imgsrc={imgsrc} imgClick={imgClick}/>
+      {/* <img src={imgsrc} alt="" onClick={imgClick.bind(this,hdpic, name, time, address, type)}/> */}
       <div className="alarm-desc">
         <div className="type-name">
           {/* <span>{type}</span> */}

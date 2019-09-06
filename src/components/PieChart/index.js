@@ -56,9 +56,10 @@ class PieChart extends React.Component {
           show:true,
           formatter:'{b}: {d}%',
         },
-    data: data.map(e => {
-      return {value: e['allnum'], name: e.name, fkdw: e.fkdw || 0}
-    }),
+    // data: data.map(e => {
+    //   return {value: e['allnum'], name: e.name, fkdw: e.fkdw || 0}
+    // }),
+    data : [{value: 70, name: 1}, {value: 20, name: 2}],
     itemStyle: {
       normal: {
         fontSize:20
@@ -86,7 +87,6 @@ class PieChart extends React.Component {
     this.props.actions.setIshowPrevButton(false)
     this.props.fetchStatistical()
   }
-
 
   render() {
     const { data, name } = this.props;
