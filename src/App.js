@@ -22,11 +22,11 @@ function App() {
         <PoliceCall />
         <NetworkForceHistory />
         <NetworkAlarmHistory />
-        <HistorySwitcher />
+        {/* <HistorySwitcher /> */}
         <ForceDetailControl />
         <AlarmDetailControl />
-        {/* <Switcher /> */}
-        {/* <PCSPoliceCallModal /> */}
+        <Switcher />
+        <PCSPoliceCallModal />
       </div>
     </div>
   );

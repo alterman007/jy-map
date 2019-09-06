@@ -135,6 +135,7 @@ export function getFaceCaptureById(args) {
 
 export function getPoliceStationStatistical(args) {
   console.log(args)
+  return axios.get('/mock/110call.json')
   return instance.get('/getdepartpcstj.do', {
     params: args
   })

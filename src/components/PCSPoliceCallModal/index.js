@@ -1,8 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { setIshowPCSPoliceModal } from '../../actions/cpmStatus';
+import TodayStatistics from '../TodayStatistics';
+import { getPoliceStationStatistical } from '../../request/api';
+import { getuuid } from '@/utils/func';
+import './index.styl';
+import BarChart from '../BarChart';
+import DayOrMonth from '../DayOrMonth';
 
 const mapStateToProps = (state) => {
   return {
@@ -13,22 +19,60 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators({
-      setIshowPCSPoliceModal
+      setIshowPCSPoliceModal,
     }, dispatch)
   }
 }
 
+function usePCSPoliceCallEffect() {
+
+  const [state, setState] = useState({
+    data: {
+      list: []
+    }
+  });
+
+  const initData = async(config = {}) => {
+    try {
+      const { data } = await getPoliceStationStatistical(config);
+      setState({
+        ...state, data
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  return [state, setState, initData]
+}
+
 const PCSPoliceCall = ({ iShowPCSPoliceCallModal, actions }) => {
-  
+
+  const [state, setState, initData] = usePCSPoliceCallEffect();
+
+  const [type, setType] = useState('day');
+
+  const changeType = (t) => {
+    setType(t);
+    initData({
+      ...iShowPCSPoliceCallModal,
+      t
+    })
+  }
+
   useEffect(() => {
-    iShowPCSPoliceCallModal.iShow && console.log("变化了")
+    iShowPCSPoliceCallModal.iShow && initData({
+      ...iShowPCSPoliceCallModal,
+      type
+    })
   }, [iShowPCSPoliceCallModal])
+
+  const { allnum, dealnum } = state.data;
 
   return (
     <Modal
       visible={iShowPCSPoliceCallModal.iShow}
-      title="分局警情统计"
-      className="corner-border resetModalStye"
+      title={`${iShowPCSPoliceCallModal.name}警情统计`}
+      className="corner-border resetModalStye pcs-policecall-modal "
       onCancel={() => actions.setIshowPCSPoliceModal({iShow: false})}
       footer={null}
       width={1000}
@@ -36,7 +80,20 @@ const PCSPoliceCall = ({ iShowPCSPoliceCallModal, actions }) => {
       zIndex={0}
     >
       <div>
-        hehe
+        <DayOrMonth
+          type={type}
+          changeType={changeType}
+        />
+        <TodayStatistics
+          key={getuuid()}
+          title=''
+          total={allnum}
+          deal={dealnum}
+        />
+        <BarChart
+          key={getuuid()}
+          data={state.data}
+        />
       </div>
     </Modal>
   )

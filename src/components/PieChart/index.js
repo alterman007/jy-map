@@ -77,11 +77,13 @@ class PieChart extends React.Component {
   mychart.on('click', (e) => {
     const { fkdw, name } = e.data;
     if(!+fkdw) return; // 区分点击的是分局还是派出所;
-    this.props.fetchStatistical(fkdw, name)
-    this.props.actions.setIshowPrevButton(true)
-    // this.props.actions.setIshowPCSPoliceModal({
-    //   iShow: true
-    // })
+    // this.props.fetchStatistical(fkdw, name)
+    // this.props.actions.setIshowPrevButton(true)
+    this.props.actions.setIshowPCSPoliceModal({
+      iShow: true,
+      name,
+      fkdw
+    })
   })
   }
 
@@ -97,7 +99,7 @@ class PieChart extends React.Component {
     
     return (
       <div className="piechart">
-        <h2>{`今日${name ? name : '全市'}警情分布`}</h2>
+        <h2>{`${name ? name : '全市'}警情分布`}</h2>
         <PrevButton 
           prevHandleClick={this.prevHandleClick.bind(this)}
         />
