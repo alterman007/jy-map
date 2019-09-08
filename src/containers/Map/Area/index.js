@@ -8,6 +8,7 @@ import { MapContext } from '../context';
 import { bindActionCreators } from 'redux';
 import { fetchMapPCSArea } from '../../../actions/map.js';
 import PCSArea from './PCSArea';
+import HighLightedArea from './HighLightedArea.js';
 let markerRecord = undefined;
 
 const mapDispatchToProps = (dispatch) => {
@@ -17,18 +18,23 @@ const mapDispatchToProps = (dispatch) => {
     }, dispatch)
   }
 }
+
 class Area extends React.Component {
+
   state = {
     clickAreaName: "",
     pscbj: [],
   }
-  static contextType = MapContext
+
+  static contextType = MapContext;
+
   async handleClick(ev) {
+    console.log("点击了")
     try {
       if(markerRecord) {
         this.context.removeLayer(markerRecord)
       }
-      this.props.actions.fetchMapPCSArea(ev.sourceTarget.feature.properties.adcode+"000000");
+      // this.props.actions.fetchMapPCSArea(ev.sourceTarget.feature.properties.adcode+"000000");
       var myIcon = L.divIcon({
         className: `marker-with-tip areaIcon`,
         html: `<span class=areaIconName name>${ev.sourceTarget.feature.properties.name}</span>`,
@@ -44,6 +50,7 @@ class Area extends React.Component {
       console.error("查询失败", error)
     }
   }
+
   setStyle(undef, region) {
     return {
       color: region ? 'transparent':'#13E2FF',
@@ -53,9 +60,11 @@ class Area extends React.Component {
       className: region ? '' : 'sh'
     }
   }
+
   render() {
     return (
       <>
+        <HighLightedArea />
         <GeoJSON
           data={shRegion}
           style={this.setStyle.bind(this, 'region')}

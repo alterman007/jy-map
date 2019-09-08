@@ -4,10 +4,10 @@ import qs from 'querystring';
 import moment from 'moment';
 import coordtransform from 'coordtransform';
 // const url = 'http://47.98.168.14:9094';
-const url = 'http://192.168.1.130:9090'
-// const produrl = 'http://47.98.168.14:9094'
+const url = 'http://192.168.0.127:9090'
+const produrl = 'http://47.98.168.14:9094'
 // const url = 'http://15.75.19.155:9090/';
-const produrl = 'http://15.75.19.155/';
+// const produrl = 'http://15.75.19.155/';
 const host = process.env.NODE_ENV === 'development' ? url : produrl
 
 const urlencoded = {
@@ -135,7 +135,7 @@ export function getFaceCaptureById(args) {
 
 export function getPoliceStationStatistical(args) {
   console.log(args)
-  return axios.get('/mock/110call.json')
+  // return axios.get('/mock/110call.json')
   return instance.get('/getdepartpcstj.do', {
     params: args
   })

@@ -59,7 +59,8 @@ const mapTypeToName = {
   4: 'wifi',
   5: 'areaIcon',
   6: 'alarmFace',
-  7: 'alarmCar'
+  7: 'alarmCar',
+  8: 'policestation'
 }
 const tipMarkerConfig = {
   car: {
@@ -100,6 +101,11 @@ const tipMarkerConfig = {
   },
   alarmCar: {
     iconUrl: alarmCarImage,
+    iconAnchor: [17, 20],
+    iconSize: [44, 40],
+    popupAnchor: [0, -20],
+  },
+  policestation: {
     iconAnchor: [17, 20],
     iconSize: [44, 40],
     popupAnchor: [0, -20],

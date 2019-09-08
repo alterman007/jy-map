@@ -25,7 +25,6 @@ const defaultState = {
 const cmpStatus = handleActions(
   {
     [setIshowPCSPoliceModal](state, { payload }) {
-      console.log("payload", payload)
       return {...state, iShowPCSPoliceCallModal: payload}
     },
     [setTransFormToLeft](state, { payload }) {

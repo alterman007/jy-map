@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Modal } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -49,13 +49,13 @@ const PCSPoliceCall = ({ iShowPCSPoliceCallModal, actions }) => {
 
   const [state, setState, initData] = usePCSPoliceCallEffect();
 
-  const [type, setType] = useState('day');
+  const [type, setType] = useState(2);
 
-  const changeType = (t) => {
-    setType(t);
+  const changeType = (type) => {
+    setType(type);
     initData({
       ...iShowPCSPoliceCallModal,
-      t
+      type
     })
   }
 
@@ -84,16 +84,26 @@ const PCSPoliceCall = ({ iShowPCSPoliceCallModal, actions }) => {
           type={type}
           changeType={changeType}
         />
-        <TodayStatistics
-          key={getuuid()}
-          title=''
-          total={allnum}
-          deal={dealnum}
-        />
-        <BarChart
-          key={getuuid()}
-          data={state.data}
-        />
+        {
+          useMemo(() => {
+            return <TodayStatistics
+            key={getuuid()}
+            title=''
+            total={allnum}
+            deal={dealnum}
+          />
+          },[state.data])
+        }
+        
+        {
+          useMemo(() => {
+           return <BarChart
+              key={getuuid()}
+              data={state.data}
+            />
+        }, [state.data])
+        }
+        
       </div>
     </Modal>
   )

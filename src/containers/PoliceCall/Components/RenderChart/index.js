@@ -11,13 +11,13 @@ class RenderChart extends React.Component {
     statistical: [],
     name: '全市',
     deal: 0,
-    type: 'day'
+    type: 2
   };
   timer = null;
   componentDidMount() {
     this.fetchStatistical();
   }
-  async fetchStatistical(dm = undefined, name = undefined, type = 'day') {
+  async fetchStatistical(dm = undefined, name = undefined, type = 2) {
     const { data } = await getPoliceStationStatistical({ dm, name, type });
     this.setState({
       statistical: data.list,

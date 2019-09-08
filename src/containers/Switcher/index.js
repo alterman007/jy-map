@@ -118,7 +118,7 @@ class Switcher extends React.Component {
   }
 
   handleHeatClick = () => {
-    return message.warning("建设中...");
+    // return message.warning("建设中...");
     this.props.actions.setIshowHeatLayers() 
   }
 

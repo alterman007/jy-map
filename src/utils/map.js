@@ -9,7 +9,8 @@ export function convertDataToGeojson(data, type) {
 export function transformPolygon(pscbj) {
   return pscbj.map(pcs => {
     return turf.polygon([pcs.list], {
-      name: pcs.dm
+      name: pcs.dm,
+      center: pcs.center
     })
   })
 }

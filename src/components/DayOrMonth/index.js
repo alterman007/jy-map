@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classnames from 'classnames';
 
 const DayOrMonth = ({type, changeType}) => {
   return (
     <div className="day-or-month">
       <span
-        onClick={() => changeType('day')}
-        className={classnames({ active: type === 'day' })}
+        onClick={() => changeType(1)}
+        className={classnames({ active: type === 1 })}
       >日</span>
       <span
-        onClick={() => changeType('month')}
-        className={classnames({ active: type === 'month' })}
+        onClick={() => changeType(2)}
+        className={classnames({ active: type === 2 })}
       >月</span>
     </div>
   )

@@ -1,4 +1,5 @@
 export const getOption = (data) => {
+  console.log("data", data)
   const filterData = (key) => {
     return data.list.map(d => {
       return d[key]
@@ -136,7 +137,7 @@ export const getOption = (data) => {
           }
         }
       },
-      "data": filterData("deal")
+      "data": filterData("dealnum")
     },
     {
       "name": "警情",
