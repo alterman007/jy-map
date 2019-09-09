@@ -48,7 +48,7 @@ class RealTimeMarkers extends Component {
       fetchMapTrail();
       fetchIsAlarmComing();
       fetchRadioTrall();
-    },5000)
+    }, 5000)
   }
 
   handleCarClick(marker) {
@@ -60,7 +60,7 @@ class RealTimeMarkers extends Component {
 
   renderCameraMarker(marker, index) {
     return (
-      <Marker key={marker.name + index} position={[marker.lat,marker.lng]} icon={tipTypeIcon(marker.type, marker.name)}>
+      <Marker key={marker.name + index} position={[marker.lat, marker.lng]} icon={tipTypeIcon(marker.type, marker.name)}>
         <Popup className="camera-marker-popup" direction="right" closeButton={false}>
           <div className="camera-info corner-border">
             <div className="name">{marker.name}</div>
@@ -82,15 +82,17 @@ class RealTimeMarkers extends Component {
 
   renderCarMarkers(markers, index) {
     return (
-      markers.map((car, index) => (
-        <Marker 
-          key={car.name + index} 
-          position={[car.lat, car.lng]} 
-          icon={tipTypeIcon(1, car.name)}
-          onClick={this.handleCarClick.bind(this, car.id)}
-        >
-        </Marker>
-      ))
+      markers.map((car, index) => {
+        return (
+          <Marker
+            key={car.name + index}
+            position={[car.lat, car.lng]}
+            icon={tipTypeIcon(1, car.name)}
+            onClick={this.handleCarClick.bind(this, car.id)}
+          >
+          </Marker>
+        )
+      })
     );
   }
 
@@ -105,7 +107,7 @@ class RealTimeMarkers extends Component {
     });
     return <MarkerCluster
       markers={markers}
-      wrapperOptions={{enableDefaultStyle: true}}
+      wrapperOptions={{ enableDefaultStyle: true }}
       // markerOptions={{icon: tipTypeIcon(marker.type, marker.name), title: 'Default title'}}
       options={{ maxClusterRadius: 80 }}
       onMarkerClick={this.handleClick.bind(this)}
@@ -148,10 +150,10 @@ class RealTimeMarkers extends Component {
     // 人脸alarmid, 车辆没有alarmid,
     return (
       <Marker
-        key={marker.alarmId ? marker.name:marker.plateInfo}
+        key={marker.alarmId ? marker.name : marker.plateInfo}
         position={[marker.lat, marker.lng]}
         onClick={setAlarmHistoryDetail.bind(this, marker)}
-        icon={tipTypeIcon(marker.alarmId ? 6 : 7, marker.alarmId ? marker.name:marker.plateInfo)}
+        icon={tipTypeIcon(marker.alarmId ? 6 : 7, marker.alarmId ? marker.name : marker.plateInfo)}
       />
     );
   }
@@ -206,9 +208,9 @@ class RealTimeMarkers extends Component {
   // }
 
   render() {
-    const { 
-      markers, alarmMarker, forceHistoryMarker, movePath, 
-      iShowCarMarkers, iShowRadioMarkers, carMarkers, 
+    const {
+      markers, alarmMarker, forceHistoryMarker, movePath,
+      iShowCarMarkers, iShowRadioMarkers, carMarkers,
       radioMarkers, iShowHeatLayers
     } = this.props;
     // console.log(markers, forceHistoryMarker);

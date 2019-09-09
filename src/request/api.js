@@ -1,13 +1,14 @@
 import axios from 'axios';
-import { transformLatLng, transformPolygon } from '../utils/map';
 import qs from 'querystring';
 import moment from 'moment';
+import { dm } from '@/utils/func';
+import { transformLatLng, transformPolygon } from '../utils/map';
 import coordtransform from 'coordtransform';
 // const url = 'http://47.98.168.14:9094';
-const url = 'http://192.168.0.127:9090'
-const produrl = 'http://47.98.168.14:9094'
+const url = 'http://172.28.16.45:9090'
+// const produrl = 'http://47.98.168.14:9094'
 // const url = 'http://15.75.19.155:9090/';
-// const produrl = 'http://15.75.19.155/';
+const produrl = 'http://15.75.19.155/';
 const host = process.env.NODE_ENV === 'development' ? url : produrl
 
 const urlencoded = {
@@ -23,32 +24,35 @@ const instance = axios.create({
 
 // 查询实时车辆轨迹
 export function getCarTrall() {
-  return instance.get('/getCarTrall.do')
+  return instance.get(`/getCarTrall.do?dm=${dm}`)
   .then(transformLatLng({path: "data", latName: "lat", lngName: "lng"}))
   .catch(err => null)
 }
 
 export function getTrall() {
-  return instance.get('/getTrall.do')
+  return instance.get(`/getTrall.do?dm=${dm}`)
 }
 
 //获取实时电台
 export function getRadioTrall() {
-  return instance.get('/getBjdtTrall.do')
+  return instance.get(`/getBjdtTrall.do?dm=${dm}`)
 }
 
+//获取实时告警
 export function getRealAlarm() {
-  return instance.get('/getRealAlarm.do')
+  return instance.get(`/getRealAlarm.do?dm=${dm}`)
   .then(transformLatLng({path: "data", latName: "latitude", lngName: "longitude"}));
 }
 
+//110联网警情
 export function getPoliceCall() {
-  return instance.post('/getBj110Entity.do?limit=10');
+  return instance.post(`/getBj110Entity.do?limit=20&dm=${dm}`);
 }
 
+//获取告警历史
 export function getAlarmHistory(args) {
   const { tabActive, timeRange } = args;
-  const url = tabActive === 'face' ? '/getFaceAlarmEntity.do?limit=100' : '/getCarAlarmEntity.do?limit=100';
+  const url = tabActive === 'face' ? `/getFaceAlarmEntity.do?dm=${dm}&limit=100` : `/getCarAlarmEntity.do?limit=100&dm=${dm}`;
   const condition = {};
   if(timeRange) {
     condition.biggintime = moment(timeRange).format('YYYY-MM-DD 00:00:00')
@@ -65,7 +69,7 @@ export function getAlarmHistory(args) {
 
 //获取联网警力历史
 export function getForceHistory(args) {
-  return instance.get('/getRealcardb.do', args)
+  return instance.get(`/getRealcardb.do?dm=${dm}`, args)
   .then(transformLatLng({path: "data", latName: "lat", lngName: "lng"}))
 }
 
@@ -77,7 +81,7 @@ export function getForceDetailById(args) {
 export function getForcePathById(args) {
   if (args.name) {
     const { name, biggintime, endtime } = args;
-    return instance.post(`/getCartrace.do?vehicleUploadFlag=${name}&biggintime=${biggintime ? biggintime : ""}&endtime=${endtime ? endtime: ""}`)
+    return instance.post(`/getCartrace.do?dm=${dm}&vehicleUploadFlag=${name}&biggintime=${biggintime ? biggintime : ""}&endtime=${endtime ? endtime: ""}`)
     .then(data => {
       const path = []
        data.data.result.forEach((d) => {
@@ -92,7 +96,7 @@ export function getForcePathById(args) {
     .catch(err => null)
   } else {
     const { humanId, biggintime, endtime } = args;
-    return instance.post(`/getFaceAlarmEntity.do?humanId=${humanId}&biggintime=${biggintime ? biggintime : ""}&endtime=${endtime ? endtime: ""}`)
+    return instance.post(`/getFaceAlarmEntity.do?dm=${dm}&humanId=${humanId}&biggintime=${biggintime ? biggintime : ""}&endtime=${endtime ? endtime: ""}`)
     .then(data => {
       const path = []
        data.data.forEach((d) => {
@@ -113,20 +117,19 @@ export function getAlarmDetailById(args) {
 
 // 获取监控点位列表
 export function getMonitorList(args) {
-  return instance.get('/getcaremaposition.do')
+  return instance.get(`/getcaremaposition.do?dm=${dm}`)
   .then(transformLatLng({path: "data", latName: "latitude", lngName: "longitude"}))
 }
 
 // 获取车辆联网抓拍
-
 export function getCarCaptureById(args) {
-  return instance.post('/getCarEntity.do', qs.stringify(args), urlencoded)
+  return instance.post(`getCarEntity.do?dm=${dm}`, qs.stringify(args), urlencoded)
   // return instance.post(`/getCarEntity.do?longitude=${args.lng}&latiude=${args.lat}`)
 }
 
 // 获取车辆人脸抓拍
 export function getFaceCaptureById(args) {
-  return instance.post('/getFaceEntity.do?limit=10', qs.stringify(args), urlencoded)
+  return instance.post(`/getFaceEntity.do?dm=${dm}`, qs.stringify(args), urlencoded)
   // return instance.post(`/getCarEntity.do?longitude=${args.lng}&latiude=${args.lat}`)
 }
 
@@ -134,7 +137,6 @@ export function getFaceCaptureById(args) {
 // 获取分局统计
 
 export function getPoliceStationStatistical(args) {
-  console.log(args)
   // return axios.get('/mock/110call.json')
   return instance.get('/getdepartpcstj.do', {
     params: args
@@ -150,7 +152,6 @@ export function getAppSecrect() {
 export async function monitorPlay(key) {
   try {
     const { data } = await getAppSecrect();
-    console.log(data)
     var params = `hikvideoclient://ReqType:PlayReal;VersionTag:artemis;SvrIp:15.202.201.200;SvrPort:443;Appkey:27053604;AppSecret:${data.data.appSecret};time:${data.data.time};timesecret:${data.data.timeSecret};httpsflag:1;CamList:${key || 31011941001310013511};`
     // var param = 'hikvideoclient://ReqType:' + PalyType + ';' + 'VersionTag:artemis' + ';' + 'SvrIp:' + SvrIp + ';' + 'SvrPort:' + SvrPort + ';' + 'Appkey:' + appkey + ';' + 'AppSecret:' + appSecret + ';' + 'time:' + time + ';' + 'timesecret:' + timeSecret + ';' + 'httpsflag:' + httpsflag + ';' + 'CamList:' + CamList + ';';
     document.getElementById("exe").src = params
@@ -178,6 +179,7 @@ export function getJqtongji() {
   return instance.get('/getJqtongji.do')
 }
 
+//
 export function getbj110() {
-  return instance.get('/getbj110.do')
+  return instance.get(`/getbj110.do?dm=${dm}`)
 }

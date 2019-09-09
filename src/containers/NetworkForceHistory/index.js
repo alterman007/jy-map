@@ -5,7 +5,8 @@ import ForceHistoryList from './Component/ForceHistoryList';
 import Title from '../../components/Title';
 import {
   toggleForceHistoryVisible,
-  selectForceHistoryItem
+  selectForceHistoryItem,
+  fetchForceHistory,
 } from '../../actions/forceHistory';
 import {
   selectRealTimeMarker,
@@ -22,11 +23,15 @@ const mapDispatchProps = (dispatch) => ({
   actions: bindActionCreators({
     toggleForceHistoryVisible,
     selectForceHistoryItem,
+    fetchForceHistory: fetchForceHistory.startAction,
     selectRealTimeMarker,
   }, dispatch),
 });
 
 class NetworkForceHistory extends Component {
+  componentDidMount() {
+    this.props.actions.fetchForceHistory()
+  }
   handleClose = () => {
     const { actions } = this.props;
     actions.toggleForceHistoryVisible(false);
@@ -35,17 +40,17 @@ class NetworkForceHistory extends Component {
   }
   render() {
     const { forceHistoryVisible, movePath } = this.props;
-    if (movePath)  return null;
+    if (movePath) return null;
     return (
       <>
-      {
-        forceHistoryVisible && 
-        <div className="network-force-history-wrapper">
-        <Title name="联网警力历史" onClose={this.handleClose} />
-        {/* <TimeRangeSearch onSearch={this.onSearch} history onTimeChange={this.onTimeChange} /> */}
-        <ForceHistoryList />
-      </div>
-      }
+        {
+          forceHistoryVisible &&
+          <div className="network-force-history-wrapper">
+            <Title name="联网警力历史" onClose={this.handleClose} />
+            {/* <TimeRangeSearch onSearch={this.onSearch} history onTimeChange={this.onTimeChange} /> */}
+            <ForceHistoryList />
+          </div>
+        }
       </>
     );
   }

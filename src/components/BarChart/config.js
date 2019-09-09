@@ -1,5 +1,4 @@
 export const getOption = (data) => {
-  console.log("data", data)
   const filterData = (key) => {
     return data.list.map(d => {
       return d[key]
@@ -13,11 +12,11 @@ export const getOption = (data) => {
       x: "4%",
       textStyle: {
         color: '#fff',
-        fontSize: '22'
+        fontSize: 20
       },
       subtextStyle: {
         color: '#90979c',
-        fontSize: '16',
+        fontSize: 20,
 
       },
     },
@@ -25,11 +24,12 @@ export const getOption = (data) => {
       "trigger": "axis",
       "axisPointer": {
         "type": "shadow",
-        textStyle: {
-          color: "#fff"
-        }
-
+       
       },
+      textStyle: {
+        color: "#fff",
+        fontSize: 20
+      }
     },
     "grid": {
       "borderWidth": 0,
@@ -43,7 +43,8 @@ export const getOption = (data) => {
       x: '4%',
       top: '11%',
       textStyle: {
-        color: '#90979c',
+        "color": '#90979c',
+        "fontSize": 20,
       },
       "data": ['出警', '警情']
     },
@@ -68,7 +69,8 @@ export const getOption = (data) => {
       },
       "axisLabel": {
         "interval": 0,
-
+        fontSize: 20,
+        rotate: 30
       },
       "data": filterData("name"),
     }],
@@ -80,14 +82,14 @@ export const getOption = (data) => {
       "axisLine": {
         lineStyle: {
           color: '#90979c'
-        }
+        },
       },
       "axisTick": {
         "show": false
       },
       "axisLabel": {
         "interval": 0,
-
+        fontSize: 20,
       },
       "splitArea": {
         "show": false
@@ -100,7 +102,7 @@ export const getOption = (data) => {
       "xAxisIndex": [
         0
       ],
-      bottom: 30,
+      bottom: 0,
       "start": 10,
       "end": 80,
       handleIcon: 'path://M306.1,413c0,2.2-1.8,4-4,4h-59.8c-2.2,0-4-1.8-4-4V200.8c0-2.2,1.8-4,4-4h59.8c2.2,0,4,1.8,4,4V413z',
@@ -109,7 +111,8 @@ export const getOption = (data) => {
         color: "#d3dee5",
       },
       textStyle: {
-        color: "#fff"
+        color: "#fff",
+        fontSize: '16px'
       },
       borderColor: "#90979c"
     }, {
@@ -131,6 +134,7 @@ export const getOption = (data) => {
           "label": {
             "show": true,
             "position": "top",
+            "fontSize": 20,
             formatter: function (p) {
               return p.value > 0 ? (p.value) : '';
             }
@@ -150,6 +154,7 @@ export const getOption = (data) => {
           "color": "rgba(252,230,48,1)",
           "barBorderRadius": 0,
           "label": {
+            "fontSize": 20,
             "show": true,
             "position": "top",
             formatter: function (p) {

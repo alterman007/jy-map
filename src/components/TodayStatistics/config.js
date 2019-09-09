@@ -13,6 +13,7 @@ export const getOption = (total, deal) => {
       bottom: '5%',
       textStyle: {
         color: '#90979c',
+        fontSize: 20,
       },
       "data": ['出警', '警情']
     },
@@ -27,7 +28,7 @@ export const getOption = (total, deal) => {
       axisLabel: {
         textStyle: {
           color: '#ffffff',
-          fontSize: '16',
+          fontSize: 20,
         }
       },
       data: [deal]
@@ -38,7 +39,7 @@ export const getOption = (total, deal) => {
       axisLabel: {
         textStyle: {
           color: '#ffffff',
-          fontSize: '16',
+          fontSize: 20,
         }
       },
       data: [total]
@@ -64,7 +65,7 @@ export const getOption = (total, deal) => {
           distance: 10,
           textStyle: {
             color: '#ffffff',
-            fontSize: '16',
+            fontSize: 20,
           }
         }
       },
@@ -89,8 +90,8 @@ export const getOption = (total, deal) => {
           position: 'insideRight',
           distance: 10,
           textStyle: {
-            color: '#ffffff',
-            fontSize: '16',
+            color: 'black',
+            fontSize: 20,
           }
         }
       },

@@ -11,20 +11,15 @@ function useHighLightedAreaEffect() {
   const context = useContext(MapContext);
   const getstyle = () => {
     return {
-      color: "#13E2FF",
+      color: "rgb(253,243,124)",
       weight: 4,
       fillOpacity: 0.1,
       fillColor: '#2DEFFF'
     }
   }
   const handleClick = (f) => {
-    console.log("点击了", f)
     context.flyTo(f.latlng, 14)
   }
-
-  useEffect(() => {
-    console.log(d)
-  }, [])
 
   return [getstyle, handleClick]
 }

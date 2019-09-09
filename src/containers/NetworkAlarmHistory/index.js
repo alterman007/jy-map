@@ -80,6 +80,7 @@ class NetworkAlarmHistory extends Component {
   }
 
   onSearch = () => {
+    console.log("ceshi")
     const { actions } = this.props;
     const { timeRange, tabActive } = this.state;
     actions.fetchAlarmHistory({ timeRange, tabActive });
@@ -111,7 +112,7 @@ class NetworkAlarmHistory extends Component {
     return (
       <ul className="alarm-list corner-border">
         {
-          alarmHistoryList.map((item) => {
+          alarmHistoryList.length > 0 ? alarmHistoryList.map((item) => {
             return (
               <li key={item.id} onClick={() => this.onSelectItem(item)} className={`${item.id == selectedId ? 'isSelected alarm-item' : 'alarm-item'}`}>
                 <ImageLazyLoad imgsrc={isFace ? item.facePicUrl : item.picVehicle} />
@@ -127,7 +128,8 @@ class NetworkAlarmHistory extends Component {
               </div>
             </li>
             )
-          })
+          }) : 
+            <li className="search-by-time">暂无当日数据, 选择日期以查询</li>
         }
       </ul>
     );

@@ -82,7 +82,7 @@ class PieChart extends React.Component {
     this.props.actions.setIshowPCSPoliceModal({
       iShow: true,
       name,
-      fkdw
+      dm:fkdw
     })
   })
   }

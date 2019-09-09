@@ -3,16 +3,24 @@ import HeatmapLayer from 'react-leaflet-heatmap-layer';
 // import points from './HeatData.json';
 import { connect } from 'react-redux';
 
-// const mapStateToProps = (state) => {
-//   return {
-//     carMarkers: state.map.carMarkers
-//   }
-// }
+const mapStateToProps = (state) => {
+  return {
+    carMarkers: state.map.carMarkers
+  }
+}
 
-const latlng = [[31.259523,121.302872], [31.218477, 121.426516]]
-const points = [[31.259523,121.302872, 899],[31.256231,121.302872, 1359],[31.259321,121.302872, 2222],[31.260001,121.302872, 666],[31.261231,121.302872, 666],[31.261231,121.302872, 1279],]
 
-// const points = []
+const gradient = {
+  '1.00': '#e3000e',
+  '0.99': '#e31006',
+  '0.90': '#ed0400',
+  '0.85': '#f08c16',
+  '0.70': '#fefb00',
+  '0.50': '#bbfe00',
+  '0.00': '#02ff0e',
+};
+
+
 class HeatMap extends Component {
 
   state = {
@@ -20,57 +28,36 @@ class HeatMap extends Component {
     layerHidden: false,
     radius: 18,
     blur: 18,
-    max: 0.1,
+    max: 0.5,
     // max: 100,
     limitAddressPoints: true,
-    points: points
   };
-  componentDidMount() {
-    setInterval(() => {
-      this.setState({
-        points: this.getWifiCount()
-      })
-    }, 2000);
-  }
-  random(num,scope) {
-    return num + Math.random()*scope
+  
+  random(num, scope, flag) {
+    if (flag) {
+      return num + Math.random()*scope
+    }
+    return num - Math.random()*scope
   }
 
-  getWifiCount( ) {
-    // const { points } = this.state;
-    
+  getWifiCount() {
     const res = [];
-    const count = 10;
-    latlng.map(lan => {
-      // lan[0]+= 0.005326
-      // lan[1] += 0.0005326
+    let flag = true;
+    this.props.carMarkers.map(car => {
+      const count = car.wificount < 10 ? 10 : car.wificount;
       for (var i = 0; i < count; i++) {
-        res.push([this.random(lan[0], 0.01), this.random(lan[1], 0.01), parseInt(this.random(0, 1200))])
+        res.push([this.random(car.lat, 0.001, flag), this.random(car.lng, 0.001, flag), parseInt(this.random(0, 1200, true))]);
+        Math.random() > 0.5 ? flag = !flag : void (0);
       }
     })
     return res;
-    console.log(res)
   }
 
   render() {
-    // let heat = this.props.carMarkers.map(h => {
-    //   return this.getWifiCount(h.wificount, h.lat, h.lng)
-    // })
-    const { points } = this.state
-
-    const gradient = {
-      '1.00': '#e3000e',
-      '0.99': '#e31006',
-      '0.90': '#ed0400',
-      '0.85': '#f08c16',
-      '0.70': '#fefb00',
-      '0.50': '#bbfe00',
-      '0.00': '#02ff0e',
-    };
-
+    const heat = this.getWifiCount();
     return (
       <HeatmapLayer
-        points={points}
+        points={heat}
         longitudeExtractor={m => m[1]}
         latitudeExtractor={m => m[0]}
         gradient={gradient}
@@ -83,6 +70,6 @@ class HeatMap extends Component {
   }
 }
 
-// export default connect(mapStateToProps)(HeatMap);
-export default HeatMap;
+export default connect(mapStateToProps)(HeatMap);
+// export default HeatMap;
 

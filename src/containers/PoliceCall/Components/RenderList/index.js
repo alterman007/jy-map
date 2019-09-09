@@ -18,8 +18,6 @@ class RenderList extends React.Component {
     this.setState = () => {
       return;
     }
-    // this.fetchList = null
-    // console.log(this.timer)
   }
 
   async fetchList() {
@@ -34,13 +32,14 @@ class RenderList extends React.Component {
     return (
       <div className="corner-border police-call-list">
         {
-          list.map((item, index) => (
+          list.length > 0 ?list.map((item, index) => (
             <div className="police-call-item" key={item.dwdZjid + index}>
               <div className="desc">
                 <span>反馈单号：{item.fkdbh}</span>
                 <span>反馈时间：{moment(item.dwRksj, 'YYYYMMDDHHmmss').format('YYYY-MM-DD HH:mm:ss')}</span>
                 <span>处理民警姓名：{item.fkrxm}</span>
-                <span>处理案情单位：{item.fkdwmc}</span>
+                <span>所属分局：{item.fkdwmc}</span>
+                <span>处理案情单位：{item.fkxcdwmc}</span>
                 <span>处理民警警号：{item.fkrgh}</span>
                 <span>案&nbsp;&nbsp;由：{item.aymc === 'null' ? '' : item.aymc}</span>
               </div>
@@ -48,7 +47,7 @@ class RenderList extends React.Component {
                 <span>出警情况：{item.cjqk}</span>
               </div>
             </div>
-          ))
+          )) : <div className="search-by-time">暂无实时数据</div>
         }
       </div>
     )

@@ -75,7 +75,7 @@ const PCSPoliceCall = ({ iShowPCSPoliceCallModal, actions }) => {
       className="corner-border resetModalStye pcs-policecall-modal "
       onCancel={() => actions.setIshowPCSPoliceModal({iShow: false})}
       footer={null}
-      width={1000}
+      width={1200}
       mask={false}
       zIndex={0}
     >

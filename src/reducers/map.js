@@ -22,9 +22,13 @@ import {
   convertDataToGeojson,
 } from '../utils/map';
 import { setIshowCarMarkers, setIshowRadioMarkers, setIshowHeatLayers, setIshowMonitorMarkers } from '../actions/cpmStatus';
+import { realArea } from '@/utils/func';
+
+const center = realArea ? realArea.properties.center : undefined;
 
 const defaultState = {
   carMarkers: [
+    {type: 1, wificount: 42, lat: 31.240578, lng: 121.320737, name: 'A7672', id: 'aaa',pcs: '江桥派出所'}
     // { type: 'car', lng: 121.375985, lat: 31.254194, name: '沪A123456',indexCode: "1111",id: 1},
     // { type: 'car', lng: 121.256683, lat: 31.238638, name: '沪A123456',indexCode: "1111",id: 2 },
     // { type: 'car', lng: 121.368088, lat: 31.212068, name: '沪A123456',indexCode: "1111", id: 3 },
@@ -48,7 +52,7 @@ const defaultState = {
     // { type: 1, lng: 121.338219, lat: 31.281926, name: '沪A1257', id: 5 },
   ],
   forceHistoryMarker: null,
-  center: { lng: 121.331696, lat: 31.238858 },
+  center: center ? {lng: center[0], lat: center[1]} : { lng: 121.331696, lat: 31.238858 },
   // 点击的marker，指向realTimeMarker对应数据ID
   // 点击历史条目，指向对应数据
   selectedMarkerID: null,

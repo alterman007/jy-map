@@ -6,6 +6,7 @@ import TimeRangeSearch from '../../components/TimeRangeSearch';
 import './index.styl';
 import { getCarCaptureById, getFaceCaptureById } from '../../request/api';
 import { message } from 'antd';
+import ImageLazyLoad from '@/components/ImageLazyLoad';
 import moment from 'moment';
 
 class ForceSnapshot extends Component {
@@ -27,7 +28,8 @@ class ForceSnapshot extends Component {
       const params = config ? config : {
         vehicleIdentification: this.props.defaultValue.name,
         endtime: this.props.defaultValue.createTime,
-        biggintime: moment( this.props.defaultValue.createTime).format('YYYY-MM-DD 00:00:00')
+        biggintime: moment(this.props.defaultValue.createTime).format('YYYY-MM-DD 00:00:00'),
+        limit: 100
       }
       const { data } = await getFaceCaptureById(params);
       this.setState({
@@ -44,7 +46,7 @@ class ForceSnapshot extends Component {
         vehicleIdentification: this.props.defaultValue.name,
         endtime: this.props.defaultValue.createTime,
         biggintime: moment(this.props.defaultValue.createTime).format('YYYY-MM-DD 00:00:00'),
-        limit: 20
+        limit: 100
       }
       const { data } = await getCarCaptureById(params);
       // const res = JSON.parse(JSON.stringify(data.splice(0,10)))
@@ -67,13 +69,13 @@ class ForceSnapshot extends Component {
 
   async onSearch (ev) {
     try {
-      const { time, selected } = this.state;
+      const { time = this.props.defaultValue.createTime, selected } = this.state;
       console.log("onSearch",time)
       const config = {
         vehicleIdentification: this.props.defaultValue.name,
         biggintime: moment(time).format('YYYY-MM-DD 00:00:00'),
         endtime: time,
-        limit: 20
+        limit: 100
       }
       selected === 'people' ?  this.getFaceCaptureInfo(config) : this.getCarCaptureById(config)
     } catch (error) {
@@ -149,7 +151,7 @@ class ForceSnapshot extends Component {
         {
           carCaptureList.map(c => {
             return <li key={c.id}>
-              <div className="img"><img src={selected === 'people' ? c.baseImageSrc : c.carNumberSrc} alt="" /></div>
+              <div className="img"><ImageLazyLoad imgsrc={selected === 'people' ? c.baseImageSrc : c.carNumberSrc} alt="" /></div>
               <div>
                 <span>所属派出所：{c.sspcs}</span>
                 <span>设备号：{c.indexCode}</span>

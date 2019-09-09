@@ -7,6 +7,7 @@ import { toggleAlarmHistoryVisible } from '../../actions/alarmHistory';
 import { toggleForceHistoryVisible } from '../../actions/forceHistory';
 import { setIshowRadioMarkers, setIshowCarMarkers, setIshowHeatLayers, setIshowMonitorMarkers } from '../../actions/cpmStatus';
 import { bindActionCreators } from 'redux';
+import { GetQueryValue } from '@/utils/func';
 import { message } from 'antd';
 
 const mapStateToProps = (state) => ({
@@ -70,12 +71,15 @@ class Switcher extends React.Component {
         this.handleRadioClick()
         break;
       case 4:
+        if (GetQueryValue('heat')) {
+          return message.warning("建设中..")
+        }
         this.handleHeatClick()
         break;
       case 5:
         this.handleMonitorClick()
         break;
-    
+
       default:
         break;
     }
@@ -119,12 +123,12 @@ class Switcher extends React.Component {
 
   handleHeatClick = () => {
     // return message.warning("建设中...");
-    this.props.actions.setIshowHeatLayers() 
+    this.props.actions.setIshowHeatLayers()
   }
 
   isActive(i) {
-    const { forceHistoryVisible, alarmHistoryVisible, iShowCarMarkers, iShowRadioMarkers,iShowHeatLayers, iShowMonitorMarkers } = this.props;
-    return [forceHistoryVisible, alarmHistoryVisible, iShowCarMarkers, iShowRadioMarkers,iShowHeatLayers, iShowMonitorMarkers]
+    const { forceHistoryVisible, alarmHistoryVisible, iShowCarMarkers, iShowRadioMarkers, iShowHeatLayers, iShowMonitorMarkers } = this.props;
+    return [forceHistoryVisible, alarmHistoryVisible, iShowCarMarkers, iShowRadioMarkers, iShowHeatLayers, iShowMonitorMarkers]
   }
 
   render() {
@@ -137,7 +141,7 @@ class Switcher extends React.Component {
               buttonList.map((name, i) => (
                 <div className="btn-center" key={name}>
                   <div
-                    className={classnames("btn", {active: this.isActive()[i]})}
+                    className={classnames("btn", { active: this.isActive()[i] })}
                     style={this.rotateByIndex(i)}
                     onClick={this.onClick.bind(this, i)}
                   >{name}</div>
@@ -154,4 +158,4 @@ class Switcher extends React.Component {
   }
 }
 
-export default connect(mapStateToProps,mapDispatchProps)(Switcher);
+export default connect(mapStateToProps, mapDispatchProps)(Switcher);

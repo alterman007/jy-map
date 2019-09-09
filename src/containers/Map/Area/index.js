@@ -9,6 +9,8 @@ import { bindActionCreators } from 'redux';
 import { fetchMapPCSArea } from '../../../actions/map.js';
 import PCSArea from './PCSArea';
 import HighLightedArea from './HighLightedArea.js';
+import { realArea } from '../../../utils/func.js';
+import data from './shanghai.json'
 let markerRecord = undefined;
 
 const mapDispatchToProps = (dispatch) => {
@@ -28,24 +30,34 @@ class Area extends React.Component {
 
   static contextType = MapContext;
 
+  componentDidMount() {
+    if (realArea) {
+      const position = [...realArea.properties.center];
+      this.drawMarker(position, realArea.properties.name);
+    }
+  }
+
+  drawMarker(position, name) {
+    var myIcon = L.divIcon({
+      className: `marker-with-tip areaIcon`,
+      html: `<span class=areaIconName name>${name}</span>`,
+      iconAnchor: [17, 20],
+      iconSize: [44, 38],
+      popupAnchor: [0, -20],
+    });
+
+    // const position = [...ev.sourceTarget.feature.properties.centroid]
+    markerRecord = L.marker(position.reverse(), {icon: myIcon}).addTo(this.context);
+    this.context.flyTo(position, 12)
+  }
+
   async handleClick(ev) {
-    console.log("点击了")
     try {
       if(markerRecord) {
         this.context.removeLayer(markerRecord)
       }
-      // this.props.actions.fetchMapPCSArea(ev.sourceTarget.feature.properties.adcode+"000000");
-      var myIcon = L.divIcon({
-        className: `marker-with-tip areaIcon`,
-        html: `<span class=areaIconName name>${ev.sourceTarget.feature.properties.name}</span>`,
-        iconAnchor: [17, 20],
-        iconSize: [44, 38],
-        popupAnchor: [0, -20],
-      });
-
-      const position = [...ev.sourceTarget.feature.properties.centroid]
-      markerRecord = L.marker(position.reverse(), {icon: myIcon}).addTo(this.context);
-      this.context.flyTo(position, 12)
+      this.props.actions.fetchMapPCSArea(ev.sourceTarget.feature.properties.adcode+"000000");
+      this.drawMarker([...ev.sourceTarget.feature.properties.center],ev.sourceTarget.feature.properties.name)
     } catch (error) {
       console.error("查询失败", error)
     }

@@ -68,13 +68,13 @@ class RealTimeAlarm extends Component {
           />
           <ul className="alarm-item-list corner-border">
             {
-              alarmList.map((item) => {
+              alarmList ? alarmList.map((item) => {
                return <AlarmItem
                   onClick={this.onSelectItem.bind(this, item)}
                   key={item.alarmId || item.id}
                   {...item}
                 />
-              })
+              }): <li className="search-by-time">暂无实时数据</li>
             }
           </ul>
         </Fragment>
