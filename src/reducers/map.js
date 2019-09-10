@@ -28,14 +28,14 @@ const center = realArea ? realArea.properties.center : undefined;
 
 const defaultState = {
   carMarkers: [
-    {type: 1, wificount: 42, lat: 31.240578, lng: 121.320737, name: 'A7672', id: 'aaa',pcs: '江桥派出所'}
+    // {type: 1, wificount: 42, lat: 31.240578, lng: 121.320737, name: 'A7672', id: 'aaa',pcs: '江桥派出所'}
     // { type: 'car', lng: 121.375985, lat: 31.254194, name: '沪A123456',indexCode: "1111",id: 1},
     // { type: 'car', lng: 121.256683, lat: 31.238638, name: '沪A123456',indexCode: "1111",id: 2 },
     // { type: 'car', lng: 121.368088, lat: 31.212068, name: '沪A123456',indexCode: "1111", id: 3 },
     // { type: 'car', lng: 121.338219, lat: 31.281926, name: '沪A123456',indexCode: "1111", id: 4 },
   ],
   radioMarkers: [
-    { type: 3, lng: 121.368088, lat: 31.212068, name: '手持电台', id: 4 },
+    // { type: 3, lng: 121.368088, lat: 31.212068, name: '手持电台', id: 4 },
   ],
   peoplePoints: [
     // { type: 'people', lat: 31.205900, lng: 121.267776, name: '笑傲江湖' },

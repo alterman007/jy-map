@@ -49,7 +49,7 @@ const PCSPoliceCall = ({ iShowPCSPoliceCallModal, actions }) => {
 
   const [state, setState, initData] = usePCSPoliceCallEffect();
 
-  const [type, setType] = useState(2);
+  const [type, setType] = useState(1);
 
   const changeType = (type) => {
     setType(type);

@@ -5,7 +5,7 @@ import { dm } from '@/utils/func';
 import { transformLatLng, transformPolygon } from '../utils/map';
 import coordtransform from 'coordtransform';
 // const url = 'http://47.98.168.14:9094';
-const url = 'http://172.28.16.45:9090'
+const url = 'http://192.168.1.129:9090'
 // const produrl = 'http://47.98.168.14:9094'
 // const url = 'http://15.75.19.155:9090/';
 const produrl = 'http://15.75.19.155/';
@@ -137,7 +137,7 @@ export function getFaceCaptureById(args) {
 // 获取分局统计
 
 export function getPoliceStationStatistical(args) {
-  // return axios.get('/mock/110call.json')
+  // return axios.get('/mock/110call.json');
   return instance.get('/getdepartpcstj.do', {
     params: args
   })

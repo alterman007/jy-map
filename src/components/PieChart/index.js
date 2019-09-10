@@ -45,49 +45,50 @@ class PieChart extends React.Component {
       },
       label: {
         fontSize: 20
-    },
-  series : [
-    {
-        name: '警情统计',
-        type: 'pie',
-        radius: ['29%', '59%'],
-        center: ['50%', '50%'],
-        label:{
-          show:true,
-          formatter:'{b}: {d}%',
-        },
-    data: data.map(e => {
-      return {value: e['allnum'], name: e.name, fkdw: e.fkdw || 0}
-    }),
-    // data : [{value: 70, name: 1}, {value: 20, name: 2}],
-    itemStyle: {
-      normal: {
-        fontSize:20
       },
-      emphasis: {
-        shadowBlur: 10,
-        shadowOffsetX: 0,
-        shadowColor: 'rgba(0, 0, 0, 0.5)',
-        fontSize: 20
-      }
-    }
-    }
-  ]})
-
-  mychart.on('click', (e) => {
-    const { fkdw, name } = e.data;
-    if(!+fkdw) return; // 区分点击的是分局还是派出所;
-    // this.props.fetchStatistical(fkdw, name)
-    // this.props.actions.setIshowPrevButton(true)
-    this.props.actions.setIshowPCSPoliceModal({
-      iShow: true,
-      name,
-      dm:fkdw
+      series: [
+        {
+          name: '警情统计',
+          type: 'pie',
+          radius: ['29%', '59%'],
+          center: ['50%', '50%'],
+          label: {
+            show: true,
+            formatter: '{b}: {d}%',
+          },
+          data: data.map(e => {
+            return { value: e['allnum'], name: e.name, fkdw: e.fkdw || 0 }
+          }),
+          // data : [{value: 70, name: 1}, {value: 20, name: 2}],
+          itemStyle: {
+            normal: {
+              fontSize: 20
+            },
+            emphasis: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)',
+              fontSize: 20
+            }
+          }
+        }
+      ]
     })
-  })
+
+    mychart.on('click', (e) => {
+      const { fkdw, name } = e.data;
+      if (!+fkdw) return; // 区分点击的是分局还是派出所;
+      this.props.fetchStatistical(fkdw, name, this.props.type)
+      this.props.actions.setIshowPrevButton(true)
+      this.props.actions.setIshowPCSPoliceModal({
+        iShow: true,
+        name,
+        dm: fkdw
+      })
+    })
   }
 
-  
+
   prevHandleClick() {
     this.props.actions.setIshowPrevButton(false)
     this.props.fetchStatistical()
@@ -95,15 +96,15 @@ class PieChart extends React.Component {
 
   render() {
     const { data, name } = this.props;
-    const  sortData = [...data]
-    
+    const sortData = [...data]
+
     return (
       <div className="piechart">
         <h2>{`${name ? name : '全市'}警情分布`}</h2>
-        <PrevButton 
+        <PrevButton
           prevHandleClick={this.prevHandleClick.bind(this)}
         />
-        <div ref={this.pieChart} style={{width: '100%', height: '400px'}}>
+        <div ref={this.pieChart} style={{ width: '100%', height: '400px' }}>
 
         </div>
         <h2>{`${name ? name : '全市'}统计`}</h2>
