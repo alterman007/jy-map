@@ -1,0 +1,37 @@
+.heat-map-layer-modal {
+  width: 400px;
+  // height: 300px;
+  position: fixed;
+  top: 100px;
+  left: 600px;
+  z-index: 99999;
+  padding: 10px;
+  color: white;
+  pointer-events: none;
+  h1 {
+    color: white;
+    font-size: 24px;
+  }
+  p {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    b {
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      border-radius: 50%;
+    }
+    span {
+      font-size: 20px;
+      text-align: left ;
+      width: 100px;
+      letter-spacing: 2px;
+    }
+  }
+  .car-info {
+    max-height: 100px;
+    overflow-y: auto;
+    pointer-events: auto;
+  }
+}

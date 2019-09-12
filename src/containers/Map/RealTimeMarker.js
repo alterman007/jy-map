@@ -22,8 +22,7 @@ const mapStateToProps = (state) => ({
   forceHistoryMarker: state.map.forceHistoryMarker,
   movePath: state.map.movePath,
   iShowCarMarkers: state.map.iShowCarMarkers,
-  iShowRadioMarkers: state.map.iShowRadioMarkers,
-  iShowHeatLayers: state.map.iShowHeatLayers
+  iShowRadioMarkers: state.map.iShowRadioMarkers
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -146,14 +145,15 @@ class RealTimeMarkers extends Component {
     );
   }
   renderAlarmMarker(marker) {
+    console.log("renderAlarmMarker", marker);
     const { setAlarmHistoryDetail } = this.props.actions;
     // 人脸alarmid, 车辆没有alarmid,
     return (
       <Marker
-        key={marker.alarmId ? marker.name : marker.plateInfo}
+        key={marker.name}
         position={[marker.lat, marker.lng]}
         onClick={setAlarmHistoryDetail.bind(this, marker)}
-        icon={tipTypeIcon(marker.alarmId ? 6 : 7, marker.alarmId ? marker.name : marker.plateInfo)}
+        icon={tipTypeIcon(marker.type === 0 || marker.type === 1 ? 6 : 7, marker.name)}
       />
     );
   }
@@ -186,32 +186,11 @@ class RealTimeMarkers extends Component {
   renderHeatLayer() {
     return <HeatMap />
   }
-
-  // renderAllMarkers(markerList) {
-  //   markerList.map(marker => {
-  //     marker.options = {
-  //       icon: tipTypeIcon(marker.type, marker.name),
-  //       type: marker.type,
-  //       id: marker.id,
-  //       info: marker
-  //     }
-  //   })
-  //   return (
-  //     <MarkerCluster
-  //       markers={markerList}
-  //       wrapperOptions={{enableDefaultStyle: true}}
-  //       // markerOptions={{icon: tipTypeIcon(marker.type, marker.name), title: 'Default title'}}
-  //       options={{ maxClusterRadius: 80 }}
-  //       onMarkerClick={this.handleClick.bind(this)}
-  //     />
-  //   )
-  // }
-
   render() {
     const {
       markers, alarmMarker, forceHistoryMarker, movePath,
       iShowCarMarkers, iShowRadioMarkers, carMarkers,
-      radioMarkers, iShowHeatLayers
+      radioMarkers
     } = this.props;
     // console.log(markers, forceHistoryMarker);
     if (movePath) return null;
@@ -232,7 +211,7 @@ class RealTimeMarkers extends Component {
         }
 
         {
-          iShowHeatLayers && this.renderHeatLayer()
+           this.renderHeatLayer()
         }
       </Fragment>
     );

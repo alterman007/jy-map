@@ -4,6 +4,7 @@ import moment from 'moment';
 import { dm } from '@/utils/func';
 import { transformLatLng, transformPolygon } from '../utils/map';
 import coordtransform from 'coordtransform';
+import { transformKeyValues } from '../utils/func';
 // const url = 'http://47.98.168.14:9094';
 const url = 'http://192.168.1.129:9090'
 // const produrl = 'http://47.98.168.14:9094'
@@ -49,10 +50,11 @@ export function getPoliceCall() {
   return instance.post(`/getBj110Entity.do?limit=20&dm=${dm}`);
 }
 
-//获取告警历史
+//获取人脸 | 车辆 告警历史
 export function getAlarmHistory(args) {
-  const { tabActive, timeRange } = args;
-  const url = tabActive === 'face' ? `/getFaceAlarmEntity.do?dm=${dm}&limit=100` : `/getCarAlarmEntity.do?limit=100&dm=${dm}`;
+  let { tabActive, timeRange, pagesize, pagenum, selectType } = args;
+  const url = tabActive === 'face' ? selectType ? `/getFaceAlarmcheliang.do?dm=${dm}
+  `: `/getFaceAlarmkakou.do?dm=${dm}` : selectType ? `/getCarAlarmcheliang.do?dm=${dm}` : `/getCarAlarmkakou.do?dm=${dm}`;
   const condition = {};
   if(timeRange) {
     condition.biggintime = moment(timeRange).format('YYYY-MM-DD 00:00:00')
@@ -61,16 +63,25 @@ export function getAlarmHistory(args) {
     condition.endtime = moment().format('YYYY-MM-DD HH:mm:ss')
     condition.biggintime = moment(condition.endtime).format('YYYY-MM-DD 00:00:00')
   }
+  condition.pagenum = pagenum;
+  condition.pagesize = pagesize;
+  // condition.endtime = '2019-08-31 23:59:00'
+  // condition.biggintime = '2019-08-31 00:00:00'
+  // condition.endtime = '2018-07-25 23:59:00' // 车载车辆
+  // condition.biggintime = '2018-07-25 00:00:00'
+  // condition.endtime = '2018-08-10 23:59:00' // 人脸车载
+  // condition.biggintime = '2018-08-10 00:00:00'
   // return axios.get('/mock/alarmHistory.json')
   return instance.post(url, qs.stringify(condition), urlencoded)
-    .then(transformLatLng({path: "data", latName: "latitude", lngName: "longitude"}));
+    .then(transformLatLng({ path: "data.list", latName: "latitude", lngName: "longitude" }))
+    .then(transformKeyValues);
 }
 
 
 //获取联网警力历史
 export function getForceHistory(args) {
   return instance.get(`/getRealcardb.do?dm=${dm}`, args)
-  .then(transformLatLng({path: "data", latName: "lat", lngName: "lng"}))
+    .then(transformLatLng({ path: "data", latName: "lat", lngName: "lng" }));
 }
 
 export function getForceDetailById(args) {
@@ -79,7 +90,7 @@ export function getForceDetailById(args) {
 
 // 获取车辆轨迹
 export function getForcePathById(args) {
-  if (args.name) {
+  if (!args.humanId) {
     const { name, biggintime, endtime } = args;
     return instance.post(`/getCartrace.do?dm=${dm}&vehicleUploadFlag=${name}&biggintime=${biggintime ? biggintime : ""}&endtime=${endtime ? endtime: ""}`)
     .then(data => {
@@ -96,7 +107,7 @@ export function getForcePathById(args) {
     .catch(err => null)
   } else {
     const { humanId, biggintime, endtime } = args;
-    return instance.post(`/getFaceAlarmEntity.do?dm=${dm}&humanId=${humanId}&biggintime=${biggintime ? biggintime : ""}&endtime=${endtime ? endtime: ""}`)
+    return instance.post(`/getFaceAlarmkakou.do?dm=${dm}&humanId=${humanId}&biggintime=${biggintime ? biggintime : ""}&endtime=${endtime ? endtime: ""}`)
     .then(data => {
       const path = []
        data.data.forEach((d) => {

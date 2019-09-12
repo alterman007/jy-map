@@ -1,13 +1,23 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
+import moment from 'moment';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import FontIcon from '../../components/FontIcon';
 import TimeRangeSearch from '../../components/TimeRangeSearch';
-// import demoImg from './demo.png';
-import './index.styl';
 import { getCarCaptureById, getFaceCaptureById } from '../../request/api';
 import { message } from 'antd';
 import ImageLazyLoad from '@/components/ImageLazyLoad';
-import moment from 'moment';
+import { setIshowHDPICModal } from '@/actions/cpmStatus';
+import './index.styl';
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators({
+      setIshowHDPICModal
+    }, dispatch)
+  }
+}
 
 class ForceSnapshot extends Component {
   state = {
@@ -19,6 +29,8 @@ class ForceSnapshot extends Component {
     faceCaptureList: [],
     time: ''
   };
+
+  rootList = React.createRef()
 
   componentDidMount() {
     this.getFaceCaptureInfo()
@@ -49,7 +61,6 @@ class ForceSnapshot extends Component {
         limit: 100
       }
       const { data } = await getCarCaptureById(params);
-      // const res = JSON.parse(JSON.stringify(data.splice(0,10)))
       this.setState({
         carCaptureList: data
       })
@@ -60,6 +71,11 @@ class ForceSnapshot extends Component {
 
   changeSelected = (ev) => {
     const { type } = ev.target.dataset;
+    console.log(this.rootList.current)
+    this.rootList.current.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    }); 
     if (type) {
       this.setState({ selected: type }, () => {
         type === 'people' ? this.getFaceCaptureInfo() : this.getCarCaptureById()
@@ -70,7 +86,6 @@ class ForceSnapshot extends Component {
   async onSearch (ev) {
     try {
       const { time = this.props.defaultValue.createTime, selected } = this.state;
-      console.log("onSearch",time)
       const config = {
         vehicleIdentification: this.props.defaultValue.name,
         biggintime: moment(time).format('YYYY-MM-DD 00:00:00'),
@@ -84,7 +99,6 @@ class ForceSnapshot extends Component {
   }
 
   onTimeChange(time) {
-    console.log(time)
     this.setState({
       time
     })
@@ -107,8 +121,8 @@ class ForceSnapshot extends Component {
             transform="translate(-454, -155)"
             d="M588,156L607,192L746,192L727,156L588,156Z"
           />
-          <text transform="translate(14, 27)">人脸图像</text>
-          <text transform="translate(169, 27)">车辆图像</text>
+          <text transform="translate(14, 27)" className={classnames({activeText: selected === 'people'})}>人脸图像</text>
+          <text transform="translate(169, 27)" className={classnames({activeText: selected === 'car'})}>车辆图像</text>
         </svg>
         <button className="button-close" onClick={this.props.onClose}>
           <FontIcon type="close" className="close-btn" />
@@ -120,22 +134,13 @@ class ForceSnapshot extends Component {
   renderList() {
     const { list } = this.state;
     return (
-      <div className="snapshot-list-wrapper corner-border-highlight-bg">
+      <div className="snapshot-list-wrapper corner-border-highlight-bg" ref={this.rootList}>
         {
           list.map((item, index) => (
             <div className="snapshot-item" key={item.name + index}>
               <div className="header">{item.name}</div>
               <div className="img-list">
-                {/* {item.imgs.map((src, i) => <img key={i} src={demoImg} alt="" />)} */}
               </div>
-              {/* <div className="desc">
-                <span>所属派出所：{item.belongTo}</span>
-                <span>设备号：{item.deviceCode}</span>
-                <span>经 度：{item.lng}</span>
-                <span>摄像头位置：{item.cameraPosition}</span>
-                <span>纬 度：{item.lat}</span>
-                <span>创建日期：{item.time}</span>
-              </div> */}
             </div>
           ))
         }     
@@ -144,14 +149,31 @@ class ForceSnapshot extends Component {
     )
   }
 
+  imgClick(item) {
+    this.props.actions.setIshowHDPICModal({
+      hdpic: item.carNumberQjSrc || item.bszImageSrc,
+      ishow: true,
+      name: item.cameraName,
+      time: item.createTime,
+      address: item.sspcs,
+      type: 4 // 车辆抓拍
+    })
+  }
+
   rendercarCaptureList() {
     const { carCaptureList, selected } = this.state
     return carCaptureList.length > 0 ? (
       <ul>
         {
-          carCaptureList.map(c => {
-            return <li key={c.id}>
-              <div className="img"><ImageLazyLoad imgsrc={selected === 'people' ? c.baseImageSrc : c.carNumberSrc} alt="" /></div>
+          carCaptureList.map((c, index) => {
+            return <li key={c.id + index}>
+              <div className="img">
+                <ImageLazyLoad
+                  imgsrc={selected === 'people' ? c.baseImageSrc : c.carNumberSrc}
+                  alt=""
+                  imgClick={this.imgClick.bind(this, c)}
+                />
+              </div>
               <div>
                 <span>所属派出所：{c.sspcs}</span>
                 <span>设备号：{c.indexCode}</span>
@@ -180,4 +202,4 @@ class ForceSnapshot extends Component {
   }
 }
 
-export default ForceSnapshot;
+export default connect(null, mapDispatchToProps)(ForceSnapshot);

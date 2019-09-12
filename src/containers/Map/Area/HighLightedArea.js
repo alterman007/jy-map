@@ -26,7 +26,6 @@ function useHighLightedAreaEffect() {
 
 const HighLightedArea = () => {
   const [getstyle, handleClick] = useHighLightedAreaEffect();
-  console.log("渲染")
   return (
     <>
       <GeoJSON

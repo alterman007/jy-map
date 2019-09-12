@@ -107,7 +107,7 @@ const tipMarkerConfig = {
   },
   policestation: {
     iconAnchor: [17, 20],
-    iconSize: [44, 40],
+    iconSize: [35, 35],
     popupAnchor: [0, -20],
   }
 };

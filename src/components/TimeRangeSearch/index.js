@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { DatePicker } from 'antd';
+import { DatePicker, Select } from 'antd';
 // import moment from 'moment';
 import './index.styl';
 
-const { RangePicker } = DatePicker;
-
-class TimeRangeSearch extends Component {
+class TimeRangeSearch extends React.PureComponent {
   pickerStyle = {
     width: '60%',
     background: 'rgba(71,156,223,0.30)',
@@ -13,12 +11,12 @@ class TimeRangeSearch extends Component {
   
 
   onTimeChange(undef, time) {
-    console.log(time, "shijian")
     this.props.onTimeChange(time)
   }
 
   render() {
-    const { onTimeChange, onSearch, history, selectName } = this.props;
+    const { onTimeChange, onSearch, history, selectName, value, onSelectChange, selectType, iShowSelectType } = this.props;
+    console.log("渲染")
     return (
       <div className="time-range-search-wrapper">
         {
@@ -43,7 +41,19 @@ class TimeRangeSearch extends Component {
               format="YYYY-MM-DD HH:mm:ss"
               onChange={this.onTimeChange.bind(this)}
               placeholder="选择时间"
-              />
+            />
+            {
+              iShowSelectType && 
+               <Select
+               value={selectType}
+               className="select"
+               dropdownClassName="open-select"
+               onSelect={onSelectChange}
+             >
+               <Select.Option value={0}>卡口</Select.Option>
+               <Select.Option value={1}>车载</Select.Option>
+             </Select>
+           }
             <button
           className="search-btn"
           onClick={onSearch}

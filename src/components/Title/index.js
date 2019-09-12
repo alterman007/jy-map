@@ -8,7 +8,7 @@ function Title({ name, onClose }) {
     <h4 className="title-wrapper">
       <span>
         {name}
-        <img src={bgImg} alt="" style={{width: 100}}/>
+        <img src={bgImg} alt=""/>
       </span>
       <button onClick={onClose}>
         <FontIcon type="close" className="close-btn" />

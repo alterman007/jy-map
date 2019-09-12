@@ -15,6 +15,7 @@ import {
 import { setTransFormToLeft, setIshowHDPICModal } from '../../actions/cpmStatus';
 // import { getAlarmDetailById } from '../../request/api';
 import './index.styl';
+import { alarmType } from '../../constants/alarmConstants';
 
 // const mapStateToProps = (state) => ({
 //   detailId: state.forceHistory.detailId,
@@ -66,7 +67,7 @@ class AlarmDetail extends Component {
     const { detail, actions } = this.props;
     const { fromTime, toTime } = this.state;
     const config = {
-      humanId : detail.humanId,
+      humanId : detail.id,
       moveFlag: false,
       biggintime: fromTime,
       endtime: toTime
@@ -86,22 +87,12 @@ class AlarmDetail extends Component {
   }
   showHDPICModal(item) {
     let type, name, time, imgsrc, address, hdpic;
-    if (item.alarmId) {
-      type = '人脸告警';
-      address = item.cameraName
-      name = item.humanName;
-      time = item.alarmTime;
-      imgsrc = item.facePicUrl
-      hdpic = item.bkgPicUrl
-    } else {
-      type = '车辆告警';
-      name = item.plateInfo;
-      // time = new Date(+item.passtime).toLocaleString('zh', { hour12: false });
-      time = item.passTimeStr
-      imgsrc = item.picPlate
-      address = item.crossingName
-      hdpic = item.picVehicle
-    }
+    type = item.type;
+    name = item.name;
+    time = item.alarmTime;
+    imgsrc = item.baseImage;
+    address = item.address;
+    hdpic = item.hdpicImage;
     this.props.actions.setIshowHDPICModal({
       type, name, time, imgsrc, address, hdpic,
       ishow: true,
@@ -116,7 +107,7 @@ class AlarmDetail extends Component {
     return (
       <div className="action-detail-wrapper">
         {
-          detail.type === 'face' && <button onClick={this.showPath}>人脸轨迹</button>
+          detail.type === 1 && <button onClick={this.showPath}>人脸轨迹</button>
         }
         <button onClick={this.showHDPICModal.bind(this, detail)}>高清大图</button>
         <button onClick={this.close}>关闭</button>
@@ -158,32 +149,39 @@ class AlarmDetail extends Component {
     if (!detail) {
       return null;
     }
+    console.log("detail", detail);
     return (
       <div className={tranformToLeft + " alarm-detail-wrapper corner-border-warning"}>
         <img src={detail.bkgPicUrl || detail.picVehicle} alt="背景图片" />
         <div className="h6-name">{detail.humanName || detail.plateInfo}</div>
         {
-          detail.type === 'face' && <div className="info">
+          detail.type === 1 && <div className="info">
             身份证：{detail.humans && detail.humans[0] && detail.humans[0].credentialsNum}
           </div>
         }
         <div className="info">
-          经 度：{detail.longitude.toString().substr(0, 10)}
+          经 度：{detail.lng.toString().substr(0, 10)}
         </div>
         <div className="info">
-          纬 度：{detail.latitude.toString().substr(0, 10)}
+          纬 度：{detail.lng.toString().substr(0, 10)}
         </div>
         <div className="info">
-          告警日期：{detail.alarmTime || detail.passTimeStr}
+          告警日期：{detail.alarmTime}
         </div>
         <div className="info">
-          告警类别：<span className="warning">{detail.type === 'face' ? '人脸告警' : '车辆告警'}</span>
+          告警类别：<span className="warning">{alarmType[detail.type]}</span>
         </div>
+        {
+          detail.type === 3 &&
+          <div className="info">
+          告警原因：<span className="warning">{detail.reason}</span>
+        </div>
+        }
         <div className="info">
           设备号：{detail.indexCode}
         </div>
         <div className="info">
-          所在区域：{detail.cameraName}
+          所在区域：{detail.address}
         </div>
         {this.renderAction()}
       </div>

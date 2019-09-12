@@ -19,7 +19,9 @@ const alarmHistory = handleActions(
       return { ...state, visible, detailId: null };
     },
     [setAlarmHistoryList](state, { payload }) {
-      return Array.isArray(payload) ? { ...state, list: payload } : state;
+      // return payload === 0 ? { ...state, list: []} : Array.isArray(payload.list) ? { ...state, list: [...state.list, ...payload.list] } : state;
+      console.log("payload", payload)
+      return payload === 0 ? { ...state, list: []} :  Array.isArray(payload) ? { ...state, list: [...state.list, ...payload] } : state;
     },
     [selectAlarmItem](state, { payload }) {
       return { ...state, detailId: payload };

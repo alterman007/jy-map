@@ -63,9 +63,9 @@ const defaultState = {
   mapzoom: null,
   pcsArea: [],
   
-  iShowCarMarkers: true, //是否显示车辆
+  iShowCarMarkers: false, //是否显示车辆
   iShowHeatLayers: false,
-  iShowRadioMarkers: true, //是否显示电台
+  iShowRadioMarkers: false, //是否显示电台
   iShowMonitorMarkers: false, // 是否显示监控固定点位
   iShowNetworkAlarmHistory: false,
   iShowNetWorkForceHistory: false,

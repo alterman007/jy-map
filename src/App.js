@@ -11,6 +11,7 @@ import AlarmDetailControl from './containers/AlarmDetailControl';
 import Switcher from './containers/Switcher';
 import './App.styl';
 import PCSPoliceCallModal from './components/PCSPoliceCallModal';
+import HeatMapModal from './containers/Map/_HeatMap/HeatMapModal';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <AlarmDetailControl />
         <Switcher />
         <PCSPoliceCallModal />
+        <HeatMapModal />
       </div>
     </div>
   );

@@ -7,11 +7,11 @@ const DayOrMonth = ({type, changeType}) => {
       <span
         onClick={() => changeType(1)}
         className={classnames({ active: type === 1 })}
-      >日</span>
+      >当日</span>
       <span
         onClick={() => changeType(2)}
         className={classnames({ active: type === 2 })}
-      >月</span>
+      >当月</span>
     </div>
   )
 }

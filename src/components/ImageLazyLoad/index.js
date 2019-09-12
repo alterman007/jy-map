@@ -18,10 +18,6 @@ const io = new IntersectionObserver((entries) => { // 观察者
 
 const ImageLazyLoad = ({ imgsrc, imgClick }) => {
   const imgRef = React.useRef();
-  // const onload = () => {
-  //   console.log("测试")
-  //   io.observe(imgRef.current)
-  // }
   useEffect(() => {
     io.observe(imgRef.current)
     return () => {
@@ -29,7 +25,7 @@ const ImageLazyLoad = ({ imgsrc, imgClick }) => {
     }
   }, [])
   return (
-    <img data-src={imgsrc} src="" ref={imgRef} onClick={imgClick} />
+    <img data-src={imgsrc} src="" ref={imgRef} onClick={imgClick} style={{cursor: 'pointer'}}/>
   )
 }
 

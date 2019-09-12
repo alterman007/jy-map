@@ -9,6 +9,7 @@ import RealTimeMarker from './RealTimeMarker';
 import './index.styl';
 import Area from './Area/index';
 import HDPICModal from '../../components/HDPICModal';
+import _HeatMap from './_HeatMap';
 
 const mapStateToProps = (state) => ({
   center: state.map.center,
@@ -34,7 +35,7 @@ class MapOperation extends Component {
     });
   }
 
-  // renderTileLayer() {
+  // renderTileLayer() { 
   //   return (
   //     <Fragment>
   //       <TileLayer url="//map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}" />

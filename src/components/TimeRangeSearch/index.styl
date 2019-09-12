@@ -20,4 +20,42 @@
   .time-range-wrapper {
     width: 60%;
   }
+  .select {
+    background: #68E0FB;
+    flex: auto;
+    height: 100%;
+    margin-left: 6px;
+    cursor pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    color: black;
+    font-weight: 600;
+    .ant-select-selection--single {
+      background:  #68E0FB;
+      border:none;
+          width: 100%;
+    }
+    .ant-select-arrow {
+      i {
+        color: black;
+      }
+    }
+  }
+}
+
+
+.open-select {
+  .ant-select-dropdown-menu-item {
+    background-color: #08111B;
+    color: white;
+    border-bottom: 1px solid #87DEF8;
+    &:hover {
+      background: #87DEF8;
+      color: black;
+    }
+  }
+  .ant-select-dropdown-menu-item:last-child {
+    border-bottom: none;
+  }
 }

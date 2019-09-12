@@ -5,13 +5,15 @@ import classnames from 'classnames';
 import TimeRangeSearch from '../../components/TimeRangeSearch';
 import Title from '../../components/Title';
 import ImageLazyLoad from '../../components/ImageLazyLoad';
+import { alarmType } from '../../constants/alarmConstants';
 import {
   toggleAlarmHistoryVisible,
   fetchAlarmHistory,
   selectAlarmItem,
-  setAlarmHistoryListIsSelected
+  setAlarmHistoryListIsSelected,
+  setAlarmHistoryList
 } from '../../actions/alarmHistory';
-
+import { setIshowHDPICModal } from '../../actions/cpmStatus';
 import './index.styl';
 import { message } from 'antd';
 
@@ -24,30 +26,60 @@ const mapDispatchProps = (dispatch) => ({
   actions: bindActionCreators({
     toggleAlarmHistoryVisible,
     fetchAlarmHistory: fetchAlarmHistory.startAction,
+    setAlarmHistoryList,
     selectAlarmItem,
-    setAlarmHistoryListIsSelected
+    setAlarmHistoryListIsSelected,
+    setIshowHDPICModal
   }, dispatch),
 });
 
-
-
 class NetworkAlarmHistory extends Component {
   state = {
-    tabActive: 'face', // face car
+    tabActive: 'car', // face car
     timeRange: '',
-    selectedId: null
+    selectedId: null,
+    selectType: 1
   }
-
+  pagenum = 1;
+  pagesize = 50;
+  endItem = React.createRef();
+  rootList = React.createRef();
   alarm = '';
+
+  componentDidMount() {
+    this.onSearch();
+  }
 
   componentDidUpdate(pp) {
     if (this.props.alarmHistoryVisible && !pp.alarmHistoryVisible) {
-      this.onSearch();
+      //开始监听
+      this.initObserve();
+    }
+    if (!this.props.alarmHistoryVisible && pp.alarmHistoryVisible) {
+      // 取消监听
+      this.pagenum = 1;
+      this.io.disconnect(this.endItem.current);
     }
   }
 
-  componentDidMount() {
-    console.log(this.alarm)
+  initObserve() {
+    this.io = new IntersectionObserver((entries) => {
+      entries.forEach(item => {
+        if (item.intersectionRatio > 0) {
+          this.onSearch(++this.pagenum);
+        }
+      })
+    }, {
+      root: this.rootList.current,
+      rootMargin: "0px 0px 1000px 0px"
+    });
+    this.observe();
+  }
+
+  observe() {
+    if (this.endItem.current) {
+      this.io.observe(this.endItem.current)
+    }
   }
 
   handleClose = () => {
@@ -55,89 +87,137 @@ class NetworkAlarmHistory extends Component {
     actions.toggleAlarmHistoryVisible(false);
   }
 
-  switchTab = ({ target }) => {
+  scrollToTop() {
+    this.rootList.current.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
+  switchTab = ({ target }) => { // 切换tab平滑滚动到0;
+    this.scrollToTop();
+    this.pagenum = 1;
+    this.props.actions.setAlarmHistoryList(0);
     if (target.dataset.type) {
-      this.setState({ tabActive: target.dataset.type, timeRange: '' }, () => {
+      this.setState({ tabActive: target.dataset.type }, () => {
         this.onSearch();
       });
     }
   }
 
   onSelectItem = (item) => {
-    if(!+item.latitude || !+item.longitude ) return message.warning("暂无定位信息");
+    if (!+item.lat || !+item.lng) return message.warning("暂无定位信息");
     this.setState({
       selectedId: item.id
     })
     const { actions } = this.props;
-    item.type = this.state.tabActive;
     actions.selectAlarmItem(item);
   }
 
   onTimeChange = (time) => {
+    this.pagenum = 1;
     this.setState({
       timeRange: time,
+    }, () => {
+        this.props.actions.setAlarmHistoryList(0);
     });
   }
 
-  onSearch = () => {
-    console.log("ceshi")
-    const { actions } = this.props;
-    const { timeRange, tabActive } = this.state;
-    actions.fetchAlarmHistory({ timeRange, tabActive });
+  onSelectChange = (selectType) => {
+    if (selectType === this.state.selectType) return;
+    this.props.actions.setAlarmHistoryList(0);
+    this.scrollToTop();
+    this.pagenum = 1;
+    this.setState({
+      selectType
+    }, () => {
+      this.onSearch();
+    })
   }
 
-  
+  onSearch = (pagenum = this.pagenum, pagesize = this.pagesize) => {
+    const { actions } = this.props;
+    const { timeRange, tabActive, selectType } = this.state;
+    actions.fetchAlarmHistory({ timeRange, tabActive, pagesize, pagenum, selectType });
+  }
+
+  onSearchBtnClick = () => {
+    const { alarmHistoryList, actions } = this.props;
+    if (alarmHistoryList.length > 0) {
+      actions.setAlarmHistoryList(0)
+    }
+    this.onSearch()
+  }
 
   renderTypeTab() {
     const { tabActive } = this.state;
     return (
-      <div className="type-tab" onClick={this.switchTab}>
-        <span
-          className={classnames({ active: tabActive === 'face' })}
-          data-type="face"
-        >人脸告警</span>
-        <span
-          className={classnames({ active: tabActive === 'car' })}
-          data-type="car"
-        >车辆告警</span>
-      </div>
+      <>
+        <div className="type-tab" onClick={this.switchTab}>
+          <span
+            className={classnames({ active: tabActive === 'face' })}
+            data-type="face"
+          >人脸告警</span>
+          <span
+            className={classnames({ active: tabActive === 'car' })}
+            data-type="car"
+          >车辆告警</span>
+        </div>
+      </>
     );
+  }
+
+  imgClick = (item, e) => {
+    e.stopPropagation();
+      let type, name, time, imgsrc, address, hdpic;
+      type = item.type;
+      name = item.name;
+      time = item.alarmTime;
+      imgsrc = item.baseImage;
+      address = item.address;
+      hdpic = item.hdpicImage;
+      this.props.actions.setIshowHDPICModal({
+        type, name, time, imgsrc, address, hdpic,
+        ishow: true,
+      })
   }
 
   renderAlarmList() {
     const { alarmHistoryList } = this.props;
-    const { tabActive, selectedId} = this.state;
+    const { tabActive, selectedId } = this.state;
     const isFace = tabActive === 'face';
+    console.log("alarmHistoryList",alarmHistoryList)
     // const test = "http://img4.bdimg.com/it/u=3565682627,2876030475&fm=26&gp=0.jpg"
     return (
-      <ul className="alarm-list corner-border">
+      <ul className="alarm-list corner-border" ref={this.rootList}>
         {
           alarmHistoryList.length > 0 ? alarmHistoryList.map((item) => {
             return (
               <li key={item.id} onClick={() => this.onSelectItem(item)} className={`${item.id == selectedId ? 'isSelected alarm-item' : 'alarm-item'}`}>
-                <ImageLazyLoad imgsrc={isFace ? item.facePicUrl : item.picVehicle} />
-              {/* <img src={isFace ? item.facePicUrl : item.picVehicle } alt=""/> */}
-              <div className="alarm-desc">
-                <span className="name">
-                  {isFace ? item.humanName : item.plateInfo}
-                </span>
-                <span className="time">
-                  {/* 告警时间： */}
-                  {isFace ? item.alarmTime : item.passTimeStr }
-                </span>
-              </div>
-            </li>
+                <ImageLazyLoad imgClick={(e) => this.imgClick(item,e)} imgsrc={isFace ? item.facePicUrl : item.picVehicle} />
+                {/* <img src={isFace ? item.facePicUrl : item.picVehicle } alt=""/> */}
+                <div className="alarm-desc">
+                  <span className="name">
+                    {item.name}
+                  </span>
+                  <span className="time">
+                    {item.alarmTime}
+                  </span>
+                </div>
+              </li>
             )
-          }) : 
-            <li className="search-by-time">暂无当日数据, 选择日期以查询</li>
+          }) :
+            <li className="search-by-time">暂无数据...</li>
         }
+        <li ref={this.endItem} style={{ opacity: "0" }}>到底了...</li>
       </ul>
     );
   }
 
   render() {
     const { alarmHistoryVisible, movePath } = this.props;
-    if(movePath) return null;
+    const { selectType } = this.state;
+    if (movePath) return null;
     if (!alarmHistoryVisible) {
       return null;
     }
@@ -146,7 +226,14 @@ class NetworkAlarmHistory extends Component {
         <Title name="联网告警历史" onClose={this.handleClose} />
         {this.renderTypeTab()}
         {/* <hr /> */}
-        <TimeRangeSearch onSearch={this.onSearch} history onTimeChange={this.onTimeChange} />
+        <TimeRangeSearch
+          onSearch={this.onSearchBtnClick}
+          history
+          onTimeChange={this.onTimeChange}
+          onSelectChange={this.onSelectChange}
+          selectType={selectType}
+          iShowSelectType
+        />
         {this.renderAlarmList()}
       </div>
     );
