@@ -5,7 +5,7 @@ import './index.styl';
 import { connect } from 'react-redux';
 import { toggleAlarmHistoryVisible } from '../../actions/alarmHistory';
 import { toggleForceHistoryVisible } from '../../actions/forceHistory';
-import { setIshowRadioMarkers, setIshowCarMarkers, setIshowHeatLayers, setIshowMonitorMarkers } from '../../actions/cpmStatus';
+import { setIshowRadioMarkers, setIshowCarMarkers, setIshowHeatLayers, setIshowMonitorMarkers, setIshowPatrolArea } from '../../actions/cpmStatus';
 import { bindActionCreators } from 'redux';
 import { GetQueryValue } from '@/utils/func';
 import { message } from 'antd';
@@ -16,7 +16,8 @@ const mapStateToProps = (state) => ({
   iShowRadioMarkers: state.map.iShowRadioMarkers,
   iShowCarMarkers: state.map.iShowCarMarkers,
   iShowHeatLayers: state.map.iShowHeatLayers,
-  iShowMonitorMarkers: state.map.iShowMonitorMarkers
+  iShowMonitorMarkers: state.map.iShowMonitorMarkers,
+  iShowPatrolArea: state.map.iShowPatrolArea
 });
 const mapDispatchProps = (dispatch) => ({
   actions: bindActionCreators({
@@ -25,12 +26,13 @@ const mapDispatchProps = (dispatch) => ({
     setIshowRadioMarkers,
     setIshowCarMarkers,
     setIshowHeatLayers,
-    setIshowMonitorMarkers
+    setIshowMonitorMarkers,
+    setIshowPatrolArea
   }, dispatch),
 });
 
 
-class Switcher extends React.Component {
+class Switcher extends React.PureComponent {
   rotateRef = React.createRef();
 
   state = {
@@ -40,7 +42,8 @@ class Switcher extends React.Component {
       '实时车辆',
       '实时电台',
       '热力图',
-      '监控探头'
+      '监控探头',
+      '巡区展示'
     ],
     clickedIndex: 0,
   };
@@ -79,7 +82,9 @@ class Switcher extends React.Component {
       case 5:
         this.handleMonitorClick()
         break;
-
+      case 6:
+        this.handlePatrolAreaClick()
+        break;
       default:
         break;
     }
@@ -126,9 +131,13 @@ class Switcher extends React.Component {
     this.props.actions.setIshowHeatLayers()
   }
 
+  handlePatrolAreaClick = () => {
+    this.props.actions.setIshowPatrolArea()
+  }
+
   isActive(i) {
-    const { forceHistoryVisible, alarmHistoryVisible, iShowCarMarkers, iShowRadioMarkers, iShowHeatLayers, iShowMonitorMarkers } = this.props;
-    return [forceHistoryVisible, alarmHistoryVisible, iShowCarMarkers, iShowRadioMarkers, iShowHeatLayers, iShowMonitorMarkers]
+    const { forceHistoryVisible, alarmHistoryVisible, iShowCarMarkers, iShowRadioMarkers, iShowHeatLayers, iShowMonitorMarkers, iShowPatrolArea } = this.props;
+    return [forceHistoryVisible, alarmHistoryVisible, iShowCarMarkers, iShowRadioMarkers, iShowHeatLayers, iShowMonitorMarkers, iShowPatrolArea]
   }
 
   render() {

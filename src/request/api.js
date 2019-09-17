@@ -3,6 +3,7 @@ import qs from 'querystring';
 import moment from 'moment';
 import { dm } from '@/utils/func';
 import { transformLatLng, transformPolygon } from '../utils/map';
+import { convertDataToGeojson } from '@/utils/map';
 import coordtransform from 'coordtransform';
 import { transformKeyValues } from '../utils/func';
 // const url = 'http://47.98.168.14:9094';
@@ -26,8 +27,8 @@ const instance = axios.create({
 // 查询实时车辆轨迹
 export function getCarTrall() {
   return instance.get(`/getCarTrall.do?dm=${dm}`)
-  .then(transformLatLng({path: "data", latName: "lat", lngName: "lng"}))
-  .catch(err => null)
+    .then(transformLatLng({ path: "data", latName: "lat", lngName: "lng" }))
+    .catch(err => null)
 }
 
 export function getTrall() {
@@ -42,7 +43,7 @@ export function getRadioTrall() {
 //获取实时告警
 export function getRealAlarm() {
   return instance.get(`/getRealAlarm.do?dm=${dm}`)
-  .then(transformLatLng({path: "data", latName: "latitude", lngName: "longitude"}));
+    .then(transformLatLng({ path: "data", latName: "latitude", lngName: "longitude" }));
 }
 
 //110联网警情
@@ -56,7 +57,7 @@ export function getAlarmHistory(args) {
   const url = tabActive === 'face' ? selectType ? `/getFaceAlarmcheliang.do?dm=${dm}
   `: `/getFaceAlarmkakou.do?dm=${dm}` : selectType ? `/getCarAlarmcheliang.do?dm=${dm}` : `/getCarAlarmkakou.do?dm=${dm}`;
   const condition = {};
-  if(timeRange) {
+  if (timeRange) {
     condition.biggintime = moment(timeRange).format('YYYY-MM-DD 00:00:00')
     condition.endtime = timeRange
   } else {
@@ -92,32 +93,32 @@ export function getForceDetailById(args) {
 export function getForcePathById(args) {
   if (!args.humanId) {
     const { name, biggintime, endtime } = args;
-    return instance.post(`/getCartrace.do?dm=${dm}&vehicleUploadFlag=${name}&biggintime=${biggintime ? biggintime : ""}&endtime=${endtime ? endtime: ""}`)
-    .then(data => {
-      const path = []
-       data.data.result.forEach((d) => {
-        if(d.longitude > 119 && d.longitude <122 && d.latitude > 29 && d.latitude < 32) {
-          
-          path.push([d.longitude, d.latitude])
-          // path.push(coordtransform.wgs84togcj02(d.longitude, d.latitude))
-        }
+    return instance.post(`/getCartrace.do?dm=${dm}&vehicleUploadFlag=${name}&biggintime=${biggintime ? biggintime : ""}&endtime=${endtime ? endtime : ""}`)
+      .then(data => {
+        const path = []
+        data.data.result.forEach((d) => {
+          if (d.longitude > 119 && d.longitude < 122 && d.latitude > 29 && d.latitude < 32) {
+
+            path.push([d.longitude, d.latitude])
+            // path.push(coordtransform.wgs84togcj02(d.longitude, d.latitude))
+          }
+        })
+        return path;
       })
-      return path;
-    })
-    .catch(err => null)
+      .catch(err => null)
   } else {
     const { humanId, biggintime, endtime } = args;
-    return instance.post(`/getFaceAlarmkakou.do?dm=${dm}&humanId=${humanId}&biggintime=${biggintime ? biggintime : ""}&endtime=${endtime ? endtime: ""}`)
-    .then(data => {
-      const path = []
-       data.data.forEach((d) => {
-        if( d.longitude > 119 && d.longitude <122 && d.latitude > 29 && d.latitude < 32) {
-          path.push([d.longitude, d.latitude])
-        }
+    return instance.post(`/getFaceAlarmkakou.do?dm=${dm}&humanId=${humanId}&biggintime=${biggintime ? biggintime : ""}&endtime=${endtime ? endtime : ""}`)
+      .then(data => {
+        const path = []
+        data.data.forEach((d) => {
+          if (d.longitude > 119 && d.longitude < 122 && d.latitude > 29 && d.latitude < 32) {
+            path.push([d.longitude, d.latitude])
+          }
+        })
+        return path;
       })
-      return path;
-    })
-    .catch(err => null)
+      .catch(err => null)
   }
 }
 
@@ -129,7 +130,7 @@ export function getAlarmDetailById(args) {
 // 获取监控点位列表
 export function getMonitorList(args) {
   return instance.get(`/getcaremaposition.do?dm=${dm}`)
-  .then(transformLatLng({path: "data", latName: "latitude", lngName: "longitude"}))
+    .then(transformLatLng({ path: "data", latName: "latitude", lngName: "longitude" }))
 }
 
 // 获取车辆联网抓拍
@@ -180,17 +181,46 @@ export function getPoliceStatArea() {
 //查询派出所边界
 export function getfjinfo(args) {
   return instance.get(`/getfjibj.do?dm=${args}`)
-  .then(({data}) => {
-    return transformPolygon(data)
-  })
-  .catch(err => null)
+    .then(({ data }) => {
+      return transformPolygon(data)
+    })
+    .catch(err => null)
+}
+
+// 根据dm查询派出所巡逻点位;
+export function getxlxl(args) {
+  return instance.get(`/getxlxl.do?dm=${args}`)
+    .then(({ data }) => {
+      return data.map(d => {
+        return convertDataToGeojson(d.list, 'polygon')
+      })
+    });
+}
+
+// 根据dm查询主巡线路
+export function getzhuxl(args) {
+  return instance.get(`/getzhuxl.do?dm=${args}`)
+    .then(({ data }) => {
+      return data.map(d => {
+        return convertDataToGeojson(d.list, 'lineString')
+      })
+    })
+}
+
+// 根据dm查询签到点位
+export function getgddqd(args) {
+  return instance.get(`/getgddqd.do?dm=${args}`)
+    .then(transformLatLng({ path: 'data', latName: 'Y', lngName: 'X' }))
+    .then(data => {
+      return data.data
+    })
 }
 
 export function getJqtongji() {
-  return instance.get('/getJqtongji.do')
+  return instance.get('/getJqtongji.do');
 }
 
 //
 export function getbj110() {
-  return instance.get(`/getbj110.do?dm=${dm}`)
+  return instance.get(`/getbj110.do?dm=${dm}`);
 }

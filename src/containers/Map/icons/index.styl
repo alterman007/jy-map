@@ -102,6 +102,22 @@
       }
     }
   }
+  &.policeman {
+    background: url('./policeman.png');
+    .name {
+      display: none;
+      background: red;
+       &::before {
+        background: red;
+      }
+    }
+  }
+  &.signin {
+    background: url('./signin.png');
+    .name {
+      display: none;
+    }
+  }
 }
 
 .leaflet-tooltip {

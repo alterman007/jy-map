@@ -32,6 +32,7 @@ export const HTTP_FETCH_TRAIL = createHTTPActionType('HTTP_FETCH_TRAIL'); // 获
 export const HTTP_FETCH_RADIO = createHTTPActionType('HTTP_FETCH_RADIO'); // 获取实时电台
 export const SET_RADIO_TRALL = 'SET_RADIO_TRALL';
 export const SET_TRANFORM_LEFT = 'SET_TRANFORM_LEFT';
+export const SET_PATROL_AREA_DATA = 'SET_PATROL_AREA_DATA'; //更新巡区数据
 
 
 // cmpstatus 组建状态
@@ -46,3 +47,4 @@ export const SET_ISSHOW_MONITOR_MARKERS = 'SET_ISSHOW_MONITOR_MARKERS';
 export const SET_ISSHOW_PREV_BUTTON = 'SET_ISSHOW_PREV_BUTTON'; 
 export const SET_ISSHOW_HDPIC_MODAL = 'SET_ISSHOW_HDPIC_MODAL'; // 是否显示高清大图
 export const SET_ISSHOW_PCSPOLICECALL_MODAL = 'SET_ISSHOW_PCSPOLICECALL_MODAL'; //派出所警情统计modal
+export const SET_ISSHOW_PATROLAREA = 'SET_ISSHOW_PATROLAREA';

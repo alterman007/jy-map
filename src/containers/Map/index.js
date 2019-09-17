@@ -10,6 +10,7 @@ import './index.styl';
 import Area from './Area/index';
 import HDPICModal from '../../components/HDPICModal';
 import _HeatMap from './_HeatMap';
+import PatrolArea from './PatrolArea';
 
 const mapStateToProps = (state) => ({
   center: state.map.center,
@@ -76,6 +77,7 @@ class MapOperation extends Component {
           <RealTimeMarker />
           <Path />
           <HDPICModal />
+          <PatrolArea />
         </Map>
       </MapContext.Provider>
     );

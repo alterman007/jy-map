@@ -60,7 +60,9 @@ const mapTypeToName = {
   5: 'areaIcon',
   6: 'alarmFace',
   7: 'alarmCar',
-  8: 'policestation'
+  8: 'policestation',
+  9: 'policeman',
+  0: 'signin'
 }
 const tipMarkerConfig = {
   car: {
@@ -106,6 +108,16 @@ const tipMarkerConfig = {
     popupAnchor: [0, -20],
   },
   policestation: {
+    iconAnchor: [17, 20],
+    iconSize: [35, 35],
+    popupAnchor: [0, -20],
+  },
+  policeman: {
+    iconAnchor: [17, 20],
+    iconSize: [35, 35],
+    popupAnchor: [0, -20],
+  },
+  signin: {
     iconAnchor: [17, 20],
     iconSize: [35, 35],
     popupAnchor: [0, -20],

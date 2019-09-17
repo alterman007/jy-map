@@ -12,7 +12,8 @@ import {
   SET_MAP_PCSAREA,
   HTTP_MAP_PCSAREA,
   HTTP_FETCH_RADIO,
-  SET_RADIO_TRALL
+  SET_RADIO_TRALL,
+  SET_PATROL_AREA_DATA
 } from '../constants/actionTypes';
 import { createHttpAction } from './util';
 
@@ -28,3 +29,4 @@ export const fetchMapPCSArea = createHttpAction(HTTP_MAP_PCSAREA);
 export const setMapPCSArea = createAction(SET_MAP_PCSAREA);
 export const fetchRadioTrall = createHttpAction(HTTP_FETCH_RADIO);
 export const setRadioTrall = createAction(SET_RADIO_TRALL);
+export const setPatrolAreaData = createAction(SET_PATROL_AREA_DATA);

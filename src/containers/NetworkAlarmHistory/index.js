@@ -185,8 +185,7 @@ class NetworkAlarmHistory extends Component {
   renderAlarmList() {
     const { alarmHistoryList } = this.props;
     const { tabActive, selectedId } = this.state;
-    const isFace = tabActive === 'face';
-    console.log("alarmHistoryList",alarmHistoryList)
+    // const isFace = tabActive === 'face';
     // const test = "http://img4.bdimg.com/it/u=3565682627,2876030475&fm=26&gp=0.jpg"
     return (
       <ul className="alarm-list corner-border" ref={this.rootList}>
@@ -194,7 +193,7 @@ class NetworkAlarmHistory extends Component {
           alarmHistoryList.length > 0 ? alarmHistoryList.map((item) => {
             return (
               <li key={item.id} onClick={() => this.onSelectItem(item)} className={`${item.id == selectedId ? 'isSelected alarm-item' : 'alarm-item'}`}>
-                <ImageLazyLoad imgClick={(e) => this.imgClick(item,e)} imgsrc={isFace ? item.facePicUrl : item.picVehicle} />
+                <ImageLazyLoad imgClick={(e) => this.imgClick(item,e)} imgsrc={item.baseImage} />
                 {/* <img src={isFace ? item.facePicUrl : item.picVehicle } alt=""/> */}
                 <div className="alarm-desc">
                   <span className="name">

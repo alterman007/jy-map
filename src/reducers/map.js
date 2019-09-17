@@ -9,6 +9,7 @@ import {
   setMapTrail,
   setMapPCSArea,
   setRadioTrall,
+  setPatrolAreaData
 } from '../actions/map';
 import {
   toggleForceHistoryVisible,
@@ -21,7 +22,10 @@ import {
 import {
   convertDataToGeojson,
 } from '../utils/map';
-import { setIshowCarMarkers, setIshowRadioMarkers, setIshowHeatLayers, setIshowMonitorMarkers } from '../actions/cpmStatus';
+import {
+  setIshowCarMarkers, setIshowRadioMarkers, setIshowHeatLayers, setIshowMonitorMarkers,
+  setIshowPatrolArea
+} from '../actions/cpmStatus';
 import { realArea } from '@/utils/func';
 
 const center = realArea ? realArea.properties.center : undefined;
@@ -52,7 +56,7 @@ const defaultState = {
     // { type: 1, lng: 121.338219, lat: 31.281926, name: '沪A1257', id: 5 },
   ],
   forceHistoryMarker: null,
-  center: center ? {lng: center[0], lat: center[1]} : { lng: 121.331696, lat: 31.238858 },
+  center: center ? { lng: center[0], lat: center[1] } : { lng: 121.331696, lat: 31.238858 },
   // 点击的marker，指向realTimeMarker对应数据ID
   // 点击历史条目，指向对应数据
   selectedMarkerID: null,
@@ -62,38 +66,49 @@ const defaultState = {
   showAlarmHistoryDetail: null,
   mapzoom: null,
   pcsArea: [],
-  
+
   iShowCarMarkers: false, //是否显示车辆
   iShowHeatLayers: false,
   iShowRadioMarkers: false, //是否显示电台
   iShowMonitorMarkers: false, // 是否显示监控固定点位
   iShowNetworkAlarmHistory: false,
   iShowNetWorkForceHistory: false,
+  iShowPatrolArea: false, // 是否显示巡逻区域
+
+  patrolArea: [], // 巡逻线路
+  cruiseLine: [], // 主巡线路
+  signInMarkers: []// 派出所签到markers
 };
 
 const map = handleActions(
   {
-    [setIshowCarMarkers](state, { payload }) { // 设置是否显示实时车辆点位
-      return {...state, iShowCarMarkers: !state.iShowCarMarkers}
+    [setPatrolAreaData](state, { payload }) {
+      return { ...state, patrolArea: payload.patrolArea, cruiseLine: payload.cruiseLine, signInMarkers: payload.signInMarkers}
+    },
+    [setIshowPatrolArea](state) {
+      return { ...state, iShowPatrolArea: !state.iShowPatrolArea }
+    },
+    [setIshowCarMarkers](state) { // 设置是否显示实时车辆点位
+      return { ...state, iShowCarMarkers: !state.iShowCarMarkers }
     },
     [setMapTrail](state, { payload }) {
       // return { ...state, realTimeMarkers: payload };
-      return {...state, carMarkers: payload}
+      return { ...state, carMarkers: payload }
     },
     [setRadioTrall](state, { payload }) {
-      return {...state, radioMarkers:　payload}
+      return { ...state, radioMarkers: payload }
     },
     [setIshowRadioMarkers](state) {
-      return {...state, iShowRadioMarkers: !state.iShowRadioMarkers}
+      return { ...state, iShowRadioMarkers: !state.iShowRadioMarkers }
     },
     [setIshowHeatLayers](state) {
-      return {...state, iShowHeatLayers: !state.iShowHeatLayers}
+      return { ...state, iShowHeatLayers: !state.iShowHeatLayers }
     },
     [setIshowMonitorMarkers](state) {
-      return {...state, iShowMonitorMarkers: !state.iShowMonitorMarkers}
+      return { ...state, iShowMonitorMarkers: !state.iShowMonitorMarkers }
     },
     [setMapPCSArea](state, { payload }) {
-      return {...state, pcsArea: payload }
+      return { ...state, pcsArea: payload }
     },
     [setRealTimeMarkers](state, { payload }) {
       return { ...state, realTimeMarkers: payload };
@@ -108,7 +123,7 @@ const map = handleActions(
       return { ...state, forceHistoryMarker: payload };
     },
     [setMapPath](state, { payload }) {
-      return { ...state, movePath: payload ? convertDataToGeojson(payload, 'lineString'): null };
+      return { ...state, movePath: payload ? convertDataToGeojson(payload, 'lineString') : null };
     },
     [toggleForceHistoryVisible](state) {
       return { ...state, movePath: null, forceHistoryMarker: null, showAlarmHistoryDetail: null, selectedMarkerID: null, alarmMarker: null };
@@ -129,7 +144,7 @@ const map = handleActions(
     [setAlarmHistoryDetail](state, { payload }) {
       return { ...state, showAlarmHistoryDetail: payload }
     },
-    [setMapZoom](state, {payload}) {
+    [setMapZoom](state, { payload }) {
       return { ...state, mapzoom: payload }
     }
   },

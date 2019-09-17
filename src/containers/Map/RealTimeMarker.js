@@ -145,7 +145,6 @@ class RealTimeMarkers extends Component {
     );
   }
   renderAlarmMarker(marker) {
-    console.log("renderAlarmMarker", marker);
     const { setAlarmHistoryDetail } = this.props.actions;
     // 人脸alarmid, 车辆没有alarmid,
     return (

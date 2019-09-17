@@ -2,15 +2,17 @@ import * as turf from '@turf/turf';
 import coordtransform from 'coordtransform';
 
 export function convertDataToGeojson(data, type) {
-  const decodeData = data.map((p) => coordtransform.wgs84togcj02(...p))
-  return turf[type](decodeData);
+  const decodeData = data.map((p) => coordtransform.wgs84togcj02(...p));
+
+  return type === 'lineString' ? turf[type](decodeData) : turf[type]([decodeData]);
 }
 
-export function transformPolygon(pscbj) {
-  return pscbj.map(pcs => {
+export function transformPolygon(data) {
+  return data.map(pcs => {
     return turf.polygon([pcs.list], {
       name: pcs.dm,
-      center: pcs.center
+      center: pcs.center,
+      dm:pcs.code
     })
   })
 }
