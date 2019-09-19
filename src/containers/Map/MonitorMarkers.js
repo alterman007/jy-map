@@ -17,9 +17,9 @@ const mapStateToProps = (state) => {
 class MonitorMarkers extends Component {
   static contextType = MapContext;
   monitorEle = React.createRef()
-    state = {
-        monitorList: []
-    }
+  state = {
+    monitorList: []
+  }
   componentDidMount() {
     this.getMonitorList()
   }
@@ -48,9 +48,10 @@ class MonitorMarkers extends Component {
     if (movePath) {
       return null;
     }
-    if(!iShowMonitorMarkers) {
+    if (!iShowMonitorMarkers) {
       return null
     }
+    console.log(monitorList)
     return (
       <Fragment>
         {
@@ -63,12 +64,12 @@ class MonitorMarkers extends Component {
           // />
           // }) :
           <MarkerCluster
-          markers={monitorList}
-          wrapperOptions={{enableDefaultStyle: true}}
-          markerOptions={{icon: tipMonitorIcon('Default title'), title: 'Default title'}}
-          options={{ maxClusterRadius: 80 }}
-          onMarkerClick={this.handleClick}
-        />
+            markers={monitorList}
+            wrapperOptions={{ enableDefaultStyle: true }}
+            markerOptions={{ icon: tipMonitorIcon('Default title'), title: 'Default title' }}
+            options={{ maxClusterRadius: 80 }}
+            onMarkerClick={this.handleClick}
+          />
         }
         <iframe width="0" height="0" title="iframe" id="exe" ref={this.monitorEle}></iframe>
       </Fragment>

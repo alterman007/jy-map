@@ -150,7 +150,7 @@ export function getFaceCaptureById(args) {
 
 export function getPoliceStationStatistical(args) {
   // return axios.get('/mock/110call.json');
-  return instance.get('/getdepartpcstj.do', {
+  return instance.get(`/getdepartpcstj.do?dm=${dm}`, {
     params: args
   })
 }
@@ -214,6 +214,11 @@ export function getgddqd(args) {
     .then(data => {
       return data.data
     })
+}
+
+export function getBaseStationWifi(args) {
+  return instance.get(`/getGwifi.do?dm=${dm}`)
+  .then(transformLatLng({path:'data', latName: 'XPOINT', lngName: 'YPOINT'}))
 }
 
 export function getJqtongji() {

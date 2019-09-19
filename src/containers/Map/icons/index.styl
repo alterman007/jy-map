@@ -2,7 +2,7 @@
   .name {
     position absolute;
     color: black;
-    left: 50%;
+    left: 40%;
     bottom: 100%;
     transform: translate(-50%, -15px);
     background: #13FFD5;
@@ -58,6 +58,17 @@
   &.camera {
     background: url('./camera.png');
   }
+  &.baseStationWifi {
+    background: url('./basewifi.png');
+    background-repeat: no-repeat;
+    &:hover .name{
+        display: block;
+    }
+    .name {
+      display :none;
+    }
+  }
+
   &.monitor {
     background: url('./m3.png');
     background-repeat: no-repeat;

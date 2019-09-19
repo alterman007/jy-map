@@ -13,6 +13,28 @@ const gradient = {
   '0.8': '#e3000e'
 };
 
+const refreshTime = 660000;
+
 const intensity = ["0-3", "3-6", "6-10"];
 
-export { gradient,intensity }
+const random = (num, max, min = 0) => {
+  return num + (Math.random() * (max - min) + min);
+}
+
+const getWifiCount = (markers) => {
+  const res = [];
+  markers.map(m => {
+    const count = m.wificount || m.num;
+    for (var i = 0; i < count; i++) {
+      res.push([
+        random(m.lat, 0.001, -0.001),
+        random(m.lng, 0.001, -0.001),
+        // 1
+        parseInt(random(0, 1200, 0))
+      ]);
+    }
+  });
+  return res;
+}
+
+export { gradient,intensity, getWifiCount, refreshTime }
