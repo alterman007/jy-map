@@ -3,7 +3,7 @@ import { Modal } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { setIshowHDPICModal } from '../../actions/cpmStatus';
-import { alarmType } from '@/constants/alarmConstants';
+import { getAlarmType } from '@/constants/alarmConstants';
 const mapStateToProps = (state) => {
   return {
     isShowHDPICModal: state.cmpStatus.isShowHDPICModal
@@ -18,22 +18,11 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const imgType = {
-  '人脸告警': '姓名',
-  '车辆告警': '车牌',
-  '车辆抓拍': '抓拍位置',
-  '卡口-人脸告警': '姓名',
-  '卡口-车辆告警': '车牌',
-  '车载-车辆告警': '车牌',
-  '车载-人脸告警': '姓名'
-}
-
 const HDPICModal = ({ isShowHDPICModal, actions }) => {
-  const { ishow, hdpic, name, time, address, type } = isShowHDPICModal;
+  const { ishow, hdpic, name, time, address, type, real } = isShowHDPICModal;
   const onCancel = () => {
     actions.setIshowHDPICModal({})
   }
-  console.log(isShowHDPICModal)
   return (
     <Modal
       visible={ishow}
@@ -45,7 +34,7 @@ const HDPICModal = ({ isShowHDPICModal, actions }) => {
       className="corner-border resetModalStye"
     >
       <div>
-        <p>{`${imgType[alarmType[type]]}: ${name}`}</p>
+        <p>{`${getAlarmType(type)}: ${name}`}</p>
         <p>时间：{time}</p>
         <p>{type === 4 ? '所属派出所' : '地点'}：{address}</p>
       </div>

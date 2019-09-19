@@ -46,7 +46,7 @@ class RealTimeAlarm extends Component {
   }
 
   async fetchList() {
-    const { data } = await getRealAlarm();
+    const data = await getRealAlarm();
     this.setState({
       alarmList: data,
     });
@@ -59,6 +59,7 @@ class RealTimeAlarm extends Component {
 
   renderContent() {
     const { alarmList } = this.state;
+    console.log('alarmlist', alarmList)
     return (
       <div className="real-time-alarm-info">
         <Fragment>
@@ -71,7 +72,7 @@ class RealTimeAlarm extends Component {
               alarmList ? alarmList.map((item) => {
                return <AlarmItem
                   onClick={this.onSelectItem.bind(this, item)}
-                  key={item.alarmId || item.id}
+                  key={item.id+item.name}
                   {...item}
                 />
               }): <li className="search-by-time">暂无实时数据</li>

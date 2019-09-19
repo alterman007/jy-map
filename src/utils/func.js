@@ -1,5 +1,5 @@
 import data from '../containers/Map/Area/shanghai.json';
-import { alarmtimes, alarmKeys } from '../constants/alarmConstants';
+import { alarmtimes, alarmKeys, faceByCarMonitor, faceByFixedMonitor, carByFixedMonitor, carBayCarMonitor } from '../constants/alarmConstants';
 
 function tid() {
   var mydate = new Date()
@@ -45,6 +45,46 @@ const transformKeyByTimes = (keys, values, type) => {
   return res;
 }
 
+const transformRealAlarmKeysValuesByTimes = (keys, val, type) => {
+  const result = {};
+  keys.map((key, index) => {
+    result[alarmKeys[index]] = val[key]
+    result.type = type;
+  })
+  return result;
+} 
+
+
+export const transformRealAlarmKeysValues = (data) => {
+  const values = data.data;
+  const res = [];
+  let result = {};
+  values.map(val => {
+    alarmtimes.some(time => {
+      if (Object.keys(val).includes(time)) {
+        switch (time) {
+          case 'msg':
+            result = transformRealAlarmKeysValuesByTimes(faceByCarMonitor, val, 0);
+            return true;
+          case 'alarmTime':
+            result = transformRealAlarmKeysValuesByTimes(faceByFixedMonitor, val, 1);
+            return true;
+          case 'passTimeStr':
+            result = transformRealAlarmKeysValuesByTimes(carByFixedMonitor, val, 2)
+            return true;
+          case 'createDate':
+            result = transformRealAlarmKeysValuesByTimes(carBayCarMonitor, val, 3);
+            return true;
+          default:
+            result = val;
+            return true;
+        }
+      }
+    })
+    res.push(result)
+  })
+  return res;
+}
 
 export const transformKeyValues = (data) => {
   let result = [];
@@ -53,16 +93,16 @@ export const transformKeyValues = (data) => {
     if (values && values[0] && Object.keys(values[0]).includes(time)) {
       switch (time) {
         case 'msg':
-          result = transformKeyByTimes(['alarmId', 'facePicUrl', 'bkgPicUrl', 'alarmTime', 'cameraName', 'lat', 'lng', 'id', 'indexCode', 'humans'], values, 0);
+          result = transformKeyByTimes(faceByCarMonitor, values, 0);
           return true;
         case 'alarmTime':
-          result = transformKeyByTimes(['humanName', 'facePicUrl', 'bkgPicUrl', 'alarmTime', 'cameraName', 'lat','lng', 'humanId', 'indexCode', 'humans'], values, 1);
+          result = transformKeyByTimes(faceByFixedMonitor, values, 1);
           return true;
         case 'passTimeStr':
-          result = transformKeyByTimes(['plateInfo', 'picPlate', 'picVehicle', 'passTimeStr', 'crossingName', 'lat', 'lng', 'id', 'indexCode'], values, 2)
+          result = transformKeyByTimes(carByFixedMonitor, values, 2)
           return true;
         case 'createDate':
-          result = transformKeyByTimes(['cph', 'cpImagerSrc', 'cpImagerSrc', 'createDate', 'cameraName', 'lat', 'lng', 'id', 'indexCode', '', 'bdjg'], values, 3);
+          result = transformKeyByTimes(carBayCarMonitor, values, 3);
           return true;
         default:
           result = values;

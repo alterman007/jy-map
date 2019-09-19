@@ -5,6 +5,7 @@ import './index.styl';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import ImageLazyLoad from '../../../components/ImageLazyLoad';
+import { getAlarmType, alarmType } from '../../../constants/alarmConstants';
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -14,49 +15,30 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-function AlarmItem(item) {
-  const { onClick } = item;
-  let type, name, time, imgsrc, address, hdpic;
-
-  if (item.alarmId) {
-    type = '人脸告警';
-    address = item.cameraName
-    name = item.humanName;
-    time = item.alarmTime;
-    imgsrc = item.facePicUrl
-    hdpic = item.bkgPicUrl
-  } else {
-    type = '车辆告警';
-    name = item.plateInfo;
-    // time = new Date(+item.passtime).toLocaleString('zh', { hour12: false });
-    time = item.passTimeStr
-    imgsrc = item.picPlate
-    address = item.crossingName
-    hdpic = item.picVehicle
-  }
-  // imgsrc="http://img4.imgtn.bdimg.com/it/u=3565682627,2876030475&fm=26&gp=0.jpg"
+function AlarmItem(props) {
+  const { onClick, type, name, alarmTime, baseImage, address, hdpicImage } = props;
+  console.log("props", props)
   const imgClick = () => {
-    item.actions.setIshowHDPICModal({
-      hdpic,
+    props.actions.setIshowHDPICModal({
+      hdpic: hdpicImage,
       ishow: true,
       name,
-      time,
+      time: alarmTime,
       address,
-      type
+      type,
     })
   }
   return (
     <li className="real-time-alarm-item" onClick={onClick}>
-      <ImageLazyLoad imgsrc={imgsrc} imgClick={imgClick}/>
-      {/* <img src={imgsrc} alt="" onClick={imgClick.bind(this,hdpic, name, time, address, type)}/> */}
+      <ImageLazyLoad imgsrc={baseImage} imgClick={imgClick}/>
       <div className="alarm-desc">
         <div className="type-name">
-          {/* <span>{type}</span> */}
-          <span className="name">{item.alarmId ? '姓名' : '车辆'}: {name}</span>
+          <span className="name">{getAlarmType(type)}: {name}</span>
           <span>地址: {address}</span>
+          <span className="alarm-type">告警类型:{alarmType[type]}</span>
         </div>
         <div className="time">
-          告警时间：{time}
+          告警时间：{alarmTime}
         </div>
       </div>
     </li>

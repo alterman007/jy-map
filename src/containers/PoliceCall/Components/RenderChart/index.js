@@ -4,6 +4,9 @@ import TodayStatisics from '../../../../components/TodayStatistics';
 import DayOrMonth from '@/components/DayOrMonth';
 import { getPoliceStationStatistical } from '../../../../request/api';
 import { getuuid } from '../../../../utils/func';
+import { dm } from '@/utils/func';
+
+const dmbyurl = dm
 
 class RenderChart extends React.Component {
   state = {
@@ -17,8 +20,9 @@ class RenderChart extends React.Component {
   componentDidMount() {
     this.fetchStatistical();
   }
-  async fetchStatistical(dm = undefined, name = undefined, type = 1) {
-    const { data } = await getPoliceStationStatistical({ dm, name, type });
+  async fetchStatistical(dm = dmbyurl, name = undefined, type = 1) {
+    // const { data } = await getPoliceStationStatistical({ dm, name, type });
+    const { data } = await getPoliceStationStatistical({ dm, type });
     this.setState({
       statistical: data.list,
       total: data.allnum,
@@ -46,6 +50,7 @@ class RenderChart extends React.Component {
         <TodayStatisics
           deal={deal}
           total={total}
+          title={name}
           key={getuuid()}
         />
         <PieChart

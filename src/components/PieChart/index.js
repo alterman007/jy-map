@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { setIshowPrevButton, setIshowPCSPoliceModal } from '../../actions/cpmStatus';
 import './index.styl';
 import PrevButton from './PrevButton';
+import { getuuid, dm } from '../../utils/func';
 
 const mapDipatchToProps = (dispatch) => {
   return {
@@ -59,7 +60,6 @@ class PieChart extends React.Component {
           data: data.map(e => {
             return { value: e['allnum'], name: e.name, fkdw: e.fkdw || 0 }
           }),
-          // data : [{value: 70, name: 1}, {value: 20, name: 2}],
           itemStyle: {
             normal: {
               fontSize: 20
@@ -77,13 +77,20 @@ class PieChart extends React.Component {
 
     mychart.on('click', (e) => {
       const { fkdw, name } = e.data;
-      if (!+fkdw) return; // 区分点击的是分局还是派出所;
+      if (!+fkdw) {
+        this.props.actions.setIshowPCSPoliceModal({
+          iShow: true,
+          name,
+          dm
+        })
+        return;
+      }; // 区分点击的是分局还是派出所;
       this.props.fetchStatistical(fkdw, name, this.props.type)
       this.props.actions.setIshowPrevButton(true)
       this.props.actions.setIshowPCSPoliceModal({
         iShow: true,
         name,
-        dm: fkdw
+        dm:fkdw
       })
     })
   }
@@ -113,7 +120,7 @@ class PieChart extends React.Component {
             sortData.sort((a, b) => {
               return b.allnum - a.allnum
             }).map(d => {
-              return <li key={d.fkdw}>{`${d.name} ${d['allnum']}`}</li>
+              return <li key={getuuid()}>{`${d.name} ${d['allnum']}`}</li>
             })
           }
         </ul>

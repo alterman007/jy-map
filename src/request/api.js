@@ -5,7 +5,7 @@ import { dm } from '@/utils/func';
 import { transformLatLng, transformPolygon } from '../utils/map';
 import { convertDataToGeojson } from '@/utils/map';
 import coordtransform from 'coordtransform';
-import { transformKeyValues } from '../utils/func';
+import { transformKeyValues, transformRealAlarmKeysValues } from '../utils/func';
 // const url = 'http://47.98.168.14:9094';
 const url = 'http://192.168.1.129:9090'
 // const produrl = 'http://47.98.168.14:9094'
@@ -43,7 +43,8 @@ export function getRadioTrall() {
 //获取实时告警
 export function getRealAlarm() {
   return instance.get(`/getRealAlarm.do?dm=${dm}`)
-    .then(transformLatLng({ path: "data", latName: "latitude", lngName: "longitude" }));
+    .then(transformLatLng({ path: "data", latName: "latitude", lngName: "longitude" }))
+    .then(transformRealAlarmKeysValues);
 }
 
 //110联网警情
@@ -150,7 +151,7 @@ export function getFaceCaptureById(args) {
 
 export function getPoliceStationStatistical(args) {
   // return axios.get('/mock/110call.json');
-  return instance.get(`/getdepartpcstj.do?dm=${dm}`, {
+  return instance.get('/getdepartpcstj.do', {
     params: args
   })
 }
