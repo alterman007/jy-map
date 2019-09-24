@@ -95,6 +95,7 @@ class AlarmDetail extends Component {
     hdpic = item.hdpicImage;
     this.props.actions.setIshowHDPICModal({
       type, name, time, imgsrc, address, hdpic,
+      detailInfo: item.detailInfo,
       ishow: true,
     })
   }

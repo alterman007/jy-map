@@ -178,6 +178,7 @@ class NetworkAlarmHistory extends Component {
       hdpic = item.hdpicImage;
       this.props.actions.setIshowHDPICModal({
         type, name, time, imgsrc, address, hdpic,
+        detailInfo: item.detailInfo,
         ishow: true,
       })
   }
@@ -199,6 +200,7 @@ class NetworkAlarmHistory extends Component {
                   <span className="name">
                     {item.name ? item.name : '未知'}
                   </span>
+                  <span className="alarm-type" style={{color: 'red'}}>{alarmType[item.type]}</span>
                   <span className="time">
                     {item.alarmTime}
                   </span>

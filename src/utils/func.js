@@ -38,6 +38,7 @@ const transformKeyByTimes = (keys, values, type) => {
     keys.map((key, index) => {
       result[alarmKeys[index]] = item[key];
       result.type = type;
+      result.detailInfo = item;
     })
     res.push(result);
     result = {};
@@ -50,16 +51,17 @@ const transformRealAlarmKeysValuesByTimes = (keys, val, type) => {
   keys.map((key, index) => {
     result[alarmKeys[index]] = val[key]
     result.type = type;
+    result.detailInfo = val
   })
   return result;
 } 
 
 
 export const transformRealAlarmKeysValues = (data) => {
-  const values = data.data;
+  const values = data.data.list;
   const res = [];
   let result = {};
-  values.map(val => {
+  values && values.map(val => {
     alarmtimes.some(time => {
       if (Object.keys(val).includes(time)) {
         switch (time) {
@@ -83,7 +85,10 @@ export const transformRealAlarmKeysValues = (data) => {
     })
     res.push(result)
   })
-  return res;
+  return {
+    list: res,
+    res: data.data && data.data.res
+  };
 }
 
 export const transformKeyValues = (data) => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import demoImg from './demo.png';
 import { setIshowHDPICModal } from '../../../actions/cpmStatus';
 import './index.styl';
@@ -15,18 +15,22 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
+let id = 0
+
 function AlarmItem(props) {
-  const { onClick, type, name, alarmTime, baseImage, address, hdpicImage } = props;
+  const { onClick, type, name, alarmTime, baseImage, address, hdpicImage, detailInfo } = props;
   const imgClick = () => {
     props.actions.setIshowHDPICModal({
       hdpic: hdpicImage,
       ishow: true,
+      detailInfo,
       name,
       time: alarmTime,
       address,
       type,
     })
   }
+
   return (
     <li className="real-time-alarm-item" onClick={onClick}>
       <ImageLazyLoad imgsrc={baseImage} imgClick={imgClick}/>

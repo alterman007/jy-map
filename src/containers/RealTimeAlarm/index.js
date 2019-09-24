@@ -10,6 +10,8 @@ import { getRealAlarm } from '../../request/api';
 import alarmIcon from './alarmIcon.png';
 
 import './index.styl';
+import { getuuid } from '../../utils/func';
+import AlarmWhistle from '../../components/ AlarmWhistle';
 
 const mapDispatchProps = (dispatch) => ({
   actions: bindActionCreators({
@@ -18,7 +20,7 @@ const mapDispatchProps = (dispatch) => ({
 });
 class RealTimeAlarm extends Component {
   state = {
-    hideList: false,
+    hideList: true,
     alarmList: [],
   };
 
@@ -26,11 +28,6 @@ class RealTimeAlarm extends Component {
     this.setState({
       hideList: !this.state.hideList,
     });
-  }
-
-  onSelectItem = () => {
-    // const { actions } = this.props;
-    // actions.selectAlarmItem(item.id);
   }
 
   componentDidMount() {
@@ -58,7 +55,6 @@ class RealTimeAlarm extends Component {
 
   renderContent() {
     const { alarmList } = this.state;
-    console.log('alarmlist', alarmList)
     return (
       <div className="real-time-alarm-info">
         <Fragment>
@@ -68,13 +64,12 @@ class RealTimeAlarm extends Component {
           />
           <ul className="alarm-item-list corner-border">
             {
-              alarmList ? alarmList.map((item) => {
-               return <AlarmItem
-                  onClick={this.onSelectItem.bind(this, item)}
-                  key={item.id+item.name}
+              alarmList.list ? alarmList.list.map((item) => {
+                return <AlarmItem
+                  key={getuuid()}
                   {...item}
                 />
-              }): <li className="search-by-time">暂无实时数据</li>
+              }) : <li className="search-by-time">暂无实时数据</li>
             }
           </ul>
         </Fragment>
@@ -83,11 +78,17 @@ class RealTimeAlarm extends Component {
   }
 
   render() {
-    const { hideList } = this.state;
+    const { hideList, alarmList } = this.state;
     return (
-      <div className="real-time-alarm-wrapper">
-        {hideList ? this.renderIcon() : this.renderContent()}
-      </div>
+      <>
+        <div className="real-time-alarm-wrapper">
+          {hideList ? this.renderIcon() : this.renderContent()}
+        </div>
+
+        <AlarmWhistle
+          alarmList={alarmList}
+        />
+      </>
     )
   }
 }

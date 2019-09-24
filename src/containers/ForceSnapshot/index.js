@@ -71,7 +71,6 @@ class ForceSnapshot extends Component {
 
   changeSelected = (ev) => {
     const { type } = ev.target.dataset;
-    console.log(this.rootList.current)
     this.rootList.current.scrollTo({
       top: 0,
       behavior: "smooth"
@@ -150,13 +149,15 @@ class ForceSnapshot extends Component {
   }
 
   imgClick(item) {
+    const { selected } = this.state
     this.props.actions.setIshowHDPICModal({
       hdpic: item.carNumberQjSrc || item.bszImageSrc,
       ishow: true,
       name: item.cameraName,
       time: item.createTime,
       address: item.sspcs,
-      type: 4 // 车辆抓拍
+      detailInfo: item,
+      type: selected === 'people' ? 4 : 5 // 车辆抓拍
     })
   }
 
