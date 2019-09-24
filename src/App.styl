@@ -128,7 +128,30 @@ conrer-order(conrerColor, borderCorlor, bgColor) {
     .ant-modal-body {
       color: white;
       font-size: 18px;
+      // position: relative;
     }
+  }
+  img {
+    position: relative;
+  // height: 100%;
+  &::after {
+    content: "加载失败 请稍后重试.." " " attr(alt);
+    font-size: 20px;
+    font-family: FontAwesome;
+    // color: rgb(100, 100, 100);
+    color: white;
+    display: flex;
+    // flex-direction: columns;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100px;
+    background-color: #05121C;
+  }
   }
 }
 

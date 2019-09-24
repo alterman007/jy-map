@@ -34,7 +34,7 @@ const HDPICModal = ({ isShowHDPICModal, actions }) => {
       className="corner-border resetModalStye"
     >
       <div>
-        <p>{`${getAlarmType(type)}: ${name}`}</p>
+        <p>{`${getAlarmType(type)}: ${name? name: '未知'}`}</p>
         <p>时间：{time}</p>
         <p>{type === 4 ? '所属派出所' : '地点'}：{address}</p>
       </div>

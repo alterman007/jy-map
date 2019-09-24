@@ -17,7 +17,6 @@ const mapDispatchToProps = (dispatch) => {
 
 function AlarmItem(props) {
   const { onClick, type, name, alarmTime, baseImage, address, hdpicImage } = props;
-  console.log("props", props)
   const imgClick = () => {
     props.actions.setIshowHDPICModal({
       hdpic: hdpicImage,
@@ -33,7 +32,7 @@ function AlarmItem(props) {
       <ImageLazyLoad imgsrc={baseImage} imgClick={imgClick}/>
       <div className="alarm-desc">
         <div className="type-name">
-          <span className="name">{getAlarmType(type)}: {name}</span>
+          <span className="name">{getAlarmType(type)}: {name ? name: '未知'}</span>
           <span>地址: {address}</span>
           <span className="alarm-type">告警类型:{alarmType[type]}</span>
         </div>

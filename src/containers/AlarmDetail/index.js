@@ -109,7 +109,7 @@ class AlarmDetail extends Component {
         {
           detail.type === 1 && <button onClick={this.showPath}>人脸轨迹</button>
         }
-        <button onClick={this.showHDPICModal.bind(this, detail)}>高清大图</button>
+        <button onClick={this.showHDPICModal.bind(this, detail)}>告警详情</button>
         <button onClick={this.close}>关闭</button>
       </div>
     );

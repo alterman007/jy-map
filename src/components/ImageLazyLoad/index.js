@@ -1,6 +1,7 @@
 // 图片懒加载
 import React, { useEffect } from 'react';
 import demoImage from './demo.png';
+import './index.styl';
 
 const threshold = [0.1] // 这是触发时机 0.01代表出现 1%的面积出现在可视区触发一次回掉函数 threshold = [0, 0.25, 0.5, 0.75]  表示分别在0% 25% 50% 75% 时触发回掉函数
 
@@ -25,7 +26,7 @@ const ImageLazyLoad = ({ imgsrc, imgClick }) => {
     }
   }, [])
   return (
-    <img data-src={imgsrc} src="" ref={imgRef} onClick={imgClick} style={{cursor: 'pointer'}}/>
+    <img className="lazyload-img" data-src={imgsrc} src="" ref={imgRef} onClick={imgClick} style={{cursor: 'pointer'}}/>
   )
 }
 

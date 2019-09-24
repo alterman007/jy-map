@@ -18,7 +18,7 @@ const mapDispatchProps = (dispatch) => ({
 });
 class RealTimeAlarm extends Component {
   state = {
-    hideList: true,
+    hideList: false,
     alarmList: [],
   };
 
@@ -26,10 +26,6 @@ class RealTimeAlarm extends Component {
     this.setState({
       hideList: !this.state.hideList,
     });
-    clearInterval(this.timer);
-    this.timer = setInterval(() => {
-      this.fetchList();
-    }, 5000);
   }
 
   onSelectItem = () => {
@@ -39,6 +35,9 @@ class RealTimeAlarm extends Component {
 
   componentDidMount() {
     this.fetchList();
+    this.timer = setInterval(() => {
+      this.fetchList();
+    }, 5000);
   }
 
   componentWillUnmount() {

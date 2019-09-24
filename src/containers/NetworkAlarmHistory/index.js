@@ -197,7 +197,7 @@ class NetworkAlarmHistory extends Component {
                 {/* <img src={isFace ? item.facePicUrl : item.picVehicle } alt=""/> */}
                 <div className="alarm-desc">
                   <span className="name">
-                    {item.name}
+                    {item.name ? item.name : '未知'}
                   </span>
                   <span className="time">
                     {item.alarmTime}

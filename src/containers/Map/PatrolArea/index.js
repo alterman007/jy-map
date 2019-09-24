@@ -5,6 +5,7 @@ import * as turf from '@turf/turf';
 import { getuuid } from '../../../utils/func';
 import { message } from 'antd';
 import SignInMarkers from './SignInMarkers';
+import { transverse, longitudinal } from './demo';
 
 // 巡逻区域;
 
@@ -27,7 +28,6 @@ const getstyle = (line) => {
     fillColor: '#2DEFFF'
   }
 }
- 
 const PatrolArea = ({ iShowPatrolArea, patrolArea, cruiseLine }) => {
   if (!iShowPatrolArea) {
     return null;
@@ -47,6 +47,10 @@ const PatrolArea = ({ iShowPatrolArea, patrolArea, cruiseLine }) => {
           key={getuuid()}
         />
       }
+      <GeoJSON
+        data={turf.featureCollection([turf.lineString(transverse), turf.lineString(longitudinal)])}
+        style={getstyle('line')}
+      />
       <SignInMarkers />
     </>
   )
