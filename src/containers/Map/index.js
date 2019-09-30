@@ -36,23 +36,23 @@ class MapOperation extends Component {
     });
   }
 
-  // renderTileLayer() { 
-  //   return (
-  //     <Fragment>
-  //       <TileLayer url="//map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}" />
-  //     </Fragment>
-  //   );
-  // }
-
-  renderTileLayer() {
+  renderTileLayer() { 
     return (
       <Fragment>
-        <TileLayer url="http://15.75.0.255:25003/v3/tile?z={z}&y={y}&x={x}" />
-        <TileLayer url="http://15.75.0.255:25033/v3/tile?z={z}&y={y}&x={x}" />
-        <TileLayer url="http://15.75.0.255:25777/v3/tile?z={z}&y={y}&x={x}" />
+        <TileLayer url="//map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}" />
       </Fragment>
-    )
+    );
   }
+
+  // renderTileLayer() {
+  //   return (
+  //     <Fragment>
+  //       <TileLayer url="http://15.75.0.255:25003/v3/tile?z={z}&y={y}&x={x}" />
+  //       <TileLayer url="http://15.75.0.255:25033/v3/tile?z={z}&y={y}&x={x}" />
+  //       <TileLayer url="http://15.75.0.255:25777/v3/tile?z={z}&y={y}&x={x}" />
+  //     </Fragment>
+  //   )
+  // }
 
   render() {
     const { center } = this.props;

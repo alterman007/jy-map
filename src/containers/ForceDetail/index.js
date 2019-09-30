@@ -157,7 +157,7 @@ class ForceDetail extends Component {
         <img src={detail.pic} alt="背景图片" />
         <div className="h6-name">{detail.name}</div>
         <div className="info">
-          所属派出所：{detail.sspcs}
+          所属派出所：{detail.pcs}
         </div>
         <div className="info">
           设备号：{detail.indexCode}

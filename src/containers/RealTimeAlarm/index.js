@@ -43,9 +43,16 @@ class RealTimeAlarm extends Component {
 
   async fetchList() {
     const data = await getRealAlarm();
-    this.setState({
-      alarmList: data,
-    });
+    if (!data.res && this.state.hideList) {     
+      this.setState({
+        alarmList: data,
+        hideList: false
+      });
+    } else {
+      this.setState({
+        alarmList: data
+      })
+    }
   }
 
   renderIcon() {

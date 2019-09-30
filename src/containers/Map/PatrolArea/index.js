@@ -8,7 +8,6 @@ import SignInMarkers from './SignInMarkers';
 import { transverse, longitudinal } from './demo';
 
 // 巡逻区域;
-
 const mapStateToProps = (state) => {
   return {
     iShowPatrolArea: state.map.iShowPatrolArea,
@@ -17,10 +16,10 @@ const mapStateToProps = (state) => {
   }
 }
 
-const getstyle = (line) => {
+const getstyle = (line, color) => {
   return line ? {
-    color: 'red',
-    weight: '4'
+    color: color,
+    weight: '6'
   } : {
     color: "rgb(253,243,124)",
     weight: 4,
@@ -48,8 +47,12 @@ const PatrolArea = ({ iShowPatrolArea, patrolArea, cruiseLine }) => {
         />
       }
       <GeoJSON
-        data={turf.featureCollection([turf.lineString(transverse), turf.lineString(longitudinal)])}
-        style={getstyle('line')}
+        data={turf.featureCollection([turf.lineString(transverse)])}
+        style={getstyle('line','red')}
+      />
+      <GeoJSON
+        data={turf.featureCollection([turf.lineString(longitudinal)])}
+        style={getstyle('line','green')}
       />
       <SignInMarkers />
     </>

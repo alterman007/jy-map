@@ -88,8 +88,10 @@ const map = handleActions(
     [setIshowPatrolArea](state) {
       return { ...state, iShowPatrolArea: !state.iShowPatrolArea }
     },
-    [setIshowCarMarkers](state) { // 设置是否显示实时车辆点位
-      return { ...state, iShowCarMarkers: !state.iShowCarMarkers }
+    [setIshowCarMarkers](state, {payload}) { // 设置是否显示实时车辆点位
+      return typeof payload === 'boolean' ? {
+        ...state, iShowCarMarkers: payload
+      } : { ...state, iShowCarMarkers: !state.iShowCarMarkers }
     },
     [setMapTrail](state, { payload }) {
       // return { ...state, realTimeMarkers: payload };

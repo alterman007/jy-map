@@ -6,7 +6,7 @@ import { getBaseStationWifi } from '../../../../request/api';
 import { tipBaseStationWifiIcon } from '../../icons';
 import { connect } from 'react-redux';
 
-const radius = 15, blur = 30, max = 5;
+const radius = 15, blur = 30, max = 3;
 
 const mapStateToProps = (state) => {
   return {
@@ -25,8 +25,9 @@ const BaseStationWifi = ({ iShowHeatLayers }) => {
     try {
       const { data } = await getBaseStationWifi()
       data.map(d => {
+        d.SERVICE_NAME = d.SERVICE_NAME.replace(/\//g, '')
         d.options = {
-          icon: tipBaseStationWifiIcon(d.SERVICE_NAME)
+          icon: tipBaseStationWifiIcon(d.SERVICE_NAME+`wifi:${d.num}个`)
         }
       })
       setState({
@@ -51,7 +52,11 @@ const BaseStationWifi = ({ iShowHeatLayers }) => {
     }
   }, [iShowHeatLayers])
 
-  
+  const baseStationWifi = [{
+    lng: 121.338219,
+    lat: 31.281926,
+    num: 1200
+  }]
   return (
     <>
       <MarkerCluster
@@ -62,6 +67,7 @@ const BaseStationWifi = ({ iShowHeatLayers }) => {
         // onMarkerClick={this.handleClick}
       />
       <HeatmapLayer
+        // points={getWifiCount(baseStationWifi)}
         points={getWifiCount(state.baseStationWifi)}
         longitudeExtractor={m => m[1]}
         latitudeExtractor={m => m[0]}

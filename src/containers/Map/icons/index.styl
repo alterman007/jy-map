@@ -89,7 +89,15 @@
     .name {
       background: red;
       &::before {
-        background: red;
+         content: ' ';
+      // width: 10px;
+      // height: 10px;
+      position absolute;
+      top: 100%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      z-index -1;
+      background: red;
       }
     }
   }

@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import L from 'leaflet';
 import data from './highlighted';
 import * as turf from '@turf/turf';
 import { GeoJSON, Marker } from 'react-leaflet';
@@ -11,6 +12,12 @@ import { bindActionCreators } from 'redux';
 import { setPatrolAreaData } from '../../../actions/map';
 const d = transformPolygon(data);
 
+
+// var center = [ 121.338219, 31.281926];
+// var radius = 5;
+// var options = { steps: 10, units: 'kilometers', properties: { foo: 'bar' } };
+// var circle = turf.circle(center, radius, options);
+// console.log('circle',circle )
 const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators({
@@ -42,8 +49,11 @@ function useHighLightedAreaEffect(actions) {
   return [getstyle, handleClick]
 }
 
-const HighLightedArea = ({actions}) => {
+const HighLightedArea = ({ actions }) => {
   const [getstyle, handleClick] = useHighLightedAreaEffect(actions);
+
+  const context = useContext(MapContext)
+
   return (
     <>
       <GeoJSON
@@ -60,9 +70,13 @@ const HighLightedArea = ({actions}) => {
               icon={tipTypeIcon(8, m.properties.name)}
             >
             </Marker>
-         )
-       })
+          )
+        })
       }
+
+      {/* <GeoJSON
+        data={circle}
+      /> */}
     </>
     // <>
     // </>

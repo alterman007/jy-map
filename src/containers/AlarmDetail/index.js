@@ -153,7 +153,7 @@ class AlarmDetail extends Component {
     console.log("detail", detail);
     return (
       <div className={tranformToLeft + " alarm-detail-wrapper corner-border-warning"}>
-        <img src={detail.bkgPicUrl || detail.picVehicle} alt="背景图片" />
+        <img src={detail.baseImage} alt="背景图片" />
         <div className="h6-name">{detail.humanName || detail.plateInfo}</div>
         {
           detail.type === 1 && <div className="info">

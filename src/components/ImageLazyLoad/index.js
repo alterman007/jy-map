@@ -3,20 +3,32 @@ import React, { useEffect } from 'react';
 import demoImage from './demo.png';
 import './index.styl';
 
-const threshold = [0.1] 
-const io = new IntersectionObserver((entries) => {
-  entries.forEach((item) => { 
-    if (item.intersectionRatio <= 0) return 
-    const {target} = item
-    target.src = target.dataset.src 
-    io.unobserve(target); 
-  })
-}, {
-  threshold, 
-});
+// const threshold = [0.1] 
+// const io = new IntersectionObserver((entries) => {
+//   entries.forEach((item) => { 
+//     if (item.intersectionRatio <= 0) return 
+//     const {target} = item
+//     target.src = target.dataset.src 
+//     io.unobserve(target); 
+//   })
+// }, {
+//   threshold, 
+// });
 
 const ImageLazyLoad = ({ imgsrc, imgClick }) => {
   const imgRef = React.useRef();
+  const threshold = [0.1] 
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((item) => { 
+      if (item.intersectionRatio <= 0) return 
+      const {target} = item
+      target.src = target.dataset.src 
+      io.unobserve(target); 
+    })
+  }, {
+    threshold, 
+  });
+
   useEffect(() => {
     io.observe(imgRef.current)
     return () => {

@@ -7,10 +7,11 @@ import { convertDataToGeojson } from '@/utils/map';
 import coordtransform from 'coordtransform';
 import { transformKeyValues, transformRealAlarmKeysValues } from '../utils/func';
 // const url = 'http://47.98.168.14:9094';
-const url = 'http://192.168.1.135:9090'
-// const produrl = 'http://47.98.168.14:9094'
+// const url = 'http://192.168.1.135:9090'
+const url = 'http://15.75.19.155/'
+const produrl = 'http://47.98.168.14:9094'
 // const url = 'http://15.75.19.155:9090/';
-const produrl = 'http://15.75.19.155/';
+// const produrl = 'http://15.75.19.155/';
 const host = process.env.NODE_ENV === 'development' ? url : produrl
 
 const urlencoded = {
@@ -76,7 +77,8 @@ export function getAlarmHistory(args) {
   // return axios.get('/mock/alarmHistory.json')
   return instance.post(url, qs.stringify(condition), urlencoded)
     .then(transformLatLng({ path: "data.list", latName: "latitude", lngName: "longitude" }))
-    .then(transformKeyValues);
+    .then(transformKeyValues)
+    .catch(err => null);
 }
 
 

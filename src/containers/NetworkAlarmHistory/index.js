@@ -16,6 +16,7 @@ import {
 import { setIshowHDPICModal } from '../../actions/cpmStatus';
 import './index.styl';
 import { message } from 'antd';
+import { getuuid } from '../../utils/func';
 
 const mapStateToProps = (state) => ({
   alarmHistoryVisible: state.alarmHistory.visible,
@@ -35,10 +36,10 @@ const mapDispatchProps = (dispatch) => ({
 
 class NetworkAlarmHistory extends Component {
   state = {
-    tabActive: 'car', // face car
+    tabActive: 'face', // face car
     timeRange: '',
     selectedId: null,
-    selectType: 1
+    selectType: 1  // 0卡口 1车载
   }
   pagenum = 1;
   pagesize = 50;
@@ -146,7 +147,8 @@ class NetworkAlarmHistory extends Component {
     if (alarmHistoryList.length > 0) {
       actions.setAlarmHistoryList(0)
     }
-    this.onSearch()
+    this.pagenum = 1;
+    this.onSearch();
   }
 
   renderTypeTab() {
@@ -186,8 +188,6 @@ class NetworkAlarmHistory extends Component {
   renderAlarmList() {
     const { alarmHistoryList } = this.props;
     const { tabActive, selectedId } = this.state;
-    // const isFace = tabActive === 'face';
-    // const test = "http://img4.bdimg.com/it/u=3565682627,2876030475&fm=26&gp=0.jpg"
     return (
       <ul className="alarm-list corner-border" ref={this.rootList}>
         {
@@ -204,12 +204,18 @@ class NetworkAlarmHistory extends Component {
                   <span className="time">
                     {item.alarmTime}
                   </span>
+                  <span>{item.address}</span>
+                  {/* {
+                    item.type === 0 && 
+                    <span>
+                      {item.detailInfo.cameraName}
+                    </span> 
+                  } */}
                 </div>
               </li>
             )
-          }) :
-            <li className="search-by-time">暂无数据...</li>
-        }
+          }) : <li className="search-by-time">暂无数据..</li>
+        } 
         <li ref={this.endItem} style={{ opacity: "0" }}>到底了...</li>
       </ul>
     );

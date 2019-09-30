@@ -48,4 +48,4 @@ function AlarmItem(props) {
   );
 }
 
-export default connect(null,mapDispatchToProps)(AlarmItem);
+export default connect(null,mapDispatchToProps)(memo(AlarmItem));

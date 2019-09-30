@@ -103,9 +103,10 @@ class Switcher extends React.PureComponent {
   }
 
   handleForceClick = () => {
-    const { actions } = this.props;
+    const { actions,iShowCarMarkers  } = this.props;
     actions.toggleForceHistoryVisible();
     actions.toggleAlarmHistoryVisible(false);
+    actions.setIshowCarMarkers(false)
   }
 
   handleAlarmClick = () => {
@@ -119,7 +120,9 @@ class Switcher extends React.PureComponent {
   }
 
   handleRealCarClick = () => {
-    this.props.actions.setIshowCarMarkers()
+    const { actions } = this.props;
+    actions.setIshowCarMarkers()
+    actions.toggleForceHistoryVisible(false)
   }
 
   handleMonitorClick = () => {

@@ -3,7 +3,7 @@ export const alarmKeys = ['name', 'baseImage', 'hdpicImage', 'alarmTime', 'addre
 export const alarmtimes = ['msg', 'alarmTime', 'passTimeStr', 'createDate'];
 
 export const faceByCarMonitor = ['humanName', 'facePicUrl', 'bkgPicUrl', 'alarmTime', 'cameraName', 'lat', 'lng', 'id', 'indexCode', 'humans'];
-export const faceByFixedMonitor = ['humanName', 'facePicUrl', 'bkgPicUrl', 'alarmTime', 'cameraName', 'lat', 'lng', 'humanId', 'indexCode', 'humans'];
+export const faceByFixedMonitor = ['humanName', 'facePicUrl', 'bkgPicUrl', 'alarmTime', 'cameraName', 'lat', 'lng', 'alarmId', 'indexCode', 'humans'];
 export const carByFixedMonitor = ['plateInfo', 'picPlate', 'picVehicle', 'passTimeStr', 'crossingName', 'lat', 'lng', 'id', 'indexCode'];
 export const carBayCarMonitor = ['cph', 'cpImagerSrc', 'cpImagerSrc', 'createDate', 'cameraName', 'lat', 'lng', 'id', 'indexCode', '', 'bdjg'];
 
