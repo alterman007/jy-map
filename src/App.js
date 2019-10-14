@@ -23,10 +23,10 @@ function App() {
         <PoliceCall />
         <NetworkForceHistory />
         <NetworkAlarmHistory />
-        {/* <HistorySwitcher /> */}
+        <HistorySwitcher />
         <ForceDetailControl />
         <AlarmDetailControl />
-        <Switcher />
+        {/* <Switcher /> */}
         <PCSPoliceCallModal />
         <HeatMapModal />
       </div>

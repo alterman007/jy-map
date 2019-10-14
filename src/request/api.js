@@ -6,14 +6,8 @@ import { transformLatLng, transformPolygon } from '../utils/map';
 import { convertDataToGeojson } from '@/utils/map';
 import coordtransform from 'coordtransform';
 import { transformKeyValues, transformRealAlarmKeysValues } from '../utils/func';
-// const url = 'http://47.98.168.14:9094';
-// const url = 'http://192.168.1.135:9090'
-const url = 'http://15.75.19.155/'
-const produrl = 'http://47.98.168.14:9094'
-// const url = 'http://15.75.19.155:9090/';
-// const produrl = 'http://15.75.19.155/';
-const host = process.env.NODE_ENV === 'development' ? url : produrl
-
+// const host = process.env.NODE_ENV === 'development' ? url : produrl
+const host = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_DEV_PATHNAME : process.env.REACT_APP_PROD_PATHNAME
 const urlencoded = {
   headers: {
     'Content-type': 'application/x-www-form-urlencoded'

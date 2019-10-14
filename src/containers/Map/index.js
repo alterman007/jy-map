@@ -36,23 +36,17 @@ class MapOperation extends Component {
     });
   }
 
-  renderTileLayer() { 
-    return (
+  renderTileLayer() {
+    return process.env.REACT_APP_LOCATION === 'HZSJ' ?
       <Fragment>
         <TileLayer url="//map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}" />
+      </Fragment> :
+      <Fragment>
+        <TileLayer url="http://15.75.0.255:25003/v3/tile?z={z}&y={y}&x={x}" />
+        <TileLayer url="http://15.75.0.255:25033/v3/tile?z={z}&y={y}&x={x}" />
+        <TileLayer url="http://15.75.0.255:25777/v3/tile?z={z}&y={y}&x={x}" />
       </Fragment>
-    );
   }
-
-  // renderTileLayer() {
-  //   return (
-  //     <Fragment>
-  //       <TileLayer url="http://15.75.0.255:25003/v3/tile?z={z}&y={y}&x={x}" />
-  //       <TileLayer url="http://15.75.0.255:25033/v3/tile?z={z}&y={y}&x={x}" />
-  //       <TileLayer url="http://15.75.0.255:25777/v3/tile?z={z}&y={y}&x={x}" />
-  //     </Fragment>
-  //   )
-  // }
 
   render() {
     const { center } = this.props;
@@ -67,9 +61,9 @@ class MapOperation extends Component {
           onClick={this.handleClick}
           zoomControl={false}
           ref={this.mapEle}
-          maxZoom={18}
+          maxZoom={process.env.REACT_APP_LOCATION === 'HZSJ' ? 16 : 18}
           minZoom={6}
-          // onZoomEnd={this.onZoomEnd.bind(this)} //监听地图缩放级别
+        // onZoomEnd={this.onZoomEnd.bind(this)} //监听地图缩放级别
         >
           {this.renderTileLayer()}
           <Area />

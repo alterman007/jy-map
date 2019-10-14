@@ -77,8 +77,10 @@
     "workbox-webpack-plugin": "4.3.1"
   },
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
+    "dev:hzsj": "SYS_ENV=hzsj node scripts/start.js",
+    "dev:zazd": "SYS_ENV=zazd node scripts/start.js",
+    "build:hzsj": "SYS_ENV=hzsj node scripts/build.js",
+    "build:zazd": "SYS_ENV=zazd node scripts/build.js",
     "test": "node scripts/test.js"
   },
   "eslintConfig": {

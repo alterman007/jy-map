@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import { toggleAlarmHistoryVisible } from '../../actions/alarmHistory';
 import { toggleForceHistoryVisible } from '../../actions/forceHistory';
-import { setIshowRadioMarkers, setIshowCarMarkers, setIshowHeatLayers, setIshowMonitorMarkers } from '../../actions/cpmStatus';
+import { setIshowRadioMarkers, setIshowCarMarkers, setIshowHeatLayers, setIshowMonitorMarkers, setIshowPatrolArea } from '../../actions/cpmStatus';
 
 import './index.styl';
 import { message } from 'antd';
@@ -15,7 +15,8 @@ const mapStateToProps = (state) => ({
   iShowRadioMarkers: state.map.iShowRadioMarkers,
   iShowCarMarkers: state.map.iShowCarMarkers,
   iShowHeatLayers: state.map.iShowHeatLayers,
-  iShowMonitorMarkers: state.map.iShowMonitorMarkers
+  iShowMonitorMarkers: state.map.iShowMonitorMarkers,
+  iShowPatrolArea: state.map.iShowPatrolArea
 });
 const mapDispatchProps = (dispatch) => ({
   actions: bindActionCreators({
@@ -24,15 +25,18 @@ const mapDispatchProps = (dispatch) => ({
     setIshowRadioMarkers,
     setIshowCarMarkers,
     setIshowHeatLayers,
-    setIshowMonitorMarkers
+    setIshowMonitorMarkers,
+    setIshowPatrolArea
   }, dispatch),
 });
 
+
 class HistorySwitcher extends Component {
   handleForceClick = () => {
-    const { actions } = this.props;
+    const { actions,iShowCarMarkers  } = this.props;
     actions.toggleForceHistoryVisible();
     actions.toggleAlarmHistoryVisible(false);
+    actions.setIshowCarMarkers(false)
   }
 
   handleAlarmClick = () => {
@@ -46,7 +50,13 @@ class HistorySwitcher extends Component {
   }
 
   handleRealCarClick = () => {
-    this.props.actions.setIshowCarMarkers()
+    const { actions } = this.props;
+    actions.setIshowCarMarkers()
+    actions.toggleForceHistoryVisible(false)
+  }
+
+  handlePatrolAreaClick = () => {
+    this.props.actions.setIshowPatrolArea()
   }
 
   handleMonitorClick = () => {
@@ -54,18 +64,21 @@ class HistorySwitcher extends Component {
   }
 
   handleHeatClick = () => {
-    return message.warning("建设中...", 0);
-    this.props.actions.setIshowHeatLayers() 
+    this.props.actions.setIshowHeatLayers()
   }
   render() {
-    const { forceHistoryVisible, alarmHistoryVisible, iShowRadioMarkers, iShowCarMarkers, iShowHeatLayers, iShowMonitorMarkers } = this.props;
+    const { forceHistoryVisible, alarmHistoryVisible, iShowRadioMarkers, iShowCarMarkers, iShowHeatLayers, iShowMonitorMarkers, iShowPatrolArea } = this.props;
     return (
       <div className="history-switcher-wrapper">
+
+        <svg width="245px" height="55px"  style={{cursor:'no-drop'}}>
+          <path fill="#68E0FB" stroke="#68E0FB" strokeWidth="2" transform="translate(-5, -159)" fillOpacity="1" d="M249.769001,160 L60.3889837,160 L2.57080187,213 L215.720517,213 L249.769001,160 Z"></path>
+          <text transform="translate(75, 38)">待建设...</text>
+        </svg>  
         <svg width="245px" height="55px" onClick={this.handleMonitorClick} className={classnames('btn', { active: iShowMonitorMarkers })}>
           <path fill="#68E0FB" stroke="#68E0FB" strokeWidth="2" transform="translate(-5, -159)" fillOpacity="1" d="M249.769001,160 L60.3889837,160 L2.57080187,213 L215.720517,213 L249.769001,160 Z"></path>
           <text transform="translate(75, 38)">监控探头</text>
         </svg>
-        
         <svg width="245px" height="55px" onClick={this.handleRealCarClick} className={classnames('btn', { active: iShowCarMarkers })}>
           <path fill="#68E0FB" stroke="#68E0FB" strokeWidth="2" transform="translate(-5, -159)" fillOpacity="1" d="M249.769001,160 L60.3889837,160 L2.57080187,213 L215.720517,213 L249.769001,160 Z"></path>
           <text transform="translate(75, 38)">实时车辆</text>
@@ -89,13 +102,14 @@ class HistorySwitcher extends Component {
           <path fill="#68E0FB" stroke="#68E0FB" strokeWidth="2" transform="translate(-372, -54)" fillOpacity="1" d="M374.230999,55 L408.279483,108 L614.429198,108 L556.611016,55 L374.230999,55 Z"></path>
           <text transform="translate(55, 38)">实时电台</text>
         </svg>
-        {/* <svg width="245px" height="55px" onClick={this.handleMonitorClick} className={classnames('btn', { active: alarmHistoryVisible })}>
-          <path fill="#68E0FB" stroke="#68E0FB" strokeWidth="2" transform="translate(-372, -54)" fillOpacity="1" d="M374.230999,55 L408.279483,108 L614.429198,108 L556.611016,55 L374.230999,55 Z"></path>
-          <text transform="translate(55, 38)">监控点位</text>
-        </svg> */}
         <svg width="245px" height="55px" onClick={this.handleHeatClick} className={classnames('btn', { active: false || -iShowHeatLayers })}>
           <path fill="#68E0FB" stroke="#68E0FB" strokeWidth="2" transform="translate(-372, -54)" fillOpacity="1" d="M374.230999,55 L408.279483,108 L614.429198,108 L556.611016,55 L374.230999,55 Z"></path>
           <text transform="translate(55, 38)">热力图</text>
+        </svg>
+
+        <svg width="245px" height="55px" onClick={this.handlePatrolAreaClick} className={classnames('btn', { active: iShowPatrolArea })}>
+          <path fill="#68E0FB" stroke="#68E0FB" strokeWidth="2" transform="translate(-372, -54)" fillOpacity="1" d="M374.230999,55 L408.279483,108 L614.429198,108 L556.611016,55 L374.230999,55 Z"></path>
+          <text transform="translate(55, 38)">巡区展示</text>
         </svg>
       </div>
     );
